@@ -1,0 +1,14 @@
+body {
+    background-color: white;
+}
+
+
+.nav-container {
+    display:flex
+}
+
+.nav-income-conatiner {
+    flex: 1;
+    min-width: 0
+}
+
