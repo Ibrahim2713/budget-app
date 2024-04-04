@@ -1,7 +1,9 @@
 import React from 'react'
 import './Nav.css'
 import Calendar from '../Calander'
-import IncomeGraph from '../visualData/IncomeGraph'
+import IncomeGraph from '../visualData/IncomeBar'
+import ExpenseBar from '../visualData/ExpenseBar'
+import SavingsBar from '../visualData/SavingsBar'
 function Nav() {
 
 
@@ -14,10 +16,10 @@ function Nav() {
             <IncomeGraph />
             </div>
             <div className='nav-expenses-container'>
-
+            <ExpenseBar />
             </div>
             <div className='nav-savings-container'>
-
+            <SavingsBar />
             </div>
 
         </div>

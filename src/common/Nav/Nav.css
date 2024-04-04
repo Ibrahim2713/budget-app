@@ -12,3 +12,12 @@ body {
     min-width: 0
 }
 
+.nav-expenses-container {
+    flex: 1;
+    min-width: 0;
+}
+
+.nav-savings-container {
+    flex: 1;
+    min-width: 0;
+}

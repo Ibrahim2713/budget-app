@@ -1,20 +1,19 @@
 import React from "react";
-import { LinearProgress, Typography, Container, Grid } from "@mui/material";
+import { LinearProgress, Typography, Grid, Container } from "@mui/material";
 
 
 
-function ExpenseBar() {
+function SavingsBar() {
     const progress = 10 /100 * 100
-  
     return (
         <Container>
-            <Grid
+             <Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
       >
-        <Typography> $2,500</Typography>
+        <Typography> $30,000</Typography>
       </Grid>
       <Grid
         container
@@ -22,20 +21,16 @@ function ExpenseBar() {
         justifyContent="center"
         alignItems="center"
       >
-        <Typography> Total Expenses</Typography>
+        <Typography> Total Savings</Typography>
       </Grid>
-        <Grid>
+      <Grid>
         <LinearProgress
   variant="determinate"
   value={progress}
-  color="secondary" 
+  color="success" 
   sx={{
     height: 10,
-    borderRadius: 5,
-    bgcolor: 'grey.400',
-    '& .MuiLinearProgress-barColorSecondary': {
-      backgroundColor: 'red', 
-    },
+    borderRadius: 5
   }}
 />
   </Grid>
@@ -43,5 +38,5 @@ function ExpenseBar() {
     )
 }
 
+export default SavingsBar
 
-export default ExpenseBar
