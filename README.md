@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+Budget Tracker Application
+==========================
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple budget tracker application built with React.js. It allows users to track their expenses and income, categorize transactions, and visualize their financial data.
 
-## Available Scripts
+Features
+--------
 
-In the project directory, you can run:
+-   Add new transactions with a description, amount, and category.
 
-### `npm start`
+-   Categorize transactions as income or expense.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-   View a list of all transactions with details.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-   Filter transactions by category or date range.
 
-### `npm test`
+-   See a summary of total income, total expenses, and current balance.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   Visualize financial data using charts and graphs.
 
-### `npm run build`
+-   Responsive design for use on desktop, tablet, and mobile devices.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Technologies Used
+-----------------
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-   React.js: A JavaScript library for building user interfaces.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   Chart.js: A JavaScript library for creating charts and graphs.
 
-### `npm run eject`
+-   Material-UI: A popular React UI framework for designing responsive and customizable components.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-   LocalStorage: Used for storing transaction data locally on the user's device.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-   JWT (JSON Web Token): Used to authenticate user
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+-   SQLite: A lightweight relational database management system used for storing transaction data locally on the user's device.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+-   Express.js: A fast, unopinionated, minimalist web framework for Node.js used for building the backend API.
 
-## Learn More
+-   Node.js: A JavaScript runtime environment that executes JavaScript code outside of a web browser, commonly used for building server-side applications.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-   RESTful API: An architectural style for building web services that uses HTTP methods and follows representational state transfer (REST) principles for communication between client and server.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Installation
+------------
 
-### Code Splitting
+1.  Clone the repository:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+git clone https://github.com/Ibrahim2713/budget-tracker-app.git
 
-### Analyzing the Bundle Size
+1.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Navigate to the project directory: cd budget-tracker-app
 
-### Making a Progressive Web App
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+npm start Open your web browser and navigate to [http://localhost:3000](http://localhost:3000/) to view the application.
 
-### Advanced Configuration
+Usage
+-----
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Add new transactions by entering a description, amount, and category, then click "Add Transaction". Click on a transaction to edit or delete it. Use the filter options to view transactions by category or date range. View the summary section to see total income, total expenses, and current balance. Explore the charts and graphs to visualize your financial data.
 
-### Deployment
+Contribution
+------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Contributions are welcome! If you have any suggestions, feature requests, or bug reports, please create an issue or submit a pull request.
