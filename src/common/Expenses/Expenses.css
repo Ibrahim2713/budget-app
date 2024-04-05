@@ -1,0 +1,19 @@
+.expenses-container {
+    display: flex;
+}
+
+
+.expenses-table-container {
+    flex: 1;
+    min-width: 0
+}
+ 
+.expenses-overview-container {
+    flex: 1;
+    min-width: 0
+}
+
+.expenses-visual-container {
+    flex: 1;
+    min-width: 0
+}
