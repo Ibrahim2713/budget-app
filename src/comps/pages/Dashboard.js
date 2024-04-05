@@ -9,7 +9,11 @@ function Dashboard() {
         <div className="dashboard-container">
         <Nav />
             <div className="income-section">
+                <h3> Income </h3>
                 <IncomeSection />
+            </div>
+            <div className="expense-section">
+
             </div>
         </div>
     )

@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+}
+
+
+.income-table-container {
+    flex: 1;
+    min-width: 0
+}
+
+.income-overview-container {
+    flex: 1;
+    min-width: 0
+}
+
+.income-overview-container {
+    flex: 1;
+    min-width: 0
+}
+
+
