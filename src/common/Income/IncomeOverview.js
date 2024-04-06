@@ -11,6 +11,7 @@ function IncomeOverview() {
       <Grid container spacing={2}>
         <Grid
           item
+          
         >
           <Typography>Goal</Typography>
           <Typography> $10,000</Typography>

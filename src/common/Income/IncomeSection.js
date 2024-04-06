@@ -1,4 +1,4 @@
-import react from 'react'
+import React from 'react'
 import './Income.css'
 import IncomeTable from '../visualData/IncomeTable'
 import IncomeOverview from './IncomeOverview'
