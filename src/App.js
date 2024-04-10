@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import Login from "./comps/auth/Login";
 import Signup from "./comps/auth/Signup";
 import Dashboard from "./comps/pages/Dashboard";
+
 function App() {
   return (
     <Router>

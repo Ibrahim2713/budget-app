@@ -1,6 +1,6 @@
 import React from 'react'
 import './Nav.css'
-import Calendar from '../Calander'
+import Calendar from '../visualData/Calander'
 import IncomeGraph from '../visualData/IncomeBar'
 import ExpenseBar from '../visualData/ExpenseBar'
 import SavingsBar from '../visualData/SavingsBar'

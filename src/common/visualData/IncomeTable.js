@@ -1,45 +1,19 @@
-import React, {useState} from 'react'
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { editRow } from '/Users/ibrahim/Desktop/Ibrahim/budget-app/src/state/actionCreators/index.js';
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TextField } from '@mui/material';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+function IncomeTable({ rows, editRow }) {
+  const [editingCell, setEditingCell] = useState(null);
 
-  const initialRows = [
-    { name: 'Food', goal: 300, actual: 75, difference: 24 },
-    { name: 'Housing', goal: 237, actual: 9.0, difference: 37 },
-    { name: 'Transportation', goal: 262, actual: 16.0, difference: 24 },
-    { name: 'Entertainment', goal: 305, actual: 3.7, difference: 67 },
-  ];
-
-  
-
-
-
-
-  
-
-
-
-function IncomeTable() {
-  const [rows,setRows] = useState(initialRows)
-  const [editingCell, setEditingCell] = useState(null)
   const handleEdit = (rowIndex, columnKey, value) => {
-    const newRows = [...rows];
-    newRows[rowIndex][columnKey] = value;
-    setRows(newRows);
+    editRow(rowIndex, columnKey, value);
   };
+  console.log(rows)
+
   const handleCellClick = (rowIndex, columnKey) => {
     setEditingCell({ rowIndex, columnKey });
   };
-
 
   const handleBlur = () => {
     setEditingCell(null);
@@ -53,8 +27,8 @@ function IncomeTable() {
     },
   };
 
-    return (
-      <TableContainer component={Paper}>
+  return (
+    <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -111,9 +85,15 @@ function IncomeTable() {
         </TableBody>
       </Table>
     </TableContainer>
-    )
+  );
 }
 
+const mapStateToProps = (state) => ({
+  rows: state.income.rows,
+});
 
+const mapDispatchToProps = {
+  editRow,
+};
 
-export default IncomeTable
+export default connect(mapStateToProps, mapDispatchToProps)(IncomeTable);
