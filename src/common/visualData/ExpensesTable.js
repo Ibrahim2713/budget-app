@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,19 +6,36 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { TextField } from "@mui/material";
+import { connect } from "react-redux";
+import { editRow } from "../../state/actionCreators";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24),
-  createData("Ice cream sandwich", 237, 9.0, 37),
-  createData("Eclair", 262, 16.0, 24),
-  createData("Cupcake", 305, 3.7, 67),
-];
+function ExpensesTable({rows}) {
+  const [editingCell, setEditingCell] = useState(null);
+ 
+  const handleEdit = (rowIndex, columnKey, value) => {
+    editRow(rowIndex, columnKey, value);
+  };
+ 
 
-function ExpensesTable() {
+  const handleCellClick = (rowIndex, columnKey) => {
+    setEditingCell({ rowIndex, columnKey });
+  };
+
+  const handleBlur = () => {
+    setEditingCell(null);
+  };
+
+  const inputProps = {
+    startAdornment: '$',
+    inputProps: {
+      style: { textAlign: 'right' },
+      pattern: '^[0-9]*$',
+
+    },
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -31,7 +48,7 @@ function ExpensesTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, rowIndex) => (
             <TableRow
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -39,10 +56,33 @@ function ExpensesTable() {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'goal')}>
+                {editingCell?.rowIndex === rowIndex && editingCell?.columnKey === 'goal' ? (
+                  <TextField
+                    value={row.goal}
+                    onChange={(e) => handleEdit(rowIndex, 'goal', e.target.value)}
+                    onBlur={handleBlur}
+                    InputProps={inputProps}
+                  />
+                ) : (
+                  `$${row.goal}`
+                )}
+              </TableCell>
+              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'actual')}>
+                {editingCell?.rowIndex === rowIndex && editingCell?.columnKey === 'actual' ? (
+                  <TextField
+                    value={row.actual}
+                    onChange={(e) => handleEdit(rowIndex, 'actual', e.target.value)}
+                    onBlur={handleBlur}
+                    InputProps={inputProps}
+                  />
+                ) : (
+                  `$${row.actual}`
+                )}
+              </TableCell>
+              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'difference')}> 
+                  ${row.actual - row.goal}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -50,5 +90,7 @@ function ExpensesTable() {
     </TableContainer>
   );
 }
-
-export default ExpensesTable;
+const mapStateToProps = (state) => ({
+  rows: state.expense.rows,
+});
+export default connect(mapStateToProps)(ExpensesTable);

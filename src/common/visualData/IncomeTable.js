@@ -5,11 +5,11 @@ import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody
 
 function IncomeTable({ rows, editRow }) {
   const [editingCell, setEditingCell] = useState(null);
-
+ 
   const handleEdit = (rowIndex, columnKey, value) => {
     editRow(rowIndex, columnKey, value);
   };
-  console.log(rows)
+ 
 
   const handleCellClick = (rowIndex, columnKey) => {
     setEditingCell({ rowIndex, columnKey });
@@ -24,6 +24,7 @@ function IncomeTable({ rows, editRow }) {
     inputProps: {
       style: { textAlign: 'right' },
       pattern: '^[0-9]*$',
+
     },
   };
 
@@ -68,17 +69,8 @@ function IncomeTable({ rows, editRow }) {
                   `$${row.actual}`
                 )}
               </TableCell>
-              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'difference')}>
-                {editingCell?.rowIndex === rowIndex && editingCell?.columnKey === 'difference' ? (
-                  <TextField
-                    value={row.difference}
-                    onChange={(e) => handleEdit(rowIndex, 'difference', e.target.value)}
-                    onBlur={handleBlur}
-                    InputProps={inputProps}
-                  />
-                ) : (
-                  `$${row.difference}`
-                )}
+              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'difference')}> 
+                  ${row.actual - row.goal}
               </TableCell>
             </TableRow>
           ))}

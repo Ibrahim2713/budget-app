@@ -1,7 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
 import { LinearProgress, Typography, Container, Grid } from "@mui/material";
+ 
+function IncomeBar({rows}) {
+  // gets the total of goal from income table
+  const totalGoal = rows.reduce((acc, row) => {
+    const goalValue = typeof row.actual === 'number' ? row.goal : parseFloat(row.actual.replace(/,/g, ''));
+    if (!isNaN(goalValue)) { 
+      return acc + goalValue;
+    }
+    return acc;
+  }, 0);
 
-function IncomeBar() {
   const progress = (10 / 100) * 100;
   return (
     <Container>
@@ -11,7 +21,7 @@ function IncomeBar() {
         justifyContent="center"
         alignItems="center"
       >
-        <Typography> $5,000</Typography>
+        <Typography> $ {totalGoal.toLocaleString()}</Typography>
       </Grid>
       <Grid
         container
@@ -35,5 +45,9 @@ function IncomeBar() {
     </Container>
   );
 }
+const mapStateToProps = (state) => ({
+  rows: state.income.rows,
+});
 
-export default IncomeBar;
+
+export default connect(mapStateToProps)(IncomeBar);

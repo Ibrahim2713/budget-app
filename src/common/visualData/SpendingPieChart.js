@@ -1,26 +1,25 @@
 import React from "react";
 import { Container, Typography, Grid } from "@mui/material";
+import { connect } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 
-const data = [
-  { name: "Food", value: 400 },
-  { name: "Housing", value: 800 },
-  { name: "Transportation", value: 300 },
-  { name: "Entertainment", value: 200 },
-  { name: "Others", value: 500 },
-];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#FF00BF'];
 
 
-function SpendingPieChart() {
+function SpendingPieChart({rows}) {
+
+const data = rows.map((row) => ({
+  name: row.name,
+  value: row.actual,
+}));
   return (
     <Container>
       <Typography variant="h5" align="center" gutterBottom>
         Monthly Income Overview
       </Typography>
       <Grid container justifyContent="center">
-        <PieChart width={400} height={400}>
+        <PieChart width={600} height={400}>
           <Pie
             data={data}
             cx={200}
@@ -45,4 +44,8 @@ function SpendingPieChart() {
   );
 }
 
-export default SpendingPieChart;
+const mapStateToProps = (state) => ({
+  rows: state.income.rows,
+});
+
+export default connect(mapStateToProps)(SpendingPieChart);

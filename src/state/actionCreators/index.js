@@ -13,12 +13,3 @@ export const editRow = (rowIndex, columnKey, value) => {
   };
 
 
-  export const cellClicked = (rowIndex, columnKey) => {
-    return {
-      type: CELL_CLICKED,
-      payload: {
-        rowIndex,
-        columnKey
-      }
-    };
-  };
