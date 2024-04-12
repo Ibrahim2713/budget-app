@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import { EDIT_CELL } from "../actionTypes"
+import { EDIT_CELL, EDIT_CELL_EXPENSE } from "../actionTypes"
 
 
 
@@ -53,7 +53,7 @@ export const expenseState = {
 
 function ExpenseReducer(state = expenseState, action) {
   switch(action.type){
-    case EDIT_CELL:
+    case EDIT_CELL_EXPENSE:
       return {
         ...state,
         rows: state.rows.map((row, index) => {

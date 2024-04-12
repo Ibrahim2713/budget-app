@@ -8,14 +8,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TextField } from "@mui/material";
 import { connect } from "react-redux";
-import { editRow } from "../../state/actionCreators";
+import { editRowExpense} from "../../state/actionCreators";
 
 
-function ExpensesTable({rows}) {
+function ExpensesTable({rows, editRowExpense}) {
   const [editingCell, setEditingCell] = useState(null);
- 
+
   const handleEdit = (rowIndex, columnKey, value) => {
-    editRow(rowIndex, columnKey, value);
+    editRowExpense(rowIndex, columnKey, value);
   };
  
 
@@ -93,4 +93,8 @@ function ExpensesTable({rows}) {
 const mapStateToProps = (state) => ({
   rows: state.expense.rows,
 });
-export default connect(mapStateToProps)(ExpensesTable);
+
+const mapDispatchToProps = {
+  editRowExpense
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesTable);

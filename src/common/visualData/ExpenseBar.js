@@ -1,11 +1,20 @@
 import React from "react";
+import { connect } from "react-redux";
 import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 
 
 
-function ExpenseBar() {
-    const progress = 10 /100 * 100
-  
+function ExpenseBar({rows}) {
+  console.log(rows)
+ // gets the total of goal from expense table
+ const totalGoal = rows.reduce((acc, row) => {
+  const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
+  if (!isNaN(goalValue)) { 
+    return acc + goalValue;
+  }
+  return acc;
+}, 0);
+  const progress = 100
     return (
         <Container>
             <Grid
@@ -14,7 +23,7 @@ function ExpenseBar() {
         justifyContent="center"
         alignItems="center"
       >
-        <Typography> $2,500</Typography>
+        <Typography>  $ {totalGoal.toLocaleString()} </Typography>
       </Grid>
       <Grid
         container
@@ -42,6 +51,8 @@ function ExpenseBar() {
 </Container>
     )
 }
+const mapStateToProps = (state) => ({
+  rows: state.expense.rows,
+});
 
-
-export default ExpenseBar
+export default connect(mapStateToProps)(ExpenseBar)

@@ -1,4 +1,4 @@
-import { EDIT_CELL, CELL_CLICKED  } from "../actionTypes";
+import { EDIT_CELL, EDIT_CELL_EXPENSE  } from "../actionTypes";
 
 
 export const editRow = (rowIndex, columnKey, value) => {
@@ -11,5 +11,17 @@ export const editRow = (rowIndex, columnKey, value) => {
       }
     };
   };
+
+  export const editRowExpense = (rowIndex, columnKey, value) => {
+    return {
+      type: EDIT_CELL_EXPENSE,
+      payload: {
+        rowIndex,
+        columnKey,
+        value
+      }
+    };
+  };
+
 
 

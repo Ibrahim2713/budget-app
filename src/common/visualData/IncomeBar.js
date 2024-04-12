@@ -5,7 +5,7 @@ import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 function IncomeBar({rows}) {
   // gets the total of goal from income table
   const totalGoal = rows.reduce((acc, row) => {
-    const goalValue = typeof row.actual === 'number' ? row.goal : parseFloat(row.actual.replace(/,/g, ''));
+    const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
     if (!isNaN(goalValue)) { 
       return acc + goalValue;
     }
