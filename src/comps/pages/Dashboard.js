@@ -17,6 +17,10 @@ function Dashboard() {
                 <h3> Expenses</h3>
                 <ExpensesSection />
             </div>
+            <div> 
+                
+            </div>
+
         </div>
     )
 }
