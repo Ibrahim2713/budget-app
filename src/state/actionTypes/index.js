@@ -1,2 +1,3 @@
 export const EDIT_CELL = 'EDIT_CELL';
 export const EDIT_CELL_EXPENSE = 'EDIT_CELL_EXPENSE'
+export const EDIT_CELL_SAVINGS = 'EDIT_CELL_SAVINGS'

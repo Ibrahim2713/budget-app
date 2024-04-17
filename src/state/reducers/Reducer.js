@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import { EDIT_CELL, EDIT_CELL_EXPENSE } from "../actionTypes"
+import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS } from "../actionTypes"
 
 
 
@@ -71,10 +71,41 @@ function ExpenseReducer(state = expenseState, action) {
   }
 }
 
+export const SavingsState = {
+  rows: [  { name: 'Emeregency Fund', goal: 300, actual: 75, difference: 24 },
+  { name: `College Fund`, goal: 237, actual: 9.0, difference: 37 },
+  { name: 'Retirement', goal: 262, actual: 16.0, difference: 24 },
+  { name: 'Renovations', goal: 305, actual: 3.7, difference: 67 },
+  { name: 'Holidays', goal: 0, actual: 150, difference: 0 },
+  { name: 'Gifts', goal: 0, actual: 0, difference: 0 },
+],
+}
+
+function SavingsReducer(state = SavingsState , action) {
+  switch(action.type){
+    case EDIT_CELL_SAVINGS:
+      return {
+        ...state,
+        rows: state.rows.map((row, index) => {
+          if (index === action.payload.rowIndex) {
+            return {
+              ...row,
+              [action.payload.columnKey]: action.payload.value
+            };
+          }
+          return row;
+        }),
+      };
+    default:
+      return state;
+  }
+}
+
 
 const rootReducer = combineReducers({
     income: IncomeReducer,
-    expense:ExpenseReducer
+    expense:ExpenseReducer,
+    savings: SavingsReducer
 })
 
 

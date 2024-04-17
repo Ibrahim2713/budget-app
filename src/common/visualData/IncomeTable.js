@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { editRow } from '/Users/ibrahim/Desktop/Ibrahim/budget-app/src/state/actionCreators/index.js';
+import { editRow } from '../../state/actionCreators/index'
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TextField } from '@mui/material';
 
 function IncomeTable({ rows, editRow }) {
@@ -33,7 +33,7 @@ function IncomeTable({ rows, editRow }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Category</TableCell>
+            <TableCell>Income source</TableCell>
             <TableCell align="right">Goal</TableCell>
             <TableCell align="right">Actual</TableCell>
             <TableCell align="right">Difference</TableCell>

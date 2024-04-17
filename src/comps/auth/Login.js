@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import '/Users/ibrahim/Desktop/Ibrahim/budget-app/src/styles/Login.css' // Import the CSS file
+import '../../styles/Login.css' // Import the CSS file
 
 import { Container, TextField, Button, Typography, Grid } from '@mui/material';
 

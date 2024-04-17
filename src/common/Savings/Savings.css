@@ -1,0 +1,19 @@
+.savings-container {
+    display: flex;
+}
+
+
+.savings-table-container {
+    flex: 1;
+    min-width: 0
+}
+
+.savings-overview-container {
+    flex: 1;
+    min-width: 0
+}
+
+.savings-visual-container {
+    flex: 1;
+    min-width: 0
+}

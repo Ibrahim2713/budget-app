@@ -41,7 +41,7 @@ function ExpensesTable({rows, editRowExpense}) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Category</TableCell>
+            <TableCell> Expense Category</TableCell>
             <TableCell align="right">Budget</TableCell>
             <TableCell align="right"> Actual&nbsp;(g)</TableCell>
             <TableCell align="right"> Difference&nbsp;(g)</TableCell>
