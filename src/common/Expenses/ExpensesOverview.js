@@ -1,9 +1,38 @@
 import React from "react";
+import { connect } from "react-redux";
 import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 
 
-function ExpensesOverview() {
-    const progress = (10 / 100) * 100;
+function ExpensesOverview({rows}) {
+  // gets the total of goal from expense table
+  const totalGoal = rows.reduce((acc, row) => {
+    const goalValue = typeof row.goal === 'number' ? row.goal : parseFloat(row.goal.replace(/,/g, ''));
+    if (!isNaN(goalValue)) { 
+      return acc + goalValue;
+    }
+    return acc;
+  }, 0);
+// gets the total of actual from expense table
+  const totalActual = rows.reduce((acc, row) => {
+    const actualValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
+    if (!isNaN(actualValue)) { 
+      return acc + actualValue;
+    }
+    return acc;
+  }, 0)
+
+  const difference = totalActual - totalGoal;
+// Displays message for user depending if they saved or not
+  let message = '';
+  if (difference > 0) {
+    message = `You spent $${difference.toFixed(2)} over budget .`;
+  } else if (difference < 0) {
+    message = `You spent $${Math.abs(difference).toFixed(2)} less than you expected.`;
+  } else {
+    message = 'You are on budget.';
+  }
+  // Displays progress 
+  const progress = Math.min(100, (totalActual / totalGoal) * 100);
     return (
         <Container>
         <Grid>
@@ -14,13 +43,13 @@ function ExpensesOverview() {
             item
           >
             <Typography>Budget</Typography>
-            <Typography> 6,000</Typography>
+            <Typography> $ {totalGoal}</Typography>
           </Grid>
           <Grid
             item
           >
             <Typography>Actual</Typography>
-            <Typography> $8,500</Typography>
+            <Typography> ${totalActual}</Typography>
           </Grid>
         </Grid>
   
@@ -36,14 +65,16 @@ function ExpensesOverview() {
           />
         </Grid>
         <Grid>
-          <Typography> $2,500 </Typography>
-          <Typography> over budget this month</Typography>
+          <Typography> {message} </Typography>
         </Grid>
       </Container>
     )
 }
 
+const mapStateToProps = (state) => ({
+  rows: state.expense.rows,
+});
 
 
 
-export default ExpensesOverview
+export default connect(mapStateToProps)(ExpensesOverview);

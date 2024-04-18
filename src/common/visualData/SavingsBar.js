@@ -1,9 +1,18 @@
 import React from "react";
+import {connect} from 'react-redux'
 import { LinearProgress, Typography, Grid, Container } from "@mui/material";
 
 
 
-function SavingsBar() {
+function SavingsBar({rows}) {
+   // gets the total of goal from savings table
+ const totalGoal = rows.reduce((acc, row) => {
+  const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
+  if (!isNaN(goalValue)) { 
+    return acc + goalValue;
+  }
+  return acc;
+}, 0);
     const progress = 10 /100 * 100
     return (
         <Container>
@@ -13,7 +22,7 @@ function SavingsBar() {
         justifyContent="center"
         alignItems="center"
       >
-        <Typography> $30,000</Typography>
+        <Typography> $ {totalGoal}</Typography>
       </Grid>
       <Grid
         container
@@ -37,6 +46,9 @@ function SavingsBar() {
 </Container>
     )
 }
+const mapStateToProps = (state) => ({
+  rows: state.savings.rows,
+});
 
-export default SavingsBar
+export default connect(mapStateToProps)(SavingsBar)
 

@@ -5,7 +5,6 @@ import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 
 
 function ExpenseBar({rows}) {
-  console.log(rows)
  // gets the total of goal from expense table
  const totalGoal = rows.reduce((acc, row) => {
   const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
