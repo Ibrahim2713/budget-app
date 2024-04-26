@@ -12,8 +12,15 @@ exports.up = function(knex) {
   })
   .createTable('transactions', tbl => {
     tbl.increments('transaction_id');
-    tbl.
-
+    tbl.date('date').notNullable()
+    tbl.string('description')
+    tbl.string('category').notNullable()
+    tbl.float('amount').notNullable()
+    tbl.integer('user_id')
+    .unsigned()
+    .references('users.user_id')
+    .onDelete('CASCADE')
+    .onUpdate('CASCADE')
   })
 };
 
@@ -22,5 +29,7 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+  return knex.schema
+    .dropSchemaIfExists('transactions')
+    .dropSchemaIfExists('users')
 };
