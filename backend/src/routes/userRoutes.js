@@ -47,3 +47,6 @@ router.delete('/', md.restricted, (req,res,next) => {
             res.json(error)
         })
 })
+
+
+module.exports = router

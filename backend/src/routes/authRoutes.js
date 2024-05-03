@@ -23,10 +23,12 @@ router.post('/register', md.checkEmailExists, md.checkPasswordLength, async (req
 
 
 //route to login into account
-router.get('/login', (req,res,next) => {
-    let {username, password} = req.body;
-    User.findBy({username})
+router.post('/login', (req,res,next) => {
+    let {email, password} = req.body;
+   
+    User.findBy({email})
         .then(([user]) => {
+            console.log(user)
             if(user && bcrypt.compareSync(password, user.password)) {
                 const token = buildToken(user)
                 res.status(200).json({user,token})

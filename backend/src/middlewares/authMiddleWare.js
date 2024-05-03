@@ -2,12 +2,6 @@ const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../../config/index');
 const User = require('../models/user-Model');
 
-module.exports = {
-    restricted,
-    checkEmailExists,
-    checkPasswordLength,
-   
-}
 
 
 const restricted = (req,res,next) => {
@@ -56,3 +50,13 @@ const restricted = (req,res,next) => {
         next(err)
       }
   }
+
+
+
+
+module.exports = {
+  restricted,
+  checkEmailExists,
+  checkPasswordLength,
+ 
+}

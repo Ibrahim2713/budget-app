@@ -1,12 +1,6 @@
 const db = require('../../database/db-config');
 
-module.exports = {
-    addTransaction,
-    getTransactions,
-    deleteTransactions,
-    updateTransactions
 
-}
 
 const addTransaction = async  (transaction) => {
     const [id] = db('transactions').insert(transaction)
@@ -41,4 +35,12 @@ const updateTransactions = async (user_id, updatedInfo) => {
     catch(err) {
         console.log('error updating your transactions, err')
     }
+}
+
+module.exports = {
+    addTransaction,
+    getTransactions,
+    deleteTransactions,
+    updateTransactions
+
 }
