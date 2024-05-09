@@ -44,7 +44,8 @@ router.put('/', md.restricted, (req,res,next) => {
 // route that deletes a transaction log
 router.delete('/', md.restricted, (req,res,next) => {
     const user_id = req.decoded.subject
-    Trans.deleteTransactions(user_id)
+    const transaction_id = req.body.transaction_id
+    Trans.deleteTransactions(user_id, transaction_id)
         .then((response) => {
             res.json(response)
         })
