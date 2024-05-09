@@ -34,9 +34,9 @@ const deleteTransactions = async (user_id) => {
     }
 }
 
-const updateTransactions = async (user_id, updatedInfo) => {
+const updateTransactions = async (user_id, transaction_id, updatedInfo) => {
     try {
-        const updatedTrans = await db('transactions').where('user_id',user_id).update(updatedInfo)
+        const updatedTrans = await db('transactions').where({user_id:user_id, transaction_id: transaction_id}).update(updatedInfo)
         return updatedTrans
     } 
     catch(err) {

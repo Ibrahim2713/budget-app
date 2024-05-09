@@ -31,9 +31,11 @@ router.get('/', md.restricted, (req,res,next) => {
 // route that updates a transaction log
 router.put('/', md.restricted, (req,res,next) => {
     const user_id = req.decoded.subject
-    Trans.updateTransactions(user_id, req.body)
+    const transaction_id = req.body.transaction_id
+    const updatedInfo = req.body.updatedInfo
+    Trans.updateTransactions(user_id, transaction_id, updatedInfo)
         .then((response) => {
-            res.json(response)
+            res.json('update successful')
         })
         .catch((error) => {
             res.json(error)
