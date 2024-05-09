@@ -5,11 +5,14 @@ const Trans = require('../models/transaction-Model')
 //route that adds a new transaction log
 router.post('/', md.restricted, (req,res,next) => {
     const user_id = req.decoded.subject
-    Trans.addTransaction(user_id)
+    const {date, description, amount, category} = req.body
+    Trans.addTransaction(user_id,date, description, category, amount)
         .then((response) => {
             res.json(response)
+            console.log('here')
         })
         .catch((error) => {
+            console.log(error)
             res.json(error)
         })
 })

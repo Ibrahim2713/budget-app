@@ -6,6 +6,11 @@ const UserRouter = require('./routes/userRoutes')
 
 const server = express();
 
+
+// testing routes info {"email":"guest00@yahoo.com", "password":"testrun001"} 
+
+
+
 server.use(express.json());
  server.use(express.urlencoded({extended: true}));
 server.use(cors()); 

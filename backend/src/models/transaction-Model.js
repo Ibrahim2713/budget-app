@@ -2,8 +2,15 @@ const db = require('../../database/db-config');
 
 
 
-const addTransaction = async  (transaction) => {
-    const [id] = db('transactions').insert(transaction)
+const addTransaction = async  (userId, date, description, category, amount) => {
+    const [id] = await db('transactions').insert({
+        user_id: userId,
+        date: date,
+        description:description,
+        category: category,
+        amount: amount
+
+    })
     return id;
 }
 
