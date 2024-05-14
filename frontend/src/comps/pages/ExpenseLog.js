@@ -1,4 +1,5 @@
 import  React, {useState} from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Container, Grid, TextField, Button, Select, Input, MenuItem, FormControl, InputLabel} from '@mui/material';
@@ -40,11 +41,28 @@ function getRowId(row){
 
 
 export default function ExpenseLog() {
+  const [inputValues, setInputValues] = useState({
+    date: null,
+    description: null,
+    category: null,
+    amount: null
+  })
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const handleChange = (event) => {
-    setSelectedCategory(event.target.value);
+    setInputValues(event.target.value);
   };
+
+  const saveToBackend = () => {
+    const data = {}
+    axios.post('http://localhost:8000/api/transactions', data )
+      .then(() => {
+
+      })
+      .catch(() => {
+
+      })
+  }
 
 
     return (
@@ -52,11 +70,11 @@ export default function ExpenseLog() {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker label="Select a date" />
+            <DatePicker label="Select a date" value={inputValues.date} onChange={handleChange} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={12}>
-          <TextField placeholder='Select a description' />
+          <TextField placeholder='Select a description' value={inputValues.description} onChange={handleChange} />
         </Grid>
         <Grid item xs={12}>
           <FormControl fullWidth>
@@ -64,7 +82,7 @@ export default function ExpenseLog() {
             <Select
               labelId="category-label"
               id="category-select"
-              value={selectedCategory}
+              value={inputValues.date}
               onChange={handleChange}
               label="Select a category"
             >
@@ -77,7 +95,7 @@ export default function ExpenseLog() {
               <MenuItem value="category4"> Utilities </MenuItem>
               <MenuItem value="category5"> Phone Bill </MenuItem>
               <MenuItem value="category6"> Emergency Fund </MenuItem>
-              <MenuItem value="category7"> Other </MenuItem>
+              <MenuItem value="category7"> Miscellaneous </MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -85,7 +103,7 @@ export default function ExpenseLog() {
           <TextField placeholder='Enter an Amount $' />
         </Grid>
         <Grid item xs={12}>
-          <Button variant='contained'>Add New Transaction</Button>
+          <Button variant='contained' onClick={saveToBackend}>Add New Transaction</Button>
         </Grid>
 
         

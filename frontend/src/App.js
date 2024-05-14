@@ -5,6 +5,11 @@ import Signup from "./comps/auth/Signup";
 import Dashboard from "./comps/pages/Dashboard";
 import ExpenseLog from "./comps/pages/ExpenseLog";
 
+
+
+// TODO
+// USer wants to send transaction data to backend db and view this data whenever
+
 function App() {
   return (
     <Router>
