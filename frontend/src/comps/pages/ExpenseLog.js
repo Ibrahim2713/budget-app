@@ -49,8 +49,12 @@ export default function ExpenseLog() {
   })
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  const handleChange = (event) => {
-    setInputValues(event.target.value);
+  const handleChange = (name, value) => {
+    setInputValues((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+    console.log(inputValues.date)
   };
 
   const saveToBackend = () => {
@@ -70,11 +74,11 @@ export default function ExpenseLog() {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker label="Select a date" value={inputValues.date} onChange={handleChange} />
+            <DatePicker label="Select a date" value={inputValues.date} onChange={ (newDate) => handleChange('date', newDate)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={12}>
-          <TextField placeholder='Select a description' value={inputValues.description} onChange={handleChange} />
+          <TextField placeholder='Select a description' value={inputValues.description} onChange={ (e) => handleChange('description', e.target.value)} />
         </Grid>
         <Grid item xs={12}>
           <FormControl fullWidth>
