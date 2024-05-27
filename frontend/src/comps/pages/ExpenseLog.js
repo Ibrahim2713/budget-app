@@ -8,6 +8,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // User wnats to view all transactions, have the abiltiy to filter and look for specific transactions
 // User wants to add and store 
+
+
+
+
 const columns = [
     {field: 'date', headerName: 'DATE', width: 90},
     {field: 'Description', headerName: 'Description', width: 150, editable: true},
@@ -54,19 +58,25 @@ export default function ExpenseLog() {
       ...prevData,
       [name]: value
     }));
-    console.log(inputValues.date)
+
   };
 
   const saveToBackend = () => {
-    const data = {}
-    axios.post('http://localhost:8000/api/transactions', data )
+
+    const {date, description,  category, amount} = inputValues
+    const data = {date,description,category, amount}
+   axios.post('http://localhost:8000/api/transactions', data )
       .then(() => {
-
+        console.log('added')
       })
-      .catch(() => {
-
-      })
+      .catch((err) => {
+        console.log('im not working')
+      }) 
+      console.log(inputValues.amount)
   }
+
+
+  
 
 
     return (
@@ -86,25 +96,25 @@ export default function ExpenseLog() {
             <Select
               labelId="category-label"
               id="category-select"
-              value={inputValues.date}
-              onChange={handleChange}
+              value={inputValues.category}
+              onChange={ (e) => handleChange('category',e.target.value )}
               label="Select a category"
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="category1">Food</MenuItem>
-              <MenuItem value="category2">Housing</MenuItem>
-              <MenuItem value="category3">Transportation</MenuItem>
-              <MenuItem value="category4"> Utilities </MenuItem>
-              <MenuItem value="category5"> Phone Bill </MenuItem>
-              <MenuItem value="category6"> Emergency Fund </MenuItem>
-              <MenuItem value="category7"> Miscellaneous </MenuItem>
+              <MenuItem value="food">Food</MenuItem>
+              <MenuItem value="housing">Housing</MenuItem>
+              <MenuItem value="transportation">Transportation</MenuItem>
+              <MenuItem value="utilities"> Utilities </MenuItem>
+              <MenuItem value="phone bill"> Phone Bill </MenuItem>
+              <MenuItem value="emergency fund"> Emergency Fund </MenuItem>
+              <MenuItem value="miscellaneous"> Miscellaneous </MenuItem>
             </Select>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <TextField placeholder='Enter an Amount $' />
+          <TextField  value={inputValues.amount} onChange={(e) => handleChange('amount', e.target.value)} placeholder='Enter an Amount $' />
         </Grid>
         <Grid item xs={12}>
           <Button variant='contained' onClick={saveToBackend}>Add New Transaction</Button>
