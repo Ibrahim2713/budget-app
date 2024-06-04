@@ -11,7 +11,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 
-
 const columns = [
     {field: 'date', headerName: 'DATE', width: 90},
     {field: 'Description', headerName: 'Description', width: 150, editable: true},
@@ -51,6 +50,8 @@ export default function ExpenseLog() {
     category: null,
     amount: null
   })
+
+console.log(inputValues.amount)
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const handleChange = (name, value) => {
@@ -64,19 +65,21 @@ export default function ExpenseLog() {
   const saveToBackend = () => {
 
     const {date, description,  category, amount} = inputValues
-    const data = {date,description,category, amount}
+    const actualDate = date.$d
+    const amountNum = parseInt(amount)
+    const data = {actualDate, description,category, amountNum}
    axios.post('http://localhost:8000/api/transactions', data )
       .then(() => {
         console.log('added')
       })
       .catch((err) => {
-        console.log('im not working')
+        console.log(err)
       }) 
-      console.log(inputValues.amount)
+
   }
 
 
-  
+
 
 
     return (
