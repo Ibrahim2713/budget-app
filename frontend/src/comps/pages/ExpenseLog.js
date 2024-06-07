@@ -1,4 +1,4 @@
-import  React, {useState} from 'react';
+import  React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
@@ -10,32 +10,20 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // User wants to add and store 
 
 
-
 const columns = [
-    {field: 'date', headerName: 'DATE', width: 90},
-    {field: 'Description', headerName: 'Description', width: 150, editable: true},
-    {field: 'Category', headerName: 'Category', width: 110, editable: true},
-    {field: 'Amount', headerName: 'Amount', width: 110, editable: true},
-    {field: 'Subscription', headerName: 'Subscription', width: 110, editable: true},
+  { field: 'date', headerName: 'DATE', width: 90 },
+  { field: 'description', headerName: 'Description', width: 150, editable: true },
+  { field: 'category', headerName: 'Category', width: 110, editable: true },
+  { field: 'amount', headerName: 'Amount', width: 110, editable: true },
+  { field: 'subscription', headerName: 'Subscription', width: 110, editable: true },
+];
 
-]
 
-
-const rows = [
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 },
-    { date: 1, description: 'Snow', category: 'Jon', amount: 14, subscription: 20 }
-
-]
-
+ 
+let rowCounter = 0
 function getRowId(row){
-  return row.date
+
+ return rowCounter++;
 }
 
 
@@ -44,6 +32,27 @@ function getRowId(row){
 
 
 export default function ExpenseLog() {
+    // grabs token from local storage to authentciate user request
+    const token = localStorage.getItem('token')
+  
+  useEffect(() => {
+      axios.get('http://localhost:8000/api/transactions', {
+        headers: {
+          authorization: token
+        }
+      })
+      .then((res) => {
+        // fills rows with user data 
+         setRows(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [token]);
+
+
+  const [rows, setRows] = useState([])
+ 
   const [inputValues, setInputValues] = useState({
     date: null,
     description: null,
@@ -51,8 +60,6 @@ export default function ExpenseLog() {
     amount: null
   })
 
-console.log(inputValues.amount)
-  const [selectedCategory, setSelectedCategory] = useState('');
 
   const handleChange = (name, value) => {
     setInputValues((prevData) => ({
@@ -61,16 +68,21 @@ console.log(inputValues.amount)
     }));
 
   };
-
+// adds new transaction to backend (transaction log)
   const saveToBackend = () => {
 
     const {date, description,  category, amount} = inputValues
     const actualDate = date.$d
     const amountNum = parseInt(amount)
-    const data = {actualDate, description,category, amountNum}
-   axios.post('http://localhost:8000/api/transactions', data )
-      .then(() => {
-        console.log('added')
+    console.log(amountNum)
+    const data = {amount,category, date, description}
+   axios.post('http://localhost:8000/api/transactions', data, {
+    headers: {
+      authorization: token
+    }
+   } )
+      .then((res) => {
+        console.log(res.data)
       })
       .catch((err) => {
         console.log(err)

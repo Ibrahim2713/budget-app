@@ -9,7 +9,6 @@ router.post('/', md.restricted, (req,res,next) => {
     Trans.addTransaction(user_id,date, description, category, amount)
         .then((response) => {
             res.json(response)
-            console.log('here')
         })
         .catch((error) => {
             console.log(error)

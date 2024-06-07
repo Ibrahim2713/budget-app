@@ -1,18 +1,35 @@
 import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import '../../styles/Login.css' // Import the CSS file
+import axios from "axios";
 
 import { Container, TextField, Button, Typography, Grid } from '@mui/material';
 
 
 
-const handleLogin = (e) => {
 
-}
 
 function Login() {
 
-const [username, setUsername] = useState()
+const [email, setEmail] = useState()
 const [password, setPassword] = useState()
+const navigate = useNavigate()
+console.log(email, password)
+const handleLogin = (e) => {
+  e.preventDefault()
+  const data = {email , password}
+  axios.post('http://localhost:8000/api/auth/login', data)
+  .then((res) => {
+    const token = res.data.token
+    localStorage.setItem('token', token)
+    navigate('/transactions')
+
+  })
+  .catch(() => {
+    console.log('error logging in')
+  })
+}
+
     return (
         <Container maxWidth="xs" className="container">
         <Grid container spacing={2}>
@@ -24,12 +41,12 @@ const [password, setPassword] = useState()
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    placeholder="Username"
+                    placeholder="email"
                     fullWidth
-                    label="Username"
+                    label="email"
                     variant="outlined"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     InputProps={{ style: { color: 'white' } }} 
                     style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                   />
