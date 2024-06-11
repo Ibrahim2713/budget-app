@@ -6,6 +6,9 @@ import { Container, Grid, TextField, Button, Select, Input, MenuItem, FormContro
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {Snackbar} from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
 // User wnats to view all transactions, have the abiltiy to filter and look for specific transactions
 // User wants to add and store 
 
@@ -52,7 +55,8 @@ export default function ExpenseLog() {
 
 
   const [rows, setRows] = useState([])
- 
+  const [snackbarOpen, setSnackbarOpen] = useState()
+  const [snackbarMessage, setSnackbarMessage] = useState()
   const [inputValues, setInputValues] = useState({
     date: null,
     description: null,
@@ -68,13 +72,16 @@ export default function ExpenseLog() {
     }));
 
   };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  }
 // adds new transaction to backend (transaction log)
   const saveToBackend = () => {
 
     const {date, description,  category, amount} = inputValues
-    const actualDate = date.$d
-    const amountNum = parseInt(amount)
-    console.log(amountNum)
+   
+    
     const data = {amount,category, date, description}
    axios.post('http://localhost:8000/api/transactions', data, {
     headers: {
@@ -82,10 +89,15 @@ export default function ExpenseLog() {
     }
    } )
       .then((res) => {
-        console.log(res.data)
+        setRows((prevRows) => [...prevRows, { id: getRowId(), ...res.data }]);
+        setSnackbarMessage('Transaction added successfully');
+        setSnackbarOpen(true);
+
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+        setSnackbarMessage('Error adding transaction');
+        setSnackbarOpen(true);
       }) 
 
   }
@@ -159,6 +171,20 @@ export default function ExpenseLog() {
         />
       </Box>
       </Grid>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
       </Container>
     );
   }
