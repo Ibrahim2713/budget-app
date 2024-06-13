@@ -1,5 +1,6 @@
 import  React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchTransactions, postTransaction } from '../../state/actionCreators';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Container, Grid, TextField, Button, Select, Input, MenuItem, FormControl, InputLabel} from '@mui/material';
@@ -9,52 +10,29 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {Snackbar} from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
-// User wnats to view all transactions, have the abiltiy to filter and look for specific transactions
-// User wants to add and store 
-
 
 const columns = [
-  { field: 'date', headerName: 'DATE', width: 90 },
+  {field: 'transaction_id', headerName: 'ID',  width: 90},
+  { field: 'date', headerName: 'DATE', width: 90  ,  renderCell: (params) => params.value ? params.value.substring(0, 10) : ''},
   { field: 'description', headerName: 'Description', width: 150, editable: true },
   { field: 'category', headerName: 'Category', width: 110, editable: true },
   { field: 'amount', headerName: 'Amount', width: 110, editable: true },
   { field: 'subscription', headerName: 'Subscription', width: 110, editable: true },
 ];
 
+function ExpenseLog({fetchTransactions, postTransaction, transactions}) {
+   console.log(transactions)
 
- 
-let rowCounter = 0
-function getRowId(row){
-
- return rowCounter++;
-}
-
-
-// Develop a form that user can enter new transactions and potentially send them to data base
-
-
-
-export default function ExpenseLog() {
     // grabs token from local storage to authentciate user request
     const token = localStorage.getItem('token')
   
-  useEffect(() => {
-      axios.get('http://localhost:8000/api/transactions', {
-        headers: {
-          authorization: token
-        }
-      })
-      .then((res) => {
-        // fills rows with user data 
-         setRows(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [token]);
+    useEffect(() => {
+      if (token) {
+        fetchTransactions(token);
+      }
+    }, [token]);
 
 
-  const [rows, setRows] = useState([])
   const [snackbarOpen, setSnackbarOpen] = useState()
   const [snackbarMessage, setSnackbarMessage] = useState()
   const [inputValues, setInputValues] = useState({
@@ -77,28 +55,21 @@ export default function ExpenseLog() {
     setSnackbarOpen(false);
   }
 // adds new transaction to backend (transaction log)
-  const postTransaction = () => {
+  const handlePostRequest = () => {
 
     const {date, description,  category, amount} = inputValues
    
     
     const data = {amount,category, date, description}
-   axios.post('http://localhost:8000/api/transactions', data, {
-    headers: {
-      authorization: token
-    }
-   } )
-      .then((res) => {
-        setRows((prevRows) => [...prevRows, { id: getRowId(), ...res.data }]);
-        setSnackbarMessage('Transaction added successfully');
-        setSnackbarOpen(true);
-
-      })
-      .catch((err) => {
-        console.log(err);
-        setSnackbarMessage('Error adding transaction');
-        setSnackbarOpen(true);
-      }) 
+    postTransaction(data, token)
+    .then(() => {
+      setSnackbarMessage('Transaction added successfully');
+      setSnackbarOpen(true);
+    })
+    .catch(() => {
+      setSnackbarMessage('Error adding transaction');
+      setSnackbarOpen(true);
+    });
 
   }
 
@@ -144,20 +115,13 @@ export default function ExpenseLog() {
           <TextField  value={inputValues.amount} onChange={(e) => handleChange('amount', e.target.value)} placeholder='Enter an Amount $' />
         </Grid>
         <Grid item xs={12}>
-          <Button variant='contained' onClick={postTransaction}>Add New Transaction</Button>
+          <Button variant='contained' onClick={handlePostRequest}>Add New Transaction</Button>
         </Grid>
-
-        
-
-       
-    
-
-
       <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
-        getRowId={getRowId}
-          rows={rows}
+          rows={transactions}
           columns={columns}
+          getRowId={(row)=> row.transaction_id}
           initialState={{
             pagination: {
               paginationModel: {
@@ -188,3 +152,13 @@ export default function ExpenseLog() {
       </Container>
     );
   }
+  const mapStateToProps = (state) => ({
+    transactions : state.transactions.transactions
+  })
+
+  const mapDispatchToProps =  {
+    fetchTransactions,
+    postTransaction
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseLog)

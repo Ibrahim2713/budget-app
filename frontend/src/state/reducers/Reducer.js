@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS } from "../actionTypes"
+import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, SET_TRANSACTION, ADD_TRANSACTION } from "../actionTypes"
 
 
 
@@ -101,9 +101,26 @@ function SavingsReducer(state = SavingsState , action) {
   }
 }
 
- export const transactionState = []
+ export const transactionState = {
+  transactions: []
+ }
 
-function TransactionReducer(state = transactionState, action)
+function TransactionReducer(state = transactionState, action) {
+  switch(action.type){
+    case SET_TRANSACTION:
+      return{
+        ...state,
+        transactions: action.payload
+      };
+      case ADD_TRANSACTION:
+        return {
+          ...state,
+          transactions: [...state.transactions, action.payload]
+        }
+        default : 
+        return state
+  }
+}
 
 
 
@@ -111,7 +128,9 @@ function TransactionReducer(state = transactionState, action)
 const rootReducer = combineReducers({
     income: IncomeReducer,
     expense:ExpenseReducer,
-    savings: SavingsReducer
+    savings: SavingsReducer,
+    transactions: TransactionReducer
+
 })
 
 

@@ -1,5 +1,5 @@
 import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, ADD_TRANSACTION, SET_TRANSACTION  } from "../actionTypes";
-
+import axios from "axios";
 
 export const editRow = (rowIndex, columnKey, value) => {
     return {
@@ -35,7 +35,7 @@ export const editRow = (rowIndex, columnKey, value) => {
   };
 
   export const setTransactions = (transactions) => ({
-    type: SET_TRANSACTIONS,
+    type: SET_TRANSACTION,
     payload: transactions,
   });
   
@@ -65,7 +65,7 @@ export const editRow = (rowIndex, columnKey, value) => {
           authorization: token
         }
        } )
-       dipsatch()
+       dipsatch(addTransaction(response.data))
     }
     catch(error){
       console.error('There was an error posting the transactions!', error);
