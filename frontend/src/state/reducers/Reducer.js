@@ -101,6 +101,10 @@ function SavingsReducer(state = SavingsState , action) {
   }
 }
 
+ export const transactionState = []
+
+function TransactionReducer(state = transactionState, action)
+
 
 
 

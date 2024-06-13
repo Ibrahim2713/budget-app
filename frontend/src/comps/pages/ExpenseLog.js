@@ -77,7 +77,7 @@ export default function ExpenseLog() {
     setSnackbarOpen(false);
   }
 // adds new transaction to backend (transaction log)
-  const saveToBackend = () => {
+  const postTransaction = () => {
 
     const {date, description,  category, amount} = inputValues
    
@@ -144,7 +144,7 @@ export default function ExpenseLog() {
           <TextField  value={inputValues.amount} onChange={(e) => handleChange('amount', e.target.value)} placeholder='Enter an Amount $' />
         </Grid>
         <Grid item xs={12}>
-          <Button variant='contained' onClick={saveToBackend}>Add New Transaction</Button>
+          <Button variant='contained' onClick={postTransaction}>Add New Transaction</Button>
         </Grid>
 
         
