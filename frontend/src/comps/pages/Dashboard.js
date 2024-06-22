@@ -7,7 +7,7 @@ import SavingsSection from "../../common/Savings/SavingsSection";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-TODO /* User Wants to be able to use visual represntations of financial data based on the month that they select */
+ /* User Wants to be able to use visual represntations of financial data based on the month that they select */
 
 function Dashboard() {
 const naviagte = useNavigate()

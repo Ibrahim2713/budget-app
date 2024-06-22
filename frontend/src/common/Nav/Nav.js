@@ -1,7 +1,7 @@
 import React from "react";
 import "./Nav.css";
 import Calendar from "../Analytics/Calander";
-import IncomeGraph from "../Analytics/IncomeBar";
+import IncomeGraph from "../Analytics/TotalIncomeBar";
 import ExpenseBar from "../Analytics/ExpenseBar";
 import SavingsBar from "../Analytics/SavingsBar";
 function Nav() {

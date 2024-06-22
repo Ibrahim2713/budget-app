@@ -1,8 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { LinearProgress, Typography, Container, Grid } from "@mui/material";
- 
-function IncomeBar({rows}) {
+ import { groupTransactionsByMonth } from "../../utils/dataTransform";
+function IncomeBar({rows, transactions}) {
+  console.log(transactions
+    
+    // User wants to get acculmated income from 
+    
+    
+    )
   // gets the total of goal from income table
   const totalGoal = rows.reduce((acc, row) => {
     const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
@@ -12,7 +18,8 @@ function IncomeBar({rows}) {
     return acc;
   }, 0);
 
-  const progress = (10 / 100) * 100;
+
+  const progress = (10 / 200) * 100;
   return (
     <Container>
       <Grid
@@ -47,6 +54,8 @@ function IncomeBar({rows}) {
 }
 const mapStateToProps = (state) => ({
   rows: state.income.rows,
+  transactions : state.transactions.transactions
+
 });
 
 

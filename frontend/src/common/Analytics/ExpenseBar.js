@@ -4,7 +4,18 @@ import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 
 
 
-function ExpenseBar({rows}) {
+function ExpenseBar({rows, transactions}) {
+
+// User wants the accumlated expenses from their expense logs in visual bar format that corresponds with each month
+//POA
+/* Hold the calander months in state (globally)
+/* add the calander state to data Transform func so it corresponds with each month
+/* add the function to expenseBar comp */
+
+
+
+
+
  // gets the total of goal from expense table
  const totalGoal = rows.reduce((acc, row) => {
   const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
@@ -52,6 +63,7 @@ function ExpenseBar({rows}) {
 }
 const mapStateToProps = (state) => ({
   rows: state.expense.rows,
+  transactions : state.transactions.transactions
 });
 
 export default connect(mapStateToProps)(ExpenseBar)
