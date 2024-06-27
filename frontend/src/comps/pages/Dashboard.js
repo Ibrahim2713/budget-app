@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { connect } from "react-redux";
 import '../../styles/Dashboard.css'
 import Nav from "../../common/Nav/Nav";
 import IncomeSection from "../../common/Income/IncomeSection";
@@ -6,10 +7,20 @@ import ExpensesSection from "../../common/Expenses/ExpensesSection";
 import SavingsSection from "../../common/Savings/SavingsSection";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import { fetchTransactions } from "../../state/actionCreators";
 
  /* User Wants to be able to use visual represntations of financial data based on the month that they select */
 
-function Dashboard() {
+function Dashboard({fetchTransactions, transactions}) {
+
+    const token = localStorage.getItem('token')
+  
+    useEffect(() => {
+      if (token) {
+        fetchTransactions(token);
+      }
+    }, [token]);
+
 const naviagte = useNavigate()
 
 const redirect = () => {
@@ -38,6 +49,13 @@ const redirect = () => {
     )
 }
 
+const mapStateToProps = (state) => ({
+    transactions : state.transactions.transactions
+  })
+
+  const mapDispatchToProps =  {
+    fetchTransactions,
+  }
 
 
-export default Dashboard
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

@@ -53,5 +53,9 @@ router.delete('/', md.restricted, (req,res,next) => {
         })
 })
 
+router.get('/', md.restricted, (req,res,next) => {
+    
+})
+
 
 module.exports = router

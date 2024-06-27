@@ -21,7 +21,7 @@ const columns = [
 ];
 
 function ExpenseLog({fetchTransactions, postTransaction, transactions}) {
-   console.log(transactions)
+
 
     // grabs token from local storage to authentciate user request
     const token = localStorage.getItem('token')

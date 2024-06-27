@@ -44,6 +44,12 @@ const updateTransactions = async (user_id, transaction_id, updatedInfo) => {
     }
 }
 
+/*const getTransactionsBYMonth = async (user_id, month, year) => {
+    try {
+        const transactionsbymonth = await db('transactions').where({user_id: user_id, })
+    }
+} */
+
 module.exports = {
     addTransaction,
     getTransactions,
