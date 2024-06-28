@@ -10,12 +10,58 @@ exports.up = function(knex) {
     tbl.string('last_name').notNullable();
     tbl.string('password').notNullable()
   })
-  .createTable('transactions', tbl => {
-    tbl.increments('transaction_id');
-    tbl.date('date').notNullable()
+  .createTable('date_details', tbl => {
+    tbl.increments('date_details_id');
+    tbl.string('date').notNullable().unique()
+    tbl.integer('year').notNullable()
+    tbl.integer('month').notNullable()
+    tbl.integer('day').notNullable()
+    tbl.integer('user_id')
+    .unsigned()
+    .references('users.user_id')
+    .onDelete('CASCADE')
+    .onUpdate('CASCADE')
+  })
+  .createTable('income', tbl => {
+    tbl.increments('income_id');
+    tbl.integer('date').notNullable().unsigned().references('date_details_id')
     tbl.string('description')
     tbl.string('category').notNullable()
     tbl.float('amount').notNullable()
+    tbl.integer('user_id')
+    .unsigned()
+    .references('users.user_id')
+    .onDelete('CASCADE')
+    .onUpdate('CASCADE')
+  })
+  .createTable('savings', tbl => {
+    tbl.increments('savings_id');
+    tbl.integer('date').notNullable().unsigned().references('date_details_id')
+    tbl.string('description')
+    tbl.string('category').notNullable()
+    tbl.float('amount').notNullable()
+    tbl.integer('user_id')
+    .unsigned()
+    .references('users.user_id')
+    .onDelete('CASCADE')
+    .onUpdate('CASCADE')
+  })
+  .createTable('expenses', tbl => {
+    tbl.increments('expenses_id');
+    tbl.integer('date').notNullable().unsigned().references('date_details_id')
+    tbl.string('description')
+    tbl.string('category').notNullable().unsigned().references('category_id')
+    tbl.float('amount').notNullable()
+    tbl.integer('user_id')
+    .unsigned()
+    .references('users.user_id')
+    .onDelete('CASCADE')
+    .onUpdate('CASCADE')
+  })
+  .createTable('categories', tbl => {
+    tbl.increments('category_id');
+    tbl.string('name')
+    tbl.integer('parent_id').notNullable().unsigned().references('category_id')
     tbl.integer('user_id')
     .unsigned()
     .references('users.user_id')
@@ -30,6 +76,8 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema
-    .dropSchemaIfExists('transactions')
+    .dropSchemaIfExists('categories')
+    .dropSchemaIfExists('expenses')
+    .dropSchemaIfExists('categories')
     .dropSchemaIfExists('users')
 };
