@@ -2,12 +2,12 @@ const express = require('express');
 const cors = require('cors')
 
 const AuthRouter = require('./routes/authRoutes');
-const UserRouter = require('./routes/userRoutes')
+const UserRouter = require('./routes/incomeRoutes')
 
 const server = express();
 
 
-// testing routes info {"email":"guest00@yahoo.com", "password":"testrun001"} 
+
 
 
 

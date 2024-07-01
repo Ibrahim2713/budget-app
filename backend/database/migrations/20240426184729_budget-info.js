@@ -78,6 +78,8 @@ exports.down = function(knex) {
   return knex.schema
     .dropSchemaIfExists('categories')
     .dropSchemaIfExists('expenses')
-    .dropSchemaIfExists('categories')
+    .dropSchemaIfExists('savings')
+    .dropSchemaIfExists('income')
+    .dropSchemaIfExists('date_details')
     .dropSchemaIfExists('users')
 };
