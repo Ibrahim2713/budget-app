@@ -4,7 +4,7 @@ const User = require('../models/user-Model');
 
 
 
-const restricted = (req,res,next) => {
+const authenticated = (req,res,next) => {
     const token = req.headers.authorization;
     if(token){
         jwt.verify(token, JWT_SECRET, (err, decoded) => {
@@ -55,7 +55,7 @@ const restricted = (req,res,next) => {
 
 
 module.exports = {
-  restricted,
+  authenticated,
   checkEmailExists,
   checkPasswordLength,
  
