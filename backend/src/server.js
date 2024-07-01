@@ -5,6 +5,8 @@ const AuthRouter = require('./routes/authRoutes');
 const IncomeRouter = require('./routes/incomeRoutes');
 const SavingsRouter = require('./routes/savingsRoutes');
 const ExpenseRouter = require('./routes/expenseRoutes');
+const DateDetailsRouter = require('./routes/dateRoutes');
+const CategoryRouter = require('./routes/categoryRoutes');
 const server = express();
 
 
@@ -19,6 +21,8 @@ server.use('/api/auth', AuthRouter);
 server.use('/api/income', IncomeRouter);
 server.use('/api/savings', SavingsRouter);
 server.use('/api/expenses', ExpenseRouter);
+server.use('api/dateDetails', DateDetailsRouter)
+
 
 
 
