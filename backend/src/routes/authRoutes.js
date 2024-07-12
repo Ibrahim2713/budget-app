@@ -25,12 +25,14 @@ router.post('/register', md.checkEmailExists, md.checkPasswordLength, async (req
 //route to login into account
 router.post('/login', (req,res,next) => {
     let {email, password} = req.body;
-   
+
     User.findBy({email})
         .then(([user]) => {
             console.log(user)
-            if(user && bcrypt.compareSync(password, user.password)) {
+            // adjust to && after testing routes
+            if(user || bcrypt.compareSync(password, user.password)) {
                 const token = buildToken(user)
+                console.log(token)
                 res.status(200).json({user,token})
                
                 
@@ -49,7 +51,7 @@ router.post('/login', (req,res,next) => {
 
 function buildToken(user) {
     const payload = {
-        subject: user.user_id,
+        subject: user.id,
         first_name: user.first_name,
         last_name: user.last_name,
         email: user.email

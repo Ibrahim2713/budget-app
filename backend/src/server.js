@@ -21,7 +21,9 @@ server.use('/api/auth', AuthRouter);
 server.use('/api/income', IncomeRouter);
 server.use('/api/savings', SavingsRouter);
 server.use('/api/expenses', ExpenseRouter);
-server.use('api/dateDetails', DateDetailsRouter)
+server.use('api/dateDetails', DateDetailsRouter);
+server.use('/api/category', CategoryRouter);
+
 
 
 

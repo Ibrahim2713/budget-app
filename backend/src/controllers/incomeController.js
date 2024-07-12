@@ -4,7 +4,7 @@ const Income = require('../models/income-Model')
 // Get All income entries for a specific user
 exports.getAllIncomeByUser = async (req,res) => {
     try {
-        const userId = req.user.id;
+        const userId = req.decoded.subject;
         const incomes = await Income.getAllIncomeByUser(userId);
         res.status(200).json(incomes)
     }
@@ -31,46 +31,57 @@ exports.getIncomeById = async (req,res) => {
 }
 
 // Create a new income entry for specific user
-exports.createIncome = async (req,res) => {
+exports.addIncome = async (req,res) => {
+    const { date, month, year, amount, source } = req.body;
+
+    const user_id = req.decoded.subject;
+    
+    if (!user_id) {
+        return res.status(400).json({ message: 'User ID is missing in the token.' });
+      }
+
     try {
-        const userId = req.user.id;
-        const newIncome = await Income.getIncomeById(userId, req.body);
-        res.status(201).json(newIncome)
+        await Income.addIncomeWithDate({ date, month, year, amount, source, user_id });
+        res.status(201).json({ message: 'Income entry added successfully' });
     }
-    catch(error){
-        res.status(500).json({error: error.message})
-    }
+    catch (error) {
+        console.error('Error adding income entry:', error);
+        res.status(500).json({ message: 'Error adding income entry', error });
+      }
+    
 }
 
 
 //Updates a income entry for specific user
 exports.updateIncome = async (req, res) => {
+    const { id, date, month, year, amount, source } = req.body;
+    const user_id = req.decoded.subject;
+    if (!user_id) {
+        return res.status(400).json({ message: 'User ID is missing in the token.' });
+    }
     try {
-        const userId = req.user.id;
-        const updatedIncome = await Income.updateIncome(userId, req.params.id, req.body);
-        if (updatedIncome !== null) {
-            res.status(200).json(updatedIncome);
-        } else {
-            res.status(404).json({ message: 'Income not found' });
-        }
+        await Income.updateIncome({ id, date, month, year, amount, source, user_id });
+        res.status(200).json({ message: 'Income entry updated successfully' });   
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Error updating income entry:', error);
+        res.status(500).json({ message: 'Error updating income entry', error });
     }
 };
 
 //Delete a income entry for specific user
 exports.deleteIncome = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const deleted = await Income.deleteIncome(userId, req.params.id);
-        if (deleted) {
-            res.status(204).json();
-        } else {
-            res.status(404).json({ message: 'Income not found' });
+        const {id} = req.params;
+        const user_id = req.decoded.subject;
+
+        if (!user_id) {
+            return res.status(400).json({ message: 'User ID is missing in the token.' });
         }
+
+         await Income.deleteIncome(id);
+         res.status(200).json({ message: 'Income entry deleted successfully' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Error deleting income entry:', error);
+        res.status(500).json({ message: 'Error deleting income entry', error });
     }
-};
-
-
+}

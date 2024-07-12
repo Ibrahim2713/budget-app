@@ -1,4 +1,4 @@
-const db = require('../../config/index')
+const db = require('../../database/db-config')
 
 // Get All income entries for a specific user
 const getAllIncomeByUser = async (userId) => {
@@ -11,21 +11,50 @@ const getIncomeById = async (userId) => {
 }
 
 // Create a new income entry 
-const createIncome = async ( userId, income) => {
-    income.user_id = userId
-    const [newIncome] = db('income').insert(income).returning('*');
-    return newIncome
+const addIncomeWithDate = async ({date, month, year, amount, source, user_id}) => {
+
+    return db.transaction(async (trx) => {
+         // Step 1: Insert the date into the date_details table
+        const [dateDetailId] = await trx('date_details').insert({
+            date, month, year,
+            user_id
+        })
+        .returning('id');
+        // Step 2: Insert the income entry using the dateDetailId
+        await trx('income').insert({
+            amount,
+            source,
+            user_id,
+            date_detail_id: dateDetailId.id
+    });
+});
 }
 
+
 //Update a income entry
-const updateIncome = async ( userId, incomeId, income) => {
-    const [updatedIncome] = db('income').where({user_id: userId, income_id: incomeId}).update(income).returning('*');
-    return updatedIncome;
+const updateIncome = async ({id,date,month,year,amount,source,user_id}) => {
+    return db.transaction(async (trx) => {
+        await trx('date_details').where({ id }).update({
+            date,
+            month,
+            year,
+            user_id
+
+        })
+        await trx('income').where({ id }).update({
+            amount,
+            source,
+            user_id
+        })
+    })
 }
 
 //Delete a income entry for specific user
-const deleteIncome = async ( userId, incomeId) => {
-  return await db('income').where({user_id: userId, income_id: incomeId}).del()
+const deleteIncome = async (id) => {
+  return db.transaction(async (trx) => {
+    await trx('income').where({id}).del()
+    await trx('date_details').where({id}).del()
+  })
 }
 
 
@@ -47,9 +76,9 @@ const deleteIncome = async ( userId, incomeId) => {
 module.exports = {
     getAllIncomeByUser,
     getIncomeById,
-    createIncome,
     updateIncome,
-    deleteIncome
+    deleteIncome,
+    addIncomeWithDate
 }
 
 
