@@ -4,7 +4,7 @@ const Savings = require('../models/savings-Model')
 // Get All income entries for a specific user
 exports.getAllSavingsByUser = async (req,res) => {
     try {
-        const userId = req.user.id;
+        const userId = req.decoded.subject;
         const savings = await Savings.getAllSavingsByUser(userId);
         res.status(200).json(savings)
     }
@@ -32,44 +32,54 @@ exports.getSavingsById = async (req,res) => {
 
 // Create a new income entry for specific user
 exports.createSavings = async (req,res) => {
+    const user_id = req.decoded.subject;
+    const { date, month, year, amount, description } = req.body;
     try {
-        const userId = req.user.id;
-        const savings = await Savings.createSavings(userId, req.body);
-        res.status(201).json(savings)
+        if (!user_id) {
+            return res.status(400).json({ message: 'User ID is missing in the token.' });
+          }
+     await Savings.createSavings({date, month, year, amount, description, user_id});
+     res.status(201).json({ message: 'Savings entry added successfully' });
     }
     catch(error){
-        res.status(500).json({error: error.message})
+        console.error('Error adding Savings entry:', error);
+        res.status(500).json({ message: 'Error adding savings entry', error });
     }
 }
 
 
 //Updates a income entry for specific user
 exports.updateSavings = async (req, res) => {
+    const { id, date, month, year, amount, description } = req.body;
+    const user_id = req.decoded.subject;
+    if (!user_id) {
+        return res.status(400).json({ message: 'User ID is missing in the token.' });
+    }
     try {
-        const userId = req.user.id;
-        const updatedSavings = await Savings.updateSavings(userId, req.params.id, req.body);
-        if (updatedSavings !== null) {
-            res.status(200).json(updatedSavings);
-        } else {
-            res.status(404).json({ message: 'Savings not found' });
-        }
+    
+         await Savings.updateSavings({ id, date,month, year, amount, description, user_id});
+         res.status(200).json({ message: 'Savings entry updated successfully' });   
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Error updating income entry:', error);
+        res.status(500).json({ message: 'Error updating income entry', error });
     }
 };
 
 //Delete a income entry for specific user
 exports.deleteSavings = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const deleted = await Savings.deleteSavings(userId, req.params.id);
-        if (deleted) {
-            res.status(204).json();
-        } else {
-            res.status(404).json({ message: 'Savings not found' });
+        const {id} = req.params;
+        const user_id = req.decoded.subject;
+
+        if (!user_id) {
+            return res.status(400).json({ message: 'User ID is missing in the token.' });
         }
+
+         await Savings.deleteSavings(id);
+         res.status(200).json({ message: 'Savings entry deleted successfully' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Error deleting savings entry:', error);
+        res.status(500).json({ message: 'Error deleting savings entry', error });
     }
 };
 
