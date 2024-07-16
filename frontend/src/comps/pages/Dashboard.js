@@ -11,13 +11,15 @@ import { fetchTransactions } from "../../state/actionCreators";
 import IncomeForm from "./IncomeForm";
 import ExpensesForm from "./ExpenseForm";
 import SavingsForm from "./SavingsForm";
+import CategoryForm from "./CategoryForm";
  /* User Wants to be able to use visual represntations of financial data based on the month that they select */
 
 function Dashboard({fetchTransactions, transactions}) {
     const [modalState, setModalState] = useState({
         income: false,
         expenses: false,
-        savings: false
+        savings: false,
+        category: false
       });
     
       const handleOpenModal = (modal) => setModalState({ ...modalState, [modal]: true });
@@ -45,6 +47,7 @@ function Dashboard({fetchTransactions, transactions}) {
             <div className="expense-section">
                 <h3> Expenses</h3>
                 <Button variant="outlined" onClick={ () => handleOpenModal('expenses')}> Log Expenses</Button>
+                <Button variant="outlined" onClick= { () => handleOpenModal('category')}> Create Category</Button>
                 <ExpensesSection />
             </div>
             <div className="savings-section"> 
@@ -52,9 +55,11 @@ function Dashboard({fetchTransactions, transactions}) {
                 <Button variant="outlined" onClick={() => handleOpenModal('savings')}> Log Savings</Button>
                 <SavingsSection />
             </div>
-            <IncomeForm open={modalState.income} handleClose={() => handleCloseModal('income')} />
+        <IncomeForm open={modalState.income} handleClose={() => handleCloseModal('income')} />
       <ExpensesForm open={modalState.expenses} handleClose={() => handleCloseModal('expenses')} />
       <SavingsForm open={modalState.savings} handleClose={() => handleCloseModal('savings')} />
+      <CategoryForm open={modalState.category} handleClose={() => handleCloseModal('category')} />
+
         </div>
     )
 }
