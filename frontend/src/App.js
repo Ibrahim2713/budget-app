@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import Login from "./comps/auth/Login";
 import Signup from "./comps/auth/Signup";
 import Dashboard from "./comps/pages/Dashboard";
-import ExpenseLog from "./comps/pages/ExpenseLog";
-
+import ExpenseForm from "./comps/pages/ExpenseForm";
+import IncomeForm from "./comps/pages/IncomeForm";
+import SavingsForm from "./comps/pages/SavingsForm";
 
 
 // TODO
@@ -17,7 +18,9 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/home' element={<Dashboard />}/>
-        <Route path='/transactions' element={<ExpenseLog />} />
+        <Route path='/expenses' element={<ExpenseForm />} />
+        <Route path='/income' element={<IncomeForm />} />
+        <Route path='/savings' element={<SavingsForm />} />
       </Routes>
     </Router>
   );

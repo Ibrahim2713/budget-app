@@ -1,4 +1,4 @@
-const db = require('../../config/index')
+const db = require('../../database/db-config')
 
 
 // Get all categories
@@ -12,27 +12,28 @@ const getCategoryById = async (userId) => {
 };
 
 // Create a new category
-const createCategory = async (userId, category) => {
-    category.user_id = userId
-    const [newCategory] = await db('categories').insert(category).returning('*');
-    return newCategory;
-};
+const addCategory = async ({name, parent_id, user_id}) => {
+   return await db('categories').insert({
+    name,
+    parent_id,
+    user_id
+   }).returning('id')
+}
 
 // Update a category
-const updateCategory = async (userId, category, categoryId) => {
-    const [updatedCategory] = await db('categories').where({user_id: userId, category_id: categoryId }).update(category).returning('*');
-    return updatedCategory;
+const updateCategory = async (id, {name, parent_id, user_id}) => {
+    return await db('categories').where({id}).update({name, parent_id, user_id}).returning('id')
 };
 
 // Delete a category
-const deleteCategory = async (userId, categoryId) => {
-    return await db('categories').where({user_id: userId, category_id: categoryId}).del();
+const deleteCategory = async (id) => {
+    return await db('categories').where({id}).del();
 };
 
 module.exports = {
     getAllCategories,
     getCategoryById,
-    createCategory,
+    addCategory,
     updateCategory,
     deleteCategory,
 };

@@ -1,4 +1,4 @@
-const db = require('../../config/index')
+const db = require('../../database/db-config')
 
 // Get all date details
 const getAllDateDetails = async (userId) => {

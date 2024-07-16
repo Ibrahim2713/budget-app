@@ -3,8 +3,8 @@ const DateDetails = require('../models/dateDetails-Model');
 // Get all date details
 exports.getAllDateDetails = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const dateDetails = await DateDetails.getAllDateDetails(userId);
+        const user_id = req.decoded.subject;
+        const dateDetails = await DateDetails.getAllDateDetails(user_id);
         res.status(200).json(dateDetails);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -14,8 +14,8 @@ exports.getAllDateDetails = async (req, res) => {
 // Get date details by ID
 exports.getDateDetailsById = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const dateDetail = await DateDetails.getDateDetailsById(userId);
+        const user_id = req.decoded.subject;
+        const dateDetail = await DateDetails.getDateDetailsById(user_id);
         if (dateDetail) {
             res.status(200).json(dateDetail);
         } else {
@@ -28,11 +28,15 @@ exports.getDateDetailsById = async (req, res) => {
 
 // Get date details by specific date
 exports.getDateDetailsByDate = async (req, res) => {
+    const date = req.params.date;
+ 
+    const user_id = req.decoded.subject
+    
     try {
-        const date = req.params.date;
-        const userId = req.user.id
+       
+      
          // assuming date is passed as a URL parameter
-        const dateDetails = await DateDetails.getDateDetailsByDate(date,userId);
+        const dateDetails = await DateDetails.getDateDetailsByDate(date,user_id);
         if (dateDetails.length > 0) {
             res.status(200).json(dateDetails);
         } else {
@@ -46,10 +50,10 @@ exports.getDateDetailsByDate = async (req, res) => {
 // Get date details by specific month and year
 exports.getDateDetailsByMonthYear = async (req, res) => {
     try {
-        const userId = req.user.id
+        const user_id = req.decoded.subject;
         const month = req.params.month; // assuming month is passed as a URL parameter
         const year = req.params.year; // assuming year is passed as a URL parameter
-        const dateDetails = await DateDetails.getDateDetailsByMonthYear(month, year, userId);
+        const dateDetails = await DateDetails.getDateDetailsByMonthYear(month, year, user_id);
         if (dateDetails.length > 0) {
             res.status(200).json(dateDetails);
         } else {
@@ -63,8 +67,8 @@ exports.getDateDetailsByMonthYear = async (req, res) => {
 // Create new date details
 exports.createDateDetails = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const newDateDetails = await DateDetails.createDateDetails(userId,req.body);
+        const user_id = req.decoded.subject;
+        const newDateDetails = await DateDetails.createDateDetails(user_id,req.body);
         res.status(201).json(newDateDetails);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -74,7 +78,7 @@ exports.createDateDetails = async (req, res) => {
 // Update date details
 exports.updateDateDetails = async (req, res) => {
     try {
-        const userId = req.user.id;
+        const userId = req.decoded.subject;
         const updatedDateDetails = await DateDetails.updateDateDetails(userId, req.params.id, req.body);
         if (updatedDateDetails !== null) {
             res.status(200).json(updatedDateDetails);
@@ -89,7 +93,7 @@ exports.updateDateDetails = async (req, res) => {
 // Delete date details
 exports.deleteDateDetails = async (req, res) => {
     try {
-        const userId = req.user.id;
+        const userId = req.decoded.subject;
         const deleted = await DateDetails.deleteDateDetails(userId, req.params.id);
         if (deleted) {
             res.status(204).json();
