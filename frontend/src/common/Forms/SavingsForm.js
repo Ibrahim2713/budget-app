@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import GenericForm from '../GenericForm';
-import GenericModal from '../GenericModal';
+import GenericForm from './GenericForm';
+import GenericModal from '../../comps/GenericModal';
 
 const SavingsForm = ({ open, handleClose }) => {
   const [errors, setErrors] = useState({});

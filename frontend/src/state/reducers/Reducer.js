@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, SET_TRANSACTION, ADD_TRANSACTION } from "../actionTypes"
+import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, SET_TRANSACTION, ADD_TRANSACTION, SET_INCOME, ADD_INCOME } from "../actionTypes"
 
 
 
@@ -8,32 +8,24 @@ import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, SET_TRANSACTION, ADD_T
 
 
 export const initialState = {
-    rows: [  { name: 'Salary', goal: 300, actual: 75, difference: 24 },
-    { name: `Partner Salary`, goal: 237, actual: 9.0, difference: 37 },
-    { name: 'Side Hustle', goal: 262, actual: 16.0, difference: 24 },
-    { name: 'Dividends', goal: 305, actual: 3.7, difference: 67 },
-    { name: 'Reinbursement', goal: 0, actual: 150, difference: 0 },
-    { name: 'Gifts', goal: 0, actual: 0, difference: 0 }
-
-  ],
+  income : []
 }
 
 
 function IncomeReducer(state = initialState, action) {
   switch (action.type) {
-    case EDIT_CELL:
-      return {
-        ...state,
-        rows: state.rows.map((row, index) => {
-          if (index === action.payload.rowIndex) {
-            return {
-              ...row,
-              [action.payload.columnKey]: action.payload.value
-            };
+    case 
+      SET_INCOME:
+        return {
+          ...state,
+          income: action.payload
+        }
+        case ADD_INCOME:
+          return {
+            ...state,
+            income: [...state.income, action.payload]
           }
-          return row;
-        }),
-      };
+
     default:
       return state;
   }

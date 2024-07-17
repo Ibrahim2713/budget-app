@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import Login from "./comps/auth/Login";
 import Signup from "./comps/auth/Signup";
 import Dashboard from "./comps/pages/Dashboard";
-import ExpenseForm from "./comps/pages/ExpenseForm";
-import IncomeForm from "./comps/pages/IncomeForm";
-import SavingsForm from "./comps/pages/SavingsForm";
+import ExpenseForm from "./common/Forms/ExpenseForm";
+import IncomeForm from "./common/Forms/IncomeForm"
+import SavingsForm from "./common/Forms/SavingsForm"
+import IncomeAnalytics from "./comps/pages/IncomeAnalytics";
 
 
 // TODO
@@ -21,6 +22,7 @@ function App() {
         <Route path='/expenses' element={<ExpenseForm />} />
         <Route path='/income' element={<IncomeForm />} />
         <Route path='/savings' element={<SavingsForm />} />
+        <Route path='/income-analytics' element={<IncomeAnalytics />} />
       </Routes>
     </Router>
   );

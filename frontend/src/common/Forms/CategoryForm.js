@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import GenericModal from '../GenericModal';
-import GenericForm from '../GenericForm';
+import GenericForm from './GenericForm';
+import GenericModal from '../../comps/GenericModal';
 const CategoryForm = ({ open, handleClose}) => {
 const [categoryOptions, setCategoryOptions] = useState([]);
   const [errors, setErrors] = useState({});

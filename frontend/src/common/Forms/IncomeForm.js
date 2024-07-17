@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios'
-import GenericModal from '../GenericModal';
-import GenericForm from '../GenericForm';
+import GenericModal from '../../comps/GenericModal';
+import GenericForm from './GenericForm';
 const IncomeForm = ({ open, handleClose }) => {
   const [errors, setErrors] = useState({});
 const token = localStorage.getItem('token')

@@ -1,5 +1,46 @@
-import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, ADD_TRANSACTION, SET_TRANSACTION  } from "../actionTypes";
+import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, ADD_TRANSACTION, SET_TRANSACTION, SET_INCOME, ADD_INCOME  } from "../actionTypes";
 import axios from "axios";
+
+export const setIncome = (income) => ({
+  type: SET_INCOME,
+  payload: income,
+});
+
+export const addIncome = (income) => ({
+  type: ADD_INCOME,
+  payload: income,
+});
+
+
+export const fetchIncome = (token) => async (dispatch) => {
+  try {
+    const response = await axios.get('http://localhost:8000/api/income', {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(setIncome(response.data))
+  }
+  catch(error) {
+    console.error('There was an error fetching the income!', error);
+  }
+}
+
+export const postIncome = (token, data) => async (dipsatch) => {
+  try {
+    const response =  axios.post('http://localhost:8000/api/income', data, {
+      headers: {
+        authorization: token
+      }
+     } )
+     dipsatch(setIncome(response.data))
+  }
+  catch(error){
+    console.error('There was an error posting the income!', error);
+  }
+}
+
+
 
 export const editRow = (rowIndex, columnKey, value) => {
     return {

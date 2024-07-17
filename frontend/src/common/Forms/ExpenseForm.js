@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import GenericForm from '../GenericForm';
-import GenericModal from '../GenericModal';
+import GenericForm from './GenericForm'
+import GenericModal from '../../comps/GenericModal';
 
 const ExpensesForm = ({ open, handleClose }) => {
   const [categories, setCategories] = useState([]);

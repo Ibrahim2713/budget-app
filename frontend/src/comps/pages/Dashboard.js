@@ -8,13 +8,14 @@ import SavingsSection from "../../common/Savings/SavingsSection";
 import { useNavigate } from "react-router-dom";
 import { Button, Box, Typography, Modal } from "@mui/material";
 import { fetchTransactions } from "../../state/actionCreators";
-import IncomeForm from "./IncomeForm";
-import ExpensesForm from "./ExpenseForm";
-import SavingsForm from "./SavingsForm";
-import CategoryForm from "./CategoryForm";
+import IncomeForm from "../../common/Forms/IncomeForm";
+import ExpensesForm from "../../common/Forms/ExpenseForm";
+import SavingsForm from "../../common/Forms/SavingsForm";
+import CategoryForm from "../../common/Forms/CategoryForm";
  /* User Wants to be able to use visual represntations of financial data based on the month that they select */
 
 function Dashboard({fetchTransactions, transactions}) {
+    const navigate = useNavigate()
     const [modalState, setModalState] = useState({
         income: false,
         expenses: false,
@@ -35,6 +36,10 @@ function Dashboard({fetchTransactions, transactions}) {
       }
     }, [token]);
 
+    const handleRedirect = () => {
+      navigate('/income-analytics')
+    }
+
 
     return (
         <div className="dashboard-container">
@@ -42,6 +47,7 @@ function Dashboard({fetchTransactions, transactions}) {
             <div className="income-section">
                 <h3> Income </h3>
                 <Button variant="outlined" onClick={ () =>handleOpenModal('income')}>  Log Income </Button>
+                <Button variant="outlined" onClick={() => handleRedirect()}> View Analytics</Button>
                 <IncomeSection />
             </div>
             <div className="expense-section">
