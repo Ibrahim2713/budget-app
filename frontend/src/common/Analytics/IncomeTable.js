@@ -2,90 +2,31 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { editRow } from '../../state/actionCreators/index'
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TextField } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
-function IncomeTable({ rows, editRow }) {
-  const [editingCell, setEditingCell] = useState(null);
+function IncomeTable({data}) {
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'date', headerName: 'Date', width: 150 },
+    { field: 'amount', headerName: 'Amount', width: 150, type: 'number' },
+    { field: 'source', headerName: 'Source', width: 150 },
+  ];
+  
+  const rows = data.map((item, index) => ({
+    id: index + 1,
+    ...item,
+  }));
+  
+
  
-  const handleEdit = (rowIndex, columnKey, value) => {
-    editRow(rowIndex, columnKey, value);
-  };
- 
-
-  const handleCellClick = (rowIndex, columnKey) => {
-    setEditingCell({ rowIndex, columnKey });
-  };
-
-  const handleBlur = () => {
-    setEditingCell(null);
-  };
-
-  const inputProps = {
-    startAdornment: '$',
-    inputProps: {
-      style: { textAlign: 'right' },
-      pattern: '^[0-9]*$',
-
-    },
-  };
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Income source</TableCell>
-            <TableCell align="right">Goal</TableCell>
-            <TableCell align="right">Actual</TableCell>
-            <TableCell align="right">Difference</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, rowIndex) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'goal')}>
-                {editingCell?.rowIndex === rowIndex && editingCell?.columnKey === 'goal' ? (
-                  <TextField
-                    value={row.goal}
-                    onChange={(e) => handleEdit(rowIndex, 'goal', e.target.value)}
-                    onBlur={handleBlur}
-                    InputProps={inputProps}
-                  />
-                ) : (
-                  `$${row.goal}`
-                )}
-              </TableCell>
-              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'actual')}>
-                {editingCell?.rowIndex === rowIndex && editingCell?.columnKey === 'actual' ? (
-                  <TextField
-                    value={row.actual}
-                    onChange={(e) => handleEdit(rowIndex, 'actual', e.target.value)}
-                    onBlur={handleBlur}
-                    InputProps={inputProps}
-                  />
-                ) : (
-                  `$${row.actual}`
-                )}
-              </TableCell>
-              <TableCell align="right" onClick={() => handleCellClick(rowIndex, 'difference')}> 
-                  ${row.actual - row.goal}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div style={{ height: 400, width: '100%' }}>
+    <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
+  </div>
   );
-}
+  }
 
-const mapStateToProps = (state) => ({
-  rows: state.income.rows,
-});
 
-const mapDispatchToProps = {
-  editRow,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncomeTable);
+export default IncomeTable;
