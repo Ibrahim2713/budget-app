@@ -6,7 +6,7 @@ import Dashboard from "./comps/pages/Dashboard";
 import ExpenseForm from "./common/Forms/ExpenseForm";
 import IncomeForm from "./common/Forms/IncomeForm"
 import SavingsForm from "./common/Forms/SavingsForm"
-import IncomeAnalytics from "./comps/pages/IncomeAnalytics";
+import IncomeAnalytics from "./comps/pages/Analytics";
 
 
 // TODO
@@ -22,7 +22,7 @@ function App() {
         <Route path='/expenses' element={<ExpenseForm />} />
         <Route path='/income' element={<IncomeForm />} />
         <Route path='/savings' element={<SavingsForm />} />
-        <Route path='/income-analytics' element={<IncomeAnalytics />} />
+        <Route path='/analytics' element={<IncomeAnalytics />} />
       </Routes>
     </Router>
   );

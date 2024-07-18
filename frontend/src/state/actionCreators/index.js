@@ -1,4 +1,4 @@
-import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, ADD_TRANSACTION, SET_TRANSACTION, SET_INCOME, ADD_INCOME  } from "../actionTypes";
+import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, ADD_TRANSACTION, SET_TRANSACTION, SET_INCOME, ADD_INCOME, SET_DATE, SET_CATEGORY  } from "../actionTypes";
 import axios from "axios";
 
 export const setIncome = (income) => ({
@@ -41,39 +41,20 @@ export const postIncome = (token, data) => async (dipsatch) => {
 }
 
 
+export const setSelectedDate = (date) => ({
+  type: SET_DATE,
+  payload: date
+})
 
-export const editRow = (rowIndex, columnKey, value) => {
-    return {
-      type: EDIT_CELL,
-      payload: {
-        rowIndex,
-        columnKey,
-        value
-      }
-    };
-  };
 
-  export const editRowExpense = (rowIndex, columnKey, value) => {
-    return {
-      type: EDIT_CELL_EXPENSE,
-      payload: {
-        rowIndex,
-        columnKey,
-        value
-      }
-    };
-  };
+export const setSelectedCategory = (category) => ({
+  type: SET_CATEGORY,
+  payload: category
+})
 
-  export const editRowSaving = (rowIndex, columnKey, value) => {
-    return {
-      type: EDIT_CELL_SAVINGS,
-      payload: {
-        rowIndex,
-        columnKey,
-        value
-      }
-    };
-  };
+
+
+
 
   export const setTransactions = (transactions) => ({
     type: SET_TRANSACTION,

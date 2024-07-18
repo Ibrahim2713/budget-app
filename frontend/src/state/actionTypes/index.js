@@ -5,3 +5,5 @@ export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 export const SET_TRANSACTION = 'SET_TRANSACTION'
 export const ADD_INCOME = 'ADD_INCOME';
 export const SET_INCOME = 'SET_INCOME';
+export const SET_DATE = 'SET_DATE';
+export const SET_CATEGORY = 'SET_CATEGORY'

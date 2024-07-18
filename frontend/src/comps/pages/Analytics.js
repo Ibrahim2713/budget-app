@@ -1,10 +1,7 @@
 import React, {useState, useEffect}from 'react'
-import IncomeLineGraph from '../../common/Analytics/IncomeLineGraph';
-import IncomePieChart from '../../common/Analytics/IncomePieChart';
-import IncomeTable from '../../common/Analytics/IncomeTable';
 import { connect } from 'react-redux';
-import { fetchIncome } from '../../state/actionCreators';
-import { Typography, Drawer, Divider, List, ListItemButton, ListItem, ListItemIcon, ListItemText , Box, InputAdornment, TextField, IconButton, Grid, Button} from '@mui/material';
+import { setSelectedDate, setSelectedCategory} from '../../state/actionCreators';
+import {  Drawer, Divider, List, ListItemButton, ListItem, ListItemIcon, ListItemText , Box, InputAdornment, TextField, IconButton, Grid, Button, Paper, ToggleButtonGroup, ToggleButton} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -15,27 +12,14 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import IncomeAnalytics from '../../common/Income/IncomeAnalytics';
+import SavingsAnalytics from '../../common/Savings/SavingsAnalytics';
+import ExpensesAnalytics from '../../common/Expenses/ExpensesAnalytics';
 
-function IncomeAnalytics({income, fetchIncome}) {
+function Analytics({setSelectedDate, selectedDate, selectedCategory, setSelectedCategory }) {
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredIncome, setFilteredIncome] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const token = localStorage.getItem('token');
 
-
-    console.log(income)
-
-    useEffect(() => {
-      if (token) {
-        fetchIncome(token);
-      }
-    }, [token, fetchIncome]);
-
-  useEffect(() => {
-    const formattedData = formatDataByMonth(income, selectedDate);
-    setFilteredIncome(formattedData)
-  }, [income, selectedDate]);
 
     const handleChange = () => {
 
@@ -49,6 +33,10 @@ function IncomeAnalytics({income, fetchIncome}) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
   };
 
   
@@ -120,63 +108,56 @@ function IncomeAnalytics({income, fetchIncome}) {
           </Box>
         </Grid>
       </Grid>
-      <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
+      <Grid container justifyContent="center" style={{ marginTop: '30px' }}>
+        <Paper>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             views={['year', 'month']}
             label="Select Month"
             value={selectedDate}
-            onChange={(newValue) => {
-              setSelectedDate(newValue);
-            }}
+            onChange={(newValue) => setSelectedDate(newValue)}
             renderInput={(params) => <TextField {...params} helperText={null} />}
           />
         </LocalizationProvider>
+        </Paper>
       </Grid>
       <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
-        <Grid item xs={12} sm={8} md={6}>
-          <Box display="flex" justifyContent="center">
-            <IncomeLineGraph data={filteredIncome} />
-          </Box>
+        <Grid item>
+          <Button variant="contained" onClick={() => handleCategoryChange('income')}>
+            Income
+          </Button>
+          <Button variant="contained" onClick={() => handleCategoryChange('savings')}>
+            Savings
+          </Button>
+          <Button variant="contained" onClick={() => handleCategoryChange('expenses')}>
+            Expenses
+          </Button>
         </Grid>
       </Grid>
       <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
         <Grid item xs={12} sm={8} md={6}>
           <Box display="flex" justifyContent="center">
-            <IncomePieChart data={filteredIncome} />
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid container justifyContent="center" style={{marginTop: '20px'}}>
-        <Grid item xs={12} sm={8} ms={6} > 
-          <Box display="flex" justifyContent="center">
-            <IncomeTable data={filteredIncome} />
+            {selectedCategory === 'income' && <IncomeAnalytics />}
+            {selectedCategory === 'savings' && <SavingsAnalytics />}
+            {selectedCategory === 'expenses' && <ExpensesAnalytics />}
           </Box>
         </Grid>
       </Grid>
     </>
+  
   )
 }
-const formatDataByMonth = (income, selectedDate) => {
-  const filteredData = income.filter(item => {
-    const itemDate = new Date(item.date);
-    return itemDate.getMonth() === selectedDate.getMonth() && itemDate.getFullYear() === selectedDate.getFullYear();
-  });
 
-  return filteredData.map(item => ({
-    date: new Date(item.date).toISOString().split('T')[0],
-    amount: Math.floor(Number(item.amount)),
-    source: item.source
-  }));
-};
 
 
 const mapStateToProps = (state) => ({
-  income: state.income.income,
+  selectedDate: state.date.selectedDate,
+  selectedCategory: state.dateCategory.category
 });
 
 const mapDispatchToProps = {
-  fetchIncome,
+  setSelectedDate,
+  setSelectedCategory
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncomeAnalytics)
+export default connect(mapStateToProps, mapDispatchToProps)(Analytics)

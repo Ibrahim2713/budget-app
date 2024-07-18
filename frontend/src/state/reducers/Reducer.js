@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, SET_TRANSACTION, ADD_TRANSACTION, SET_INCOME, ADD_INCOME } from "../actionTypes"
+import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, SET_TRANSACTION, ADD_TRANSACTION, SET_INCOME, ADD_INCOME, SET_DATE, SET_CATEGORY } from "../actionTypes"
 
 
 
@@ -115,13 +115,47 @@ function TransactionReducer(state = transactionState, action) {
 }
 
 
+export const dateState = {
+  selectedDate: new Date()
+}
+
+function DateReducer(state  = dateState, action){
+  switch(action.type){
+    case SET_DATE:
+      return {
+        ...state,
+          selectedDate: action.payload
+      }
+    default:
+      return state
+  }
+}
+
+export const categoryState =  {
+  category: 'income'
+}
+
+function DateCategoryReducer  (state = categoryState, action) {
+  switch(action.type){
+    case SET_CATEGORY:
+      return {
+        ...state,
+        category: action.payload
+      }
+    default:
+      return state
+  }
+}
+
+
 
 
 const rootReducer = combineReducers({
     income: IncomeReducer,
     expense:ExpenseReducer,
     savings: SavingsReducer,
-    transactions: TransactionReducer
+    date: DateReducer,
+    dateCategory: DateCategoryReducer
 
 })
 

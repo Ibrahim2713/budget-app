@@ -5,10 +5,10 @@ function IncomeLineGraph({ data }) {
 
   return (
     <>
-      <h2>Income Analytics</h2>
+      <h2 style={{display: 'flex', justifyContent: 'center'}}>Income Analytics</h2>
       <LineChart
-        width={600}
-        height={300}
+        width={800}
+        height={500}
         data={data}
         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
       >
