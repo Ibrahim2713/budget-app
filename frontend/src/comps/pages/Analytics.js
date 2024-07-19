@@ -19,6 +19,7 @@ import ExpensesAnalytics from '../../common/Expenses/ExpensesAnalytics';
 function Analytics({setSelectedDate, selectedDate, selectedCategory, setSelectedCategory }) {
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    console.log(selectedDate)
 
 
     const handleChange = () => {

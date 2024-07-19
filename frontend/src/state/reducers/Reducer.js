@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, SET_TRANSACTION, ADD_TRANSACTION, SET_INCOME, ADD_INCOME, SET_DATE, SET_CATEGORY } from "../actionTypes"
+import {  SET_INCOME, ADD_INCOME, SET_DATE, SET_CATEGORY, SET_SAVINGS, ADD_SAVINGS, SET_EXPENSE,ADD_EXPENSE } from "../actionTypes"
 
 
 
@@ -30,84 +30,45 @@ function IncomeReducer(state = initialState, action) {
       return state;
   }
 }
-export const expenseState = {
-  rows: [  { name: 'Rent', goal: 300, actual: 75, difference: 24 },
-  { name: `Groceries`, goal: 237, actual: 9.0, difference: 37 },
-  { name: 'Eating Out', goal: 262, actual: 16.0, difference: 24 },
-  { name: 'Medical', goal: 305, actual: 3.7, difference: 67 },
-  { name: 'Clothes', goal: 0, actual: 150, difference: 0 },
-  { name: 'Car', goal: 0, actual: 0, difference: 0 },
-  { name: 'Holiday', goal: 0, actual: 0, difference: 0 },
-  { name: 'Utilities', goal: 0, actual: 0, difference: 0 }
-
-],
-}
-
-function ExpenseReducer(state = expenseState, action) {
-  switch(action.type){
-    case EDIT_CELL_EXPENSE:
-      return {
-        ...state,
-        rows: state.rows.map((row, index) => {
-          if (index === action.payload.rowIndex) {
-            return {
-              ...row,
-              [action.payload.columnKey]: action.payload.value
-            };
-          }
-          return row;
-        }),
-      };
-    default:
-      return state;
-  }
-}
 
 export const SavingsState = {
-  rows: [  { name: 'Emeregency Fund', goal: 300, actual: 75, difference: 24 },
-  { name: `College Fund`, goal: 237, actual: 9.0, difference: 37 },
-  { name: 'Retirement', goal: 262, actual: 16.0, difference: 24 },
-  { name: 'Renovations', goal: 305, actual: 3.7, difference: 67 },
-  { name: 'Holidays', goal: 0, actual: 150, difference: 0 },
-  { name: 'Gifts', goal: 0, actual: 0, difference: 0 },
-],
+  savings: []
 }
+
+
 
 function SavingsReducer(state = SavingsState , action) {
   switch(action.type){
-    case EDIT_CELL_SAVINGS:
+    case SET_SAVINGS:
       return {
         ...state,
-        rows: state.rows.map((row, index) => {
-          if (index === action.payload.rowIndex) {
-            return {
-              ...row,
-              [action.payload.columnKey]: action.payload.value
-            };
+          savings: action.payload
           }
-          return row;
-        }),
-      };
+      case ADD_SAVINGS:
+        return {
+          ...state,
+          savings: [...state.savings, action.payload]
+        }
     default:
       return state;
   }
 }
 
- export const transactionState = {
-  transactions: []
+ export const expensesState = {
+  expenses: []
  }
 
-function TransactionReducer(state = transactionState, action) {
+function ExpenseReducer(state = expensesState, action) {
   switch(action.type){
-    case SET_TRANSACTION:
+    case SET_EXPENSE:
       return{
         ...state,
-        transactions: action.payload
+        expenses: action.payload
       };
-      case ADD_TRANSACTION:
+      case ADD_EXPENSE:
         return {
           ...state,
-          transactions: [...state.transactions, action.payload]
+          expenses: [...state.expenses, action.payload]
         }
         default : 
         return state

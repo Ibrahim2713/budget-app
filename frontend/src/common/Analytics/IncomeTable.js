@@ -9,7 +9,7 @@ function IncomeTable({data}) {
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'date', headerName: 'Date', width: 150 },
     { field: 'amount', headerName: 'Amount', width: 150, type: 'number' },
-    { field: 'source', headerName: 'Source', width: 150 },
+    { field: 'description', headerName: 'Description', width: 150 },
   ];
   
   const rows = data.map((item, index) => ({

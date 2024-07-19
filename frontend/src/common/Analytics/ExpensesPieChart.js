@@ -1,15 +1,12 @@
-import React from 'react'
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import React from 'react';
+import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#FF00BF'];
 
-
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-function IncomePieChart({ data }) {
-    return (
-        <>
+export default function ExpensesPieChart({data}) {
+  return (
+    <>
           <PieChart width={400} height={400}>
             <Pie
               data={data}
@@ -25,12 +22,11 @@ function IncomePieChart({ data }) {
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip 
+          formatter={(value, name, props) => [`Amount: ${value}`, `Category: ${props.payload.category}`]}
+        />
             <Legend />
           </PieChart>
         </>
-      );
-    }
-
-
-export default IncomePieChart;
+  )
+}

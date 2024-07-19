@@ -1,4 +1,4 @@
-import { EDIT_CELL, EDIT_CELL_EXPENSE, EDIT_CELL_SAVINGS, ADD_TRANSACTION, SET_TRANSACTION, SET_INCOME, ADD_INCOME, SET_DATE, SET_CATEGORY  } from "../actionTypes";
+import {  SET_INCOME, ADD_INCOME, SET_DATE, SET_CATEGORY, SET_SAVINGS, ADD_SAVINGS, SET_EXPENSE, ADD_EXPENSE  } from "../actionTypes";
 import axios from "axios";
 
 export const setIncome = (income) => ({
@@ -41,6 +41,48 @@ export const postIncome = (token, data) => async (dipsatch) => {
 }
 
 
+export const setSavings = (savings) => ({
+  type: SET_SAVINGS,
+  payload: savings
+
+})
+
+export const addSavings = (savings) => ({
+  type: ADD_SAVINGS,
+  payload: savings
+})
+
+export const fetchSavings = (token) => async (dispatch) => {
+  try {
+    const response = await axios.get('http://localhost:8000/api/savings', {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(setSavings(response.data))
+  }
+  catch(error) {
+    console.error('There was an error fetching the savings!', error);
+  }
+}
+
+
+export const postSavings = (token, data) => async (dipsatch) => {
+  try {
+    const response =  axios.post('http://localhost:8000/api/savings', data, {
+      headers: {
+        authorization: token
+      }
+     } )
+     dipsatch(setSavings(response.data))
+  }
+  catch(error){
+    console.error('There was an error posting the savings!', error);
+  }
+}
+
+
+
 export const setSelectedDate = (date) => ({
   type: SET_DATE,
   payload: date
@@ -56,41 +98,41 @@ export const setSelectedCategory = (category) => ({
 
 
 
-  export const setTransactions = (transactions) => ({
-    type: SET_TRANSACTION,
-    payload: transactions,
+  export const setExpenses = (expenses) => ({
+    type: SET_EXPENSE,
+    payload: expenses,
   });
   
-  export const addTransaction = (transaction) => ({
-    type: ADD_TRANSACTION,
-    payload: transaction,
+  export const addExpenses = (expenses) => ({
+    type: ADD_EXPENSE,
+    payload: expenses,
   });
 
-  export const fetchTransactions = (token) =>  async (dipsatch) => {
+  export const fetchExpenses = (token) =>  async (dipsatch) => {
     try {
-     const response = await axios.get('http://localhost:8000/api/transactions', {
+     const response = await axios.get('http://localhost:8000/api/expenses', {
         headers: {
           authorization: token
         }
       })
-      dipsatch(setTransactions(response.data))
+      dipsatch(setExpenses(response.data))
     }
     catch(error) {
-      console.error('There was an error fetching the transactions!', error);
+      console.error('There was an error fetching the expenses!', error);
     }
   }
 
-  export const postTransaction = (token, data) => async (dipsatch) => {
+  export const postExpenses = (token, data) => async (dipsatch) => {
     try {
-      const response =  axios.post('http://localhost:8000/api/transactions', data, {
+      const response =  axios.post('http://localhost:8000/api/expenses', data, {
         headers: {
           authorization: token
         }
        } )
-       dipsatch(addTransaction(response.data))
+       dipsatch(addExpenses(response.data))
     }
     catch(error){
-      console.error('There was an error posting the transactions!', error);
+      console.error('There was an error posting the expenses!', error);
     }
   }
 

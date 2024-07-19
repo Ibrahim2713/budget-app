@@ -1,7 +1,6 @@
 import React from "react";
 import "./Expenses.css";
 import ExpensesOverview from "./ExpensesOverview";
-import ExpensesLineChart from "../Analytics/ExpensesLineChart";
 import ExpensesBreakdown from "../Analytics/ExpensesBreakdown";
 
 function ExpensesSection() {
@@ -12,7 +11,7 @@ function ExpensesSection() {
       </div>
       <div className="expenses-overview-container">
         <ExpensesOverview />
-        <ExpensesLineChart />
+    
       </div>
       <div className="expenses-visual-container">
         <ExpensesBreakdown />

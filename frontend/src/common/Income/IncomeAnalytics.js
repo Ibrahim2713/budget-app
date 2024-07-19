@@ -1,22 +1,46 @@
 import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
-import { Grid, Box, Paper } from '@mui/material'
+import { Grid, Box, Paper, CircularProgress } from '@mui/material'
 import IncomeLineGraph from '../Analytics/IncomeLineGraph';
 import IncomePieChart from '../Analytics/IncomePieChart';
 import IncomeTable from '../Analytics/IncomeTable';
 import { fetchIncome } from '../../state/actionCreators';
 import { formatDataByMonth } from '../../utils/formatData';
 
-function IncomeAnalytics({fetchIncome, income}) {
-    const token = localStorage.getItem('token');
+function IncomeAnalytics({fetchIncome, income, selectedDate}) {
     const [filteredIncome, setFilteredIncome] = useState([]);
-
+    const [loading, setLoading] = useState(true);
+ 
 
     useEffect(() => {
-        if (token) {
-          fetchIncome(token);
-        }
-      }, [token, fetchIncome]);
+      const token = localStorage.getItem('token');
+      if (token) {
+        fetchIncome(token).then(() => {
+          setLoading(false); // Set loading to false after data is fetched
+        });
+      }
+    }, [fetchIncome]);
+
+    useEffect(() => {
+      const formattedData = formatDataByMonth(income, selectedDate);
+      setFilteredIncome(formattedData);
+    }, [income, selectedDate]);
+
+
+
+    if (loading) {
+      return (
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          <CircularProgress />
+        </Box>
+      );
+    }
+  
+
+
+
+
+
 
 
 
@@ -52,6 +76,7 @@ function IncomeAnalytics({fetchIncome, income}) {
 
 const mapStateToProps = (state) => ({
     income: state.income.income,
+    selectedDate: state.date.selectedDate
   });
   
   const mapDispatchToProps = {

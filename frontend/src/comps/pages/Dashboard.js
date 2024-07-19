@@ -7,14 +7,13 @@ import ExpensesSection from "../../common/Expenses/ExpensesSection";
 import SavingsSection from "../../common/Savings/SavingsSection";
 import { useNavigate } from "react-router-dom";
 import { Button, Box, Typography, Modal } from "@mui/material";
-import { fetchTransactions } from "../../state/actionCreators";
 import IncomeForm from "../../common/Forms/IncomeForm";
 import ExpensesForm from "../../common/Forms/ExpenseForm";
 import SavingsForm from "../../common/Forms/SavingsForm";
 import CategoryForm from "../../common/Forms/CategoryForm";
  /* User Wants to be able to use visual represntations of financial data based on the month that they select */
 
-function Dashboard({fetchTransactions, transactions}) {
+function Dashboard({ transactions}) {
     const navigate = useNavigate()
     const [modalState, setModalState] = useState({
         income: false,
@@ -29,15 +28,10 @@ function Dashboard({fetchTransactions, transactions}) {
 
 
     const token = localStorage.getItem('token')
-  
-    useEffect(() => {
-      if (token) {
-        fetchTransactions(token);
-      }
-    }, [token]);
+
 
     const handleRedirect = () => {
-      navigate('/income-analytics')
+      navigate('/analytics')
     }
 
 
@@ -71,11 +65,11 @@ function Dashboard({fetchTransactions, transactions}) {
 }
 
 const mapStateToProps = (state) => ({
-    transactions : state.transactions.transactions
+   
   })
 
   const mapDispatchToProps =  {
-    fetchTransactions,
+ 
   }
 
 
