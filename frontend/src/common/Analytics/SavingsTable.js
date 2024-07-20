@@ -1,7 +1,7 @@
 import React from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 
-function SavingsTable({data}) {
+function SavingsTable() {
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         { field: 'date', headerName: 'Date', width: 150 },

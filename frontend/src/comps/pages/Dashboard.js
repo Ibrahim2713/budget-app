@@ -27,7 +27,7 @@ function Dashboard({ transactions}) {
   
 
 
-    const token = localStorage.getItem('token')
+
 
 
     const handleRedirect = () => {

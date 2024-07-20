@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { LinearProgress, Typography, Container, Grid } from "@mui/material";
  import { groupTransactionsByMonth } from "../../utils/dataTransform";
-function IncomeBar({rows, transactions}) {
-  console.log(transactions
-    
+function IncomeBar({ transactions}) {
+
+    const rows = [];
     // User wants to get acculmated income from 
     
     
-    )
+    
   // gets the total of goal from income table
   const totalGoal = rows.reduce((acc, row) => {
     const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
@@ -53,10 +53,9 @@ function IncomeBar({rows, transactions}) {
   );
 }
 const mapStateToProps = (state) => ({
-  rows: state.income.rows,
-  transactions : state.transactions.transactions
+  
 
 });
 
 
-export default connect(mapStateToProps)(IncomeBar);
+export default IncomeBar;

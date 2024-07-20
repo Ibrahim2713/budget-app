@@ -1,13 +1,13 @@
 import React from 'react';
 import {  Typography, Grid } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Scatter, ScatterChart} from 'recharts';
 
 
 
 function ExpensesLineGraph  ({data})  {
 
 
-
+  console.log(data)
 
   return (
     <>
@@ -15,14 +15,19 @@ function ExpensesLineGraph  ({data})  {
         Expenses Trend
       </Typography>
       <Grid container justifyContent="center">
-        <LineChart width={600} height={300} data={data} >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip formatter={(value, name, props) => [`${value}`, `${props.payload.category}`]} />
-          <Legend />
-          <Line type="monotone" dataKey="expenses" stroke="#8884d8" />
-        </LineChart>
+        <Grid item xs={12} sm={8} md={6}>
+        
+            <LineChart width={700} height={500}data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip formatter={(value, name, props) => [`${value}`, `${props.payload.category}`]} />
+              <Legend />
+              <Line type="monotone" dataKey="amount" stroke="#FF0000" strokeWidth={5} />
+              <Scatter data={data} fill="red" />
+            </LineChart>
+   
+        </Grid>
       </Grid>
     </>
   );

@@ -44,30 +44,19 @@ function ExpensesAnalytics({fetchExpenses, expenses, selectedDate}) {
   }
   return (
     <>
-      <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
-        <Grid item xs={12} sm={8} md={6}>
-          <Box display="flex" justifyContent="center">
-            <Paper>
-            <ExpensesLineGraph data={filteredExpenses} />
-            </Paper>
-          </Box>
-        </Grid>
+  <Grid container direction="column" alignItems="center" spacing={3} style={{ marginTop: '20px' }}>
+      <Grid item xs={12} sm={8} md={6}>
+        <Paper>
+          <ExpensesLineGraph data={filteredExpenses} />
+        </Paper>
       </Grid>
-      <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
-        <Grid item xs={12} sm={8} md={6}>
-          <Box display="flex" justifyContent="center">
+      <Grid item xs={12} sm={8} md={6}>
+        <Paper>
           <ExpensesPieChart data={filteredExpenses} />
-          </Box>
-        </Grid>
+        </Paper>
       </Grid>
-      <Grid container justifyContent="center" style={{marginTop: '20px'}}>
-        <Grid item xs={12} sm={8} ms={6} > 
-          <Box display="flex" justifyContent="center">
-          
-          </Box>
-        </Grid>
-      </Grid>
-   </>
+    </Grid>
+  </>
   )
 }
 

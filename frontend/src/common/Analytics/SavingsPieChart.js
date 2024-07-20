@@ -7,8 +7,9 @@ import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#FF00BF'];
 
 
-function SavingsPieChart({rows}) {
+function SavingsPieChart() {
 
+  const rows = [];
 const data = rows.map((row) => ({
   name: row.name,
   value: row.actual,
@@ -44,8 +45,6 @@ const data = rows.map((row) => ({
   );
 }
 
-const mapStateToProps = (state) => ({
-  rows: state.savings.rows,
-});
 
-export default connect(mapStateToProps)(SavingsPieChart);
+
+export default SavingsPieChart;

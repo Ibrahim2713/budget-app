@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { editRow } from '../../state/actionCreators/index'
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-function IncomeTable({data}) {
+function IncomeTable() {
+
+
+  const data = []
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'date', headerName: 'Date', width: 150 },

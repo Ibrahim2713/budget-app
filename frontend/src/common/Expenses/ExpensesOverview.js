@@ -1,9 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
 import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 
 
-function ExpensesOverview({rows}) {
+function ExpensesOverview() {
+
+  const rows = [];
   // gets the total of goal from expense table
   const totalGoal = rows.reduce((acc, row) => {
     const goalValue = typeof row.goal === 'number' ? row.goal : parseFloat(row.goal.replace(/,/g, ''));
@@ -71,10 +72,8 @@ function ExpensesOverview({rows}) {
     )
 }
 
-const mapStateToProps = (state) => ({
-  rows: state.expense.rows,
-});
 
 
 
-export default connect(mapStateToProps)(ExpensesOverview);
+
+export default ExpensesOverview;

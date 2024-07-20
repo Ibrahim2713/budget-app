@@ -4,7 +4,8 @@ import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 
 
 
-function ExpenseBar({rows, transactions}) {
+function ExpenseBar() {
+  const rows = [];
 
 // User wants the accumlated expenses from their expense logs in visual bar format that corresponds with each month
 //POA
@@ -61,9 +62,6 @@ function ExpenseBar({rows, transactions}) {
 </Container>
     )
 }
-const mapStateToProps = (state) => ({
-  rows: state.expense.rows,
-  transactions : state.transactions.transactions
-});
 
-export default connect(mapStateToProps)(ExpenseBar)
+
+export default ExpenseBar

@@ -4,7 +4,9 @@ import { LinearProgress, Typography, Grid, Container } from "@mui/material";
 
 
 
-function SavingsBar({rows}) {
+function SavingsBar() {
+
+  const rows = [];
    // gets the total of goal from savings table
  const totalGoal = rows.reduce((acc, row) => {
   const goalValue = typeof row.actual === 'number' ? row.actual : parseFloat(row.actual.replace(/,/g, ''));
@@ -46,9 +48,7 @@ function SavingsBar({rows}) {
 </Container>
     )
 }
-const mapStateToProps = (state) => ({
-  rows: state.savings.rows,
-});
 
-export default connect(mapStateToProps)(SavingsBar)
+
+export default SavingsBar
 

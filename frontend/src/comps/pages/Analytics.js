@@ -1,7 +1,24 @@
-import React, {useState, useEffect}from 'react'
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setSelectedDate, setSelectedCategory} from '../../state/actionCreators';
-import {  Drawer, Divider, List, ListItemButton, ListItem, ListItemIcon, ListItemText , Box, InputAdornment, TextField, IconButton, Grid, Button, Paper, ToggleButtonGroup, ToggleButton} from '@mui/material';
+import { setSelectedDate, setSelectedCategory } from '../../state/actionCreators';
+import {
+  Drawer,
+  Divider,
+  List,
+  ListItemButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  InputAdornment,
+  TextField,
+  IconButton,
+  Grid,
+  Button,
+  Paper,
+  CircularProgress,
+  Typography
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -16,18 +33,17 @@ import IncomeAnalytics from '../../common/Income/IncomeAnalytics';
 import SavingsAnalytics from '../../common/Savings/SavingsAnalytics';
 import ExpensesAnalytics from '../../common/Expenses/ExpensesAnalytics';
 
-function Analytics({setSelectedDate, selectedDate, selectedCategory, setSelectedCategory }) {
-    const [open, setOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    console.log(selectedDate)
+function Analytics({ setSelectedDate, selectedDate, selectedCategory, setSelectedCategory }) {
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  console.log(selectedDate);
 
-
-    const handleChange = () => {
-
-    }
-    const handleSearch = () => {
-
-    }
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  const handleSearch = () => {
+    // Add search functionality here
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -40,15 +56,14 @@ function Analytics({setSelectedDate, selectedDate, selectedCategory, setSelected
     setSelectedCategory(category);
   };
 
-  
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon /> },
     { text: 'Analytics', icon: <AnalyticsIcon /> },
     { text: 'Account', icon: <AccountCircleIcon /> },
     { text: 'Settings', icon: <SettingsIcon /> },
-    { text: 'Log Out', icon: <ExitToAppIcon /> }
+    { text: 'Log Out', icon: <ExitToAppIcon /> },
+  ];
 
-  ]
   return (
     <>
       <Box>
@@ -62,67 +77,54 @@ function Analytics({setSelectedDate, selectedDate, selectedCategory, setSelected
           <MenuIcon />
         </IconButton>
       </Box>
-      <Box>
-        <Drawer
-          variant="persistent"
-          anchor="left"
-          open={open}
-        >
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Divider />
-          <List>
-            {menuItems.map((item, index) => (
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      </Box>
-      <Grid container justifyContent="center" style={{ marginTop: '10px' }}>
+      <Drawer variant="persistent" anchor="left" open={open}>
+        <IconButton onClick={handleDrawerClose}>
+          <ChevronLeftIcon />
+        </IconButton>
+        <Divider />
+        <List>
+          {menuItems.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <Grid container direction="column" alignItems="center" spacing={3} style={{ marginTop: '20px' }}>
         <Grid item xs={12} sm={8} md={6}>
-          <Box display="flex" justifyContent="center">
-            <TextField
-              variant='outlined'
-              placeholder='Search'
-              value={searchTerm}
-              onChange={handleChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton onClick={handleSearch}>
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-              fullWidth
-              sx={{ maxWidth: '500px' }}
-            />
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid container justifyContent="center" style={{ marginTop: '30px' }}>
-        <Paper>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            views={['year', 'month']}
-            label="Select Month"
-            value={selectedDate}
-            onChange={(newValue) => setSelectedDate(newValue)}
-            renderInput={(params) => <TextField {...params} helperText={null} />}
+          <TextField
+            variant="outlined"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={handleChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleSearch}>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
           />
-        </LocalizationProvider>
-        </Paper>
-      </Grid>
-      <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
+        </Grid>
+        <Grid item xs={12} sm={8} md={6}>
+          <Paper>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                views={['year', 'month']}
+                label="Select Month"
+                value={selectedDate}
+                onChange={(newValue) => setSelectedDate(newValue)}
+                renderInput={(params) => <TextField {...params} helperText={null} />}
+              />
+            </LocalizationProvider>
+          </Paper>
+        </Grid>
         <Grid item>
           <Button variant="contained" onClick={() => handleCategoryChange('income')}>
             Income
@@ -134,31 +136,24 @@ function Analytics({setSelectedDate, selectedDate, selectedCategory, setSelected
             Expenses
           </Button>
         </Grid>
-      </Grid>
-      <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
         <Grid item xs={12} sm={8} md={6}>
-          <Box display="flex" justifyContent="center">
-            {selectedCategory === 'income' && <IncomeAnalytics />}
-            {selectedCategory === 'savings' && <SavingsAnalytics />}
-            {selectedCategory === 'expenses' && <ExpensesAnalytics />}
-          </Box>
+          {selectedCategory === 'income' && <IncomeAnalytics />}
+          {selectedCategory === 'savings' && <SavingsAnalytics />}
+          {selectedCategory === 'expenses' && <ExpensesAnalytics />}
         </Grid>
       </Grid>
     </>
-  
-  )
+  );
 }
-
-
 
 const mapStateToProps = (state) => ({
   selectedDate: state.date.selectedDate,
-  selectedCategory: state.dateCategory.category
+  selectedCategory: state.dateCategory.category,
 });
 
 const mapDispatchToProps = {
   setSelectedDate,
-  setSelectedCategory
+  setSelectedCategory,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Analytics)
+export default connect(mapStateToProps, mapDispatchToProps)(Analytics);

@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { LinearProgress, Typography, Container, Grid } from "@mui/material";
 
-function IncomeOverview({rows}) {
+function IncomeOverview() {
+  const rows = [];
   // gets the total of goal from income table
   const totalGoal = rows.reduce((acc, row) => {
     const goalValue = typeof row.goal === 'number' ? row.goal : parseFloat(row.goal.replace(/,/g, ''));
@@ -60,8 +61,6 @@ function IncomeOverview({rows}) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  rows: state.income.rows,
-});
 
-export default connect(mapStateToProps)(IncomeOverview);
+
+export default IncomeOverview;

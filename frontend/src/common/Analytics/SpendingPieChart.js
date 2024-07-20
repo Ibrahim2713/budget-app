@@ -7,7 +7,8 @@ import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#FF00BF'];
 
 
-function SpendingPieChart({rows}) {
+function SpendingPieChart() {
+  const rows = [];
 
 const data = rows.map((row) => ({
   name: row.name,
@@ -45,7 +46,7 @@ const data = rows.map((row) => ({
 }
 
 const mapStateToProps = (state) => ({
-  rows: state.income.rows,
+
 });
 
-export default connect(mapStateToProps)(SpendingPieChart);
+export default SpendingPieChart;
