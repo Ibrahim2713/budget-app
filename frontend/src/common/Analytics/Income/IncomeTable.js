@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-function IncomeTable({data}) {
-
-
+function IncomeTable({ data }) {
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'date', headerName: 'Date', width: 150 },
@@ -15,17 +13,18 @@ function IncomeTable({data}) {
     id: index + 1,
     ...item,
   }));
-  
-
- 
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-    <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
-  </div>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        autoHeight
+      />
+    </div>
   );
-  }
-
-
+}
 
 export default IncomeTable;

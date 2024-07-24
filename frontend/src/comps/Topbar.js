@@ -26,9 +26,6 @@ function Topbar() {
             <NotificationsActiveOutlinedIcon />
         </IconButton>
         <IconButton>
-            <SettingsOutlinedIcon />
-        </IconButton>
-        <IconButton>
             <DashboardOutlinedIcon />
         </IconButton>
 

@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
+import {theme } from "./styles/theme"
 import Login from "./comps/auth/Login";
 import Signup from "./comps/auth/Signup";
 import Dashboard from "./comps/pages/Dashboard";
@@ -15,6 +17,8 @@ import Darkdashboard from "./comps/pages/Darkdashboard";
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
+
     <Router>
       <Routes>
       <Route path='/dashboard' element={<Darkdashboard />} />
@@ -27,6 +31,7 @@ function App() {
         <Route path='/analytics' element={<IncomeAnalytics />} />
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 }
 

@@ -1,16 +1,17 @@
 import React from 'react';
 import {  Typography, Grid } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { useTheme } from '@emotion/react';
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 function SavingsLineGraph({data}) {
+  const theme = useTheme()
   return (
     <>
-  <Typography variant="h5" align="center" gutterBottom>
-        Savings Trend
-      </Typography>
         <Grid container justifyContent="center">
         <Grid item xs={12} sm={8} md={6}>
         <div style={{  width: '100%', height: 500, overflow: 'auto'  }}>
+          
+        <ResponsiveContainer width="100%" height={400}>
     <LineChart
       width={800}
       height={400}
@@ -24,12 +25,13 @@ function SavingsLineGraph({data}) {
       <Line
         type="monotone"
         dataKey="amount"
-        stroke="#FF69B4"
+        stroke={theme.palette.savings.main}
         strokeWidth={5}
         dot={{ r: 5 }}
       />
      
     </LineChart>
+    </ResponsiveContainer>
     </div>
        </Grid>
       </Grid>
