@@ -1,29 +1,38 @@
 import React from 'react';
+import {  Typography, Grid } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
 
 function SavingsLineGraph({data}) {
   return (
     <>
-    <h2 style={{display: 'flex', justifyContent: 'center'}}>Savings Analytics</h2>
+  <Typography variant="h5" align="center" gutterBottom>
+        Savings Trend
+      </Typography>
+        <Grid container justifyContent="center">
+        <Grid item xs={12} sm={8} md={6}>
+        <div style={{  width: '100%', height: 500, overflow: 'auto'  }}>
     <LineChart
       width={800}
-      height={500}
+      height={400}
       data={data}
-      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="date" />
       <YAxis />
-      <Tooltip />
+      <Tooltip formatter={(value, name,props) => [`${value}`, `${props.payload.description}`]} />
       <Legend />
       <Line
         type="monotone"
         dataKey="amount"
-        stroke="rgba(75, 192, 192, 1)"
-        strokeWidth={3}
+        stroke="#FF69B4"
+        strokeWidth={5}
         dot={{ r: 5 }}
       />
+     
     </LineChart>
+    </div>
+       </Grid>
+      </Grid>
   </>
   )
 }

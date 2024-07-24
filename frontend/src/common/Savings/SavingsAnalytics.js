@@ -11,6 +11,7 @@ import { formatDataByMonth } from '../../utils/formatData';
 function SavingsAnalytics({savings, fetchSavings, selectedDate}) {
   const [filteredSavings, setFilteredSavings] = useState([]);
   const [loading, setLoading] = useState(true);
+ 
 
 
 
@@ -40,7 +41,7 @@ function SavingsAnalytics({savings, fetchSavings, selectedDate}) {
 
   return (
     <>
-    <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
+    <Grid container direction="column" alignItems="center" spacing={3} style={{ marginTop: '30px' }}>
     <Grid item xs={12} sm={8} md={6}>
       <Box display="flex" justifyContent="center">
         <Paper>

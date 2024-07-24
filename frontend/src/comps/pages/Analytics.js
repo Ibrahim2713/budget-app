@@ -19,6 +19,8 @@ import {
   CircularProgress,
   Typography
 } from '@mui/material';
+import '../../styles/Analytics.css'
+import { GreenButton,PinkButton,RedButton } from '../../styles/MuiTheme';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -36,7 +38,7 @@ import ExpensesAnalytics from '../../common/Expenses/ExpensesAnalytics';
 function Analytics({ setSelectedDate, selectedDate, selectedCategory, setSelectedCategory }) {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  console.log(selectedDate);
+
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -56,29 +58,34 @@ function Analytics({ setSelectedDate, selectedDate, selectedCategory, setSelecte
     setSelectedCategory(category);
   };
 
-  const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon /> },
-    { text: 'Analytics', icon: <AnalyticsIcon /> },
-    { text: 'Account', icon: <AccountCircleIcon /> },
-    { text: 'Settings', icon: <SettingsIcon /> },
-    { text: 'Log Out', icon: <ExitToAppIcon /> },
-  ];
 
+  const menuItems = [
+    { text: 'Dashboard', icon: <DashboardIcon className="white-icon" /> },
+    { text: 'Analytics', icon: <AnalyticsIcon className="white-icon" /> },
+    { text: 'Account', icon: <AccountCircleIcon className="white-icon" /> },
+    { text: 'Settings', icon: <SettingsIcon className="white-icon" /> },
+    { text: 'Log Out', icon: <ExitToAppIcon className="white-icon" /> },
+  ];
   return (
-    <>
+    <div className="analytics-container">
       <Box>
         <IconButton
-          color="inherit"
           aria-label="open drawer"
           edge="end"
           onClick={handleDrawerOpen}
           sx={{ ...(open && { display: 'none' }) }}
+          className="white-icon"
         >
           <MenuIcon />
         </IconButton>
       </Box>
-      <Drawer variant="persistent" anchor="left" open={open}>
-        <IconButton onClick={handleDrawerClose}>
+      <Drawer variant="persistent" anchor="left" open={open}  sx={{
+    '& .MuiDrawer-paper': {
+      backgroundColor: 'black',
+      color: 'white',
+    },
+  }}>
+        <IconButton onClick={handleDrawerClose} className="black-icon">
           <ChevronLeftIcon />
         </IconButton>
         <Divider />
@@ -101,9 +108,10 @@ function Analytics({ setSelectedDate, selectedDate, selectedCategory, setSelecte
             value={searchTerm}
             onChange={handleChange}
             InputProps={{
+              style: { backgroundColor: 'white', color: 'black' },
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleSearch}>
+                  <IconButton onClick={handleSearch} className="white-icon">
                     <SearchIcon />
                   </IconButton>
                 </InputAdornment>
@@ -126,23 +134,23 @@ function Analytics({ setSelectedDate, selectedDate, selectedCategory, setSelecte
           </Paper>
         </Grid>
         <Grid item>
-          <Button variant="contained" onClick={() => handleCategoryChange('income')}>
+          <GreenButton  className="income-button"onClick={() => handleCategoryChange('income')}>
             Income
-          </Button>
-          <Button variant="contained" onClick={() => handleCategoryChange('savings')}>
+          </GreenButton>
+          <PinkButton variant="contained" className="savings-button" onClick={() => handleCategoryChange('savings')}>
             Savings
-          </Button>
-          <Button variant="contained" onClick={() => handleCategoryChange('expenses')}>
+          </PinkButton>
+          <RedButton variant="contained" className="expenses-button" onClick={() => handleCategoryChange('expenses')}>
             Expenses
-          </Button>
+          </RedButton>
         </Grid>
-        <Grid item xs={12} sm={8} md={6}>
+        <Grid item xs={12} sm={11} md={10} lg={8}>
           {selectedCategory === 'income' && <IncomeAnalytics />}
           {selectedCategory === 'savings' && <SavingsAnalytics />}
           {selectedCategory === 'expenses' && <ExpensesAnalytics />}
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 }
 

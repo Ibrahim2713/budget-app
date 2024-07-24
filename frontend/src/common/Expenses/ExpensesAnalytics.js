@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Box, Paper, CircularProgress } from '@mui/material';
 import ExpensesLineGraph from '../Analytics/ExpensesLineGraph.js';
 import ExpensesPieChart from '../Analytics/ExpensesPieChart.js';
+import ExpenseTable from '../Analytics/ExpenseTable.js';
 import { fetchExpenses } from '../../state/actionCreators';
 import { formatDataByMonth } from '../../utils/formatData';
 
@@ -11,7 +12,7 @@ import { formatDataByMonth } from '../../utils/formatData';
 function ExpensesAnalytics({fetchExpenses, expenses, selectedDate}) {
   const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(expenses)
+  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -44,17 +45,26 @@ function ExpensesAnalytics({fetchExpenses, expenses, selectedDate}) {
   }
   return (
     <>
-  <Grid container direction="column" alignItems="center" spacing={3} style={{ marginTop: '20px' }}>
-      <Grid item xs={12} sm={8} md={6}>
-        <Paper>
+  <Grid container direction="column" alignItems="center" spacing={3} style={{ marginTop: '30px' }}>
+      <Grid item xs={12} sm={11} md={10} lg={8}>
+      <Paper elevation={3} style={{ padding: '20px' }}>
+   
           <ExpensesLineGraph data={filteredExpenses} />
-        </Paper>
+          
+      </Paper>
       </Grid>
       <Grid item xs={12} sm={8} md={6}>
-        <Paper>
+     
+      <Paper elevation={3} style={{ padding: '20px' }}>
           <ExpensesPieChart data={filteredExpenses} />
         </Paper>
       </Grid>
+      <Grid item xs={12} sm={8} md={6}>
+      <Paper elevation={3} style={{ padding: '20px' }}>
+        <ExpenseTable data={filteredExpenses} />
+        </Paper>
+        </Grid>
+      
     </Grid>
   </>
   )

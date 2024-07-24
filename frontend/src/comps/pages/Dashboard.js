@@ -11,7 +11,7 @@ import IncomeForm from "../../common/Forms/IncomeForm";
 import ExpensesForm from "../../common/Forms/ExpenseForm";
 import SavingsForm from "../../common/Forms/SavingsForm";
 import CategoryForm from "../../common/Forms/CategoryForm";
- /* User Wants to be able to use visual represntations of financial data based on the month that they select */
+
 
 function Dashboard({ transactions}) {
     const navigate = useNavigate()

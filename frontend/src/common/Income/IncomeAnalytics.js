@@ -10,6 +10,7 @@ import { formatDataByMonth } from '../../utils/formatData';
 function IncomeAnalytics({fetchIncome, income, selectedDate}) {
     const [filteredIncome, setFilteredIncome] = useState([]);
     const [loading, setLoading] = useState(true);
+   
  
 
     useEffect(() => {
@@ -46,27 +47,27 @@ function IncomeAnalytics({fetchIncome, income, selectedDate}) {
 
   return (
    <>
-      <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
+      <Grid container direction="column" alignItems="center" spacing={3} style={{ marginTop: '30px' }}>
         <Grid item xs={12} sm={8} md={6}>
-          <Box display="flex" justifyContent="center">
-            <Paper>
+          
+          <Paper elevation={3} style={{ padding: '20px' }}>
             <IncomeLineGraph data={filteredIncome} />
             </Paper>
-          </Box>
+         
         </Grid>
       </Grid>
       <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
         <Grid item xs={12} sm={8} md={6}>
-          <Box display="flex" justifyContent="center">
+        <Paper elevation={3} style={{ padding: '20px' }}>
             <IncomePieChart data={filteredIncome} />
-          </Box>
+          </Paper>
         </Grid>
       </Grid>
       <Grid container justifyContent="center" style={{marginTop: '20px'}}>
         <Grid item xs={12} sm={8} ms={6} > 
-          <Box display="flex" justifyContent="center">
+        <Paper elevation={3} style={{ padding: '20px' }}>
             <IncomeTable data={filteredIncome} />
-          </Box>
+          </Paper>
         </Grid>
       </Grid>
    </>

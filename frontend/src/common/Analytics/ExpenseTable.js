@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-function IncomeTable({data}) {
+function ExpenseTable({data}) {
 
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'date', headerName: 'Date', width: 150 },
     { field: 'amount', headerName: 'Amount', width: 150, type: 'number' },
-    { field: 'source', headerName: 'Source', width: 150 },
+    { field: 'category', headerName: 'Category', width: 150 },
   ];
   
   const rows = data.map((item, index) => ({
@@ -28,4 +28,4 @@ function IncomeTable({data}) {
 
 
 
-export default IncomeTable;
+export default ExpenseTable;

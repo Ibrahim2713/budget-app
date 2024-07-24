@@ -1,0 +1,29 @@
+
+
+.analytics-container {
+    background-color: black;
+    min-height: 100vh;
+    width: 100%;
+    color: white;
+  }
+  
+  .white-icon {
+    color: white !important;
+  }
+  
+  .black-icon {
+    color: black !important;
+  }
+  
+  .income-button {
+    background-color: #1DB954;
+    color: white;
+  }
+  
+  .savings-button {
+    background-color: gray;
+  }
+
+  .expenses-button {
+
+  }
