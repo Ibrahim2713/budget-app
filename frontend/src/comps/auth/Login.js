@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 import '../../styles/Login.css' // Import the CSS file
 import axios from "axios";
 
-import { Container, TextField, Button, Typography, Grid } from '@mui/material';
+import { Container, TextField, Button, Typography, Grid, Box } from '@mui/material';
 
 
 
 
 
 function Login() {
-
+const theme = useTheme()
 const [email, setEmail] = useState()
 const [password, setPassword] = useState()
 const navigate = useNavigate()
@@ -22,7 +23,7 @@ const handleLogin = (e) => {
   .then((res) => {
     const token = res.data.token
     localStorage.setItem('token', token)
-    navigate('/transactions')
+    navigate('/dashboard')
 
   })
   .catch(() => {
@@ -31,7 +32,24 @@ const handleLogin = (e) => {
 }
 
     return (
-        <Container maxWidth="xs" className="container">
+      <Box
+      sx={{
+        minHeight: "100vh", 
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: theme.palette.primary.main, 
+      }}
+    >
+        <Container
+        maxWidth="sm" 
+        sx={{
+          backgroundColor: theme.palette.primary.light,
+          padding: 4, 
+          borderRadius: 2,
+          boxShadow: 3, 
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h4" align="center" gutterBottom  className="title">
@@ -77,12 +95,16 @@ const handleLogin = (e) => {
             </form>
           </Grid>
           <Grid item xs={12}>
-            <Button variant='contained' color="secondary" fullWidth >
-              Register
+            <Button variant='contained' color="secondary" fullWidth sx={{
+                  backgroundColor: theme.palette.income.main,
+                  color: theme.palette.secondary.main
+            }} >
+              Create  Account
             </Button>
           </Grid>
         </Grid>
       </Container>
+      </Box>
     )
 }
 

@@ -1,8 +1,9 @@
 import React from 'react';
+import { useTheme } from '@emotion/react';
 import { DataGrid } from '@mui/x-data-grid';
 
 function ExpenseTable({data}) {
-
+  const theme = useTheme()
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -21,7 +22,18 @@ function ExpenseTable({data}) {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-    <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
+    <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]}  sx={{
+          color: theme.palette.secondary.main,
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: theme.palette.expenses.main + ' !important', // Header background color with !important
+          },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            color: theme.palette.expenses.main, // Header text color
+          },
+          '& .MuiDataGrid-cell': {
+            color: theme.palette.secondary.main, // Cell text color
+          },
+        }}/>
   </div>
   );
   }

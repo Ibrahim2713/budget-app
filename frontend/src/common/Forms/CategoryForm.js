@@ -6,6 +6,7 @@ const CategoryForm = ({ open, handleClose}) => {
 const [categoryOptions, setCategoryOptions] = useState([]);
   const [errors, setErrors] = useState({});
   const token = localStorage.getItem('token')
+  console.log(categoryOptions)
 
 
   useEffect(() => {

@@ -6,7 +6,10 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 
+
 function Topbar() {
+    const theme = useTheme()
+
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
         
@@ -20,13 +23,19 @@ function Topbar() {
     {/* Icons */}
     <Box display="flex">
         <IconButton>
-            <SettingsOutlinedIcon />
+            <SettingsOutlinedIcon  sx={{
+                color: theme.palette.secondary.main
+            }}/>
         </IconButton>
         <IconButton>
-            <NotificationsActiveOutlinedIcon />
+            <NotificationsActiveOutlinedIcon sx={{
+                color: theme.palette.secondary.main
+            }}/>
         </IconButton>
         <IconButton>
-            <DashboardOutlinedIcon />
+            <DashboardOutlinedIcon sx={{
+                color: theme.palette.secondary.main
+            }}/>
         </IconButton>
 
     </Box>

@@ -1,8 +1,9 @@
 import React from 'react'
+import { useTheme } from '@emotion/react';
 import { DataGrid } from '@mui/x-data-grid';
 
 function SavingsTable({data}) {
-
+  const theme = useTheme()
 
   
     const columns = [
@@ -18,7 +19,18 @@ function SavingsTable({data}) {
       }));
   return (
     <div style={{ height: 400, width: '100%' }}>
-    <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
+    <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]}  sx={{
+          color: theme.palette.secondary.main,
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: theme.palette.savings.main + ' !important', // Header background color with !important
+          },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            color: theme.palette.savings.main, // Header text color
+          },
+          '& .MuiDataGrid-cell': {
+            color: theme.palette.secondary.main, // Cell text color
+          },
+        }} />
   </div>
   )
 }

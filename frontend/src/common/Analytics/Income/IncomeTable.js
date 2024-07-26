@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTheme } from '@emotion/react';
 import { DataGrid } from '@mui/x-data-grid';
 
 function IncomeTable({ data }) {
+const theme = useTheme()
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'date', headerName: 'Date', width: 150 },
@@ -22,6 +25,18 @@ function IncomeTable({ data }) {
         pageSize={5}
         rowsPerPageOptions={[5]}
         autoHeight
+        sx={{
+          color: theme.palette.secondary.main,
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: theme.palette.income.main + ' !important', // Header background color with !important
+          },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            color: theme.palette.income.main, // Header text color
+          },
+          '& .MuiDataGrid-cell': {
+            color: theme.palette.secondary.main, // Cell text color
+          },
+        }}
       />
     </div>
   );

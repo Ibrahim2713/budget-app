@@ -6,14 +6,15 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Responsi
 function IncomeLineGraph({ data }) {
   const theme = useTheme()
  
+ 
   
   return (
     <>
       <Grid container justifyContent="center" style={{ marginTop: '30px' }}>
         <Grid item xs={12} sm={11} md={10} lg={8}>
           <div style={{ width: '100%', height: 500, overflow: 'auto' }}>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={data}>
+          <ResponsiveContainer width="100%" height={400}>
+    \       <LineChart width={800} height={400} data={data}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />

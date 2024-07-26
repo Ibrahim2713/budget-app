@@ -12,18 +12,15 @@ import { useNavigate } from "react-router-dom";
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState('Dashboard');
   const navigate = useNavigate()
   const theme = useTheme()
 
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon  />, link:'/dashboard' },
-    { text: 'Analytics', icon: <AnalyticsIcon /> , link:'/analytics'},
-    { text: 'Account', icon: <AccountCircleIcon  />},
-    { text: 'Settings', icon: <SettingsIcon  /> },
-    { text: 'Log Out', icon: <ExitToAppIcon  />},
+    { text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard' },
+    { text: 'Analytics', icon: <AnalyticsIcon />, link: '/analytics' },
+    { text: 'Settings', icon: <SettingsIcon />, link: '/settings' },
+    { text: 'Log Out', icon: <ExitToAppIcon />, action: () => logout() },
   ];
-
 
 const handleDrawerOpen = () => {
   setOpen(true);
@@ -74,14 +71,20 @@ const handleDrawerClose = () => {
                 }}
         >
          
-          <IconButton onClick={handleDrawerClose} className="black-icon">
+          <IconButton onClick={handleDrawerClose} >
           <ChevronLeftIcon />
         </IconButton>
         <Divider />
         <List>
           {menuItems.map((item) => (
             <ListItem key={item.text} disablePadding>
-              <ListItemButton onClick={() =>  navigate(item.link)}>
+         <ListItemButton onClick={() => {
+                  if (item.link) {
+                    navigate(item.link);
+                  } else if (item.action) {
+                    item.action();
+                  }
+                }}>
               <ListItemIcon sx={{ color: theme.palette.secondary.main }}> {item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
