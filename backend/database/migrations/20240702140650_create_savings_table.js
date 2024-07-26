@@ -6,7 +6,8 @@ exports.up = function(knex) {
     return knex.schema.createTable('savings', function(tbl) {
         tbl.increments('id').primary();
         tbl.decimal('amount', 14, 2).notNullable();
-        tbl.string('description').notNullable();
+        tbl.string('description');
+        tbl.integer('category_id').unsigned().references('id').inTable('savings_categories').onDelete('CASCADE');
         tbl.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('CASCADE');
         tbl.integer('date_detail_id').unsigned().notNullable().references('id').inTable('date_details').onDelete('CASCADE');
       });

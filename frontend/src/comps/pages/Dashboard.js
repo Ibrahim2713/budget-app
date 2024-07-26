@@ -6,7 +6,6 @@ import {
 } from "../../state/actionCreators";
 import { useTheme } from "@emotion/react";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import { GreenButton, PinkButton, RedButton } from "../../styles/MuiTheme";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import Topbar from "../Topbar";
@@ -51,6 +50,7 @@ const theme = useTheme();
     savings: false,
     category: false
   });
+
 
   const handleOpenModal = (modal) => setModalState({ ...modalState, [modal]: true });
   const handleCloseModal = (modal) => setModalState({ ...modalState, [modal]: false });

@@ -1,6 +1,18 @@
 
 export const tokens = (mode) => ({
 
+    gold: {
+        100: "#fff8e1",  /* Very light shade */
+        200: "#ffe8b3",  /* Lighter shade */
+        300: "#ffd700",  /* Base color */
+        400: "#e5c200",  /* Darker shade */
+        500: "#b38f00",  /* Even darker shade */
+        600: "#8c6600",  /* Very dark shade */
+        700: "#6a4d00",  /* Darker still */
+        800: "#4a3a00",  /* Approaching brown */
+        900: "#2d1d00"   /* Dark brownish gold */
+      },
+
     income: {
         100: "#cce6cc",
         200: "#99cc99",

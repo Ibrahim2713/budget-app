@@ -2,7 +2,11 @@ const db = require('../../database/db-config')
 
 // Get All expenses entries for a specific user
 const getAllExpensesByUser = async (userId) => {
-    return await db('expenses').where({user_id: userId}).select('*')
+    return await db('expenses')
+    .join('date_details', 'expenses.date_detail_id', 'date_details.id') 
+    .join('categories', 'expenses.category_id', 'categories.id') 
+    .where({'expenses.user_id': userId})
+    .select('expenses.*', 'date_details.date as date', 'categories.name as category');
 }
 
 // Get expenses by ID

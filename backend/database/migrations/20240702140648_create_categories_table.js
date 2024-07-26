@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable('categories', tbl => {
+    return knex.schema.createTable('expense_categories', tbl => {
       tbl.increments('id').primary();
       tbl.string('name').notNullable();
       tbl.integer('parent_id').unsigned().references('id').inTable('categories').onDelete('CASCADE');

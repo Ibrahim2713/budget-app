@@ -56,7 +56,7 @@ const handleDrawerClose = () => {
           onClick={handleDrawerOpen}
           sx={{ 
             ...(open && { display: 'none' }), 
-            color: theme.palette.secondary.main 
+            color: theme.palette.secondary.light
           }}
         >
           <MenuIcon />

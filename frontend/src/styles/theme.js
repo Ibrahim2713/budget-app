@@ -14,8 +14,13 @@ export const theme = createTheme({
       
     },
     secondary: {
-      main: "#FFFFFF", 
+      main: colorTokens.gold[300], 
+      light: colorTokens.gold[100]
     },
+    text: {
+      main: "#ffffff"
+    },
+
     income: {
       main: colorTokens.income[500],
     },
@@ -25,5 +30,6 @@ export const theme = createTheme({
     savings: {
       main: colorTokens.savings[500], // Ensure this exists if you're using it
     },
+
   },
 });

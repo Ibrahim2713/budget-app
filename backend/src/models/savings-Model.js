@@ -2,7 +2,10 @@ const db = require('../../database/db-config')
 
 // Get All savings entries for a specific user
 const getAllSavingsByUser = async (userId) => {
-     return await db('savings').where({user_id: userId}).select('*')
+     return await db('savings')
+     .join('date_details', 'savings.date_detail_id', 'date_details.id')
+     .where({ 'savings.user_id': userId })
+     .select('savings.*', 'date_details.date as date');
 }
 
 // Get savings by ID

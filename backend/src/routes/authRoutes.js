@@ -46,6 +46,26 @@ router.post('/login', (req,res,next) => {
 
 
 
+router.get('/', md.authenticated, async (req, res) => {
+    try {
+        const userId = req.decoded.subject;
+        const month = parseInt(req.query.month, 10); 
+        const year = parseInt(req.query.year, 10); 
+
+       
+        const userData = await User.getUserData(userId, month, year);
+
+        if (userData.length > 0) { 
+            res.status(200).json(userData);
+        } else {
+            res.status(404).json({ message: 'User data not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 
 
