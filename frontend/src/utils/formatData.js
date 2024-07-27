@@ -25,7 +25,7 @@ export const formatDataByMonth = (data, selectedDate) => {
           date: formattedDate,
           amount: Math.floor(Number(item.amount)),
           source: item.source,
-          category: item.category,
+          category: item.category_name,
           description: item.description
       };
   });

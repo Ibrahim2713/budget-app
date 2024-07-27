@@ -1,12 +1,18 @@
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> } 
+ */
 exports.seed = async function(knex) {
-  
-    // Start a transaction
- 
-      // Deletes ALL existing entries in the users table within the transaction
-      await knex('users').del();
+  await knex.transaction(async (trx) => {
+    try {
+      // Disable foreign key checks
+      await trx.raw('PRAGMA foreign_keys = OFF');
 
-      // Insert new users within the transaction
-      await knex('users').insert([
+      // Deletes ALL existing entries
+      await trx('users').del();
+
+      // Insert new users
+      await trx('users').insert([
         { id: 1, email: 'john.doe@example.com', first_name: 'John', last_name: 'Doe', password: 'password1' },
         { id: 2, email: 'jane.doe@example.com', first_name: 'Jane', last_name: 'Doe', password: 'password2' },
         { id: 3, email: 'alice.smith@example.com', first_name: 'Alice', last_name: 'Smith', password: 'password3' },
@@ -18,4 +24,12 @@ exports.seed = async function(knex) {
         { id: 9, email: 'grace.davis@example.com', first_name: 'Grace', last_name: 'Davis', password: 'password9' },
         { id: 10, email: 'henry.moore@example.com', first_name: 'Henry', last_name: 'Moore', password: 'password10' }
       ]);
+
+      // Re-enable foreign key checks
+      await trx.raw('PRAGMA foreign_keys = ON');
+    } catch (error) {
+      // Rollback transaction in case of error
+      throw error;
+    }
+  });
 };

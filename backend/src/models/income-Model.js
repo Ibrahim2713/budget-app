@@ -3,10 +3,21 @@ const db = require('../../database/db-config')
 // Get All income entries for a specific user
 const getAllIncomeByUser = async (userId) => {
     return await db('income')
-    .join('date_details', 'income.date_detail_id', 'date_details.id')
+        .join('date_details', 'income.date_detail_id', 'date_details.id')
+        .join('income_categories', 'income.category_id', 'income_categories.id')
         .where({ 'income.user_id': userId })
-        .select('income.*', 'date_details.date as date');
+        .select(
+            'income.*',
+            'date_details.date as date',
+            'income_categories.id as category_id',
+            'income_categories.name as category_name',
+            'date_details.month as month',  // Select month directly
+            'date_details.year as year'    // Select year directly
+        );
 }
+
+
+
 
 // Get income by ID
 const getIncomeById = async (userId) => {

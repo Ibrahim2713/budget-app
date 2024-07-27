@@ -8,7 +8,7 @@ exports.up = function(knex) {
         tbl.decimal('amount', 14, 2).notNullable();
         tbl.string('description')
         tbl.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('CASCADE');
-        tbl.integer('category_id').unsigned().notNullable().references('id').inTable('categories').onDelete('CASCADE');;
+        tbl.integer('category_id').unsigned().notNullable().references('id').inTable('expense_categories').onDelete('CASCADE');;
         tbl.integer('date_detail_id').unsigned().notNullable().references('id').inTable('date_details').onDelete('CASCADE');;
       });
 };

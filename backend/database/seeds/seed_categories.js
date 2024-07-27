@@ -10,10 +10,10 @@ exports.seed = async function(knex) {
       await trx.raw('PRAGMA foreign_keys = OFF');
 
       // Delete all existing entries in the categories table within the transaction
-      await trx('categories').del();
+      await trx('expense_categories').del();
 
       // Insert new categories and subcategories within the transaction
-      await trx('categories').insert([
+      await trx('expense_categories').insert([
         { id: 1, name: 'Housing', user_id: 1, parent_id: null },
         { id: 2, name: 'Transportation', user_id: 1, parent_id: null },
         { id: 3, name: 'Food', user_id: 2, parent_id: null },
