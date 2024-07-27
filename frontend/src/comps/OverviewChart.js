@@ -9,6 +9,8 @@ const OverviewChart = ({
   dataKey 
 }) => {
   const theme = useTheme();
+ 
+
 
   // Generate lines for chart
   const [dataLine] = useMemo(() => {
@@ -149,8 +151,20 @@ const OverviewChart = ({
                 ],
               },
             ]
-          : undefined
-      }
+          : undefined }
+          tooltip={({ point }) => (
+            <div
+              style={{
+                background: theme.palette.background.paper,
+                padding: "0.5rem",
+                border: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              <strong>{point.data.xFormatted}</strong>
+              <br />
+              Amount: ${point.data.yFormatted}
+              </div>
+               )}
     />
   );
 };

@@ -39,6 +39,8 @@ function Layout({ selectedDate,
   const data = mockData[0];
 
   
+
+  
   useEffect(() => {
     fetchIncome(token);
     fetchSavings(token);
@@ -54,6 +56,8 @@ function Layout({ selectedDate,
 const filteredIncome = formatDataByMonth(income, selectedDate);
 const filteredExpenses = formatDataByMonth(expenses, selectedDate);
 const filteredSavings = formatDataByMonth(savings, selectedDate);
+
+
 
 
 
@@ -184,7 +188,7 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
              <OverviewChart
                 isDashboard={true}
                 view={dataView} 
-                data={dataView === "income" ? filteredIncome: dataView === "expenses" ? filteredExpenses : filteredSavings} 
+                data={dataView === "income" ? income: dataView === "expenses" ? expenses : savings} 
                 dataKey="amount"
               />
             </Box>
