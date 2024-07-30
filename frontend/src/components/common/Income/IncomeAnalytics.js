@@ -1,29 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import { Grid, Box, Paper, CircularProgress } from "@mui/material";
 import IncomeLineGraph from "../../../analytics/charts/IncomeLineGraph"
 import IncomePieChart from "../../../analytics/charts/IncomePieChart"
 import IncomeTable from "../../../analytics/charts/IncomeTable"
-import { fetchIncome } from "../../../state/actionCreators";
+import { DataContext } from "../../../state/Datacontext";
 import { formatDataByMonth } from "../../../analytics/utils/formatData";
 
-function IncomeAnalytics({ fetchIncome, income, selectedDate }) {
+function IncomeAnalytics() {
   const [filteredIncome, setFilteredIncome] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      fetchIncome(token).then(() => {
-        setLoading(false); // Set loading to false after data is fetched
-      });
-    }
-  }, [fetchIncome]);
-
-  useEffect(() => {
-    const formattedData = formatDataByMonth(income, selectedDate);
-    setFilteredIncome(formattedData);
-  }, [income, selectedDate]);
+  const {
+    income,
+    expenses,
+    savings,
+    selectedDate,
+    setSelectedDate,
+  } = useContext(DataContext);
 
   if (loading) {
     return (
@@ -71,13 +65,6 @@ function IncomeAnalytics({ fetchIncome, income, selectedDate }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  income: state.income.income,
-  selectedDate: state.date.selectedDate,
-});
 
-const mapDispatchToProps = {
-  fetchIncome,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncomeAnalytics);
+export default IncomeAnalytics;

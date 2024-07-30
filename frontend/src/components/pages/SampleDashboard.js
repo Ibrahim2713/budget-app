@@ -55,11 +55,11 @@ const theme = useTheme();
   const handleOpenModal = (modal) => setModalState({ ...modalState, [modal]: true });
   const handleCloseModal = (modal) => setModalState({ ...modalState, [modal]: false });
 
-  useEffect(() => {
+    /* useEffect(() => {
     fetchIncome(token);
     fetchSavings(token);
     fetchExpenses(token);
-  }, [fetchIncome, fetchSavings, fetchExpenses, token]);
+  }, [fetchIncome, fetchSavings, fetchExpenses, token]); */
 
   const formattedIncomeData = formatDataByMonth(income, selectedDate);
   const formattedSavingsData = formatDataByMonth(savings, selectedDate);

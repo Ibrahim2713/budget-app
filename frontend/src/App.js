@@ -26,7 +26,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/analytics" element={<IncomeAnalytics />} />
           <Route path="/logs" element={<Logs />} />
-          <Route path="/sample" element={<NewAnalytics />} />
+          <Route path="/samp" element={<NewAnalytics />} />
         </Routes>
       </Router>
     </ThemeProvider>

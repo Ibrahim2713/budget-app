@@ -1,9 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import {
-  setSelectedDate,
-  setSelectedCategory,
-} from "../../state/actionCreators";
+import React, { useState, useContext } from "react";
 import {
   Box,
   InputAdornment,
@@ -19,23 +14,26 @@ import Sidebar from "../Sidebar/Sidebar";
 import SearchIcon from "@mui/icons-material/Search";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import IncomeAnalytics from '../../components/common/Income/IncomeAnalytics';
-import SavingsAnalytics from '../../components/common/Savings/SavingsAnalytics';
-import ExpensesAnalytics from '../../components/common/Expenses/ExpensesAnalytics';
+import IncomeAnalytics from "../../components/common/Income/IncomeAnalytics";
+import SavingsAnalytics from "../../components/common/Savings/SavingsAnalytics";
+import ExpensesAnalytics from "../../components/common/Expenses/ExpensesAnalytics";
+import { DataContext } from "../../state/Datacontext";
 
-function Analytics({
-  setSelectedDate,
-  selectedDate,
-  selectedCategory,
-  setSelectedCategory,
-}) {
-  const [open, setOpen] = useState(false);
+function Analytics() {
   const [searchTerm, setSearchTerm] = useState("");
   const theme = useTheme();
+
+  const {
+    selectedDate,
+    setSelectedDate,
+    selectedCategory,
+    setSelectedCategory,
+  } = useContext(DataContext);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
   const handleSearch = () => {
     // Add search functionality here
   };
@@ -63,7 +61,6 @@ function Analytics({
         alignItems="center"
         spacing={3}
         style={{ marginTop: "20px" }}
-        s
       >
         <Grid item xs={12} sm={8} md={6}>
           <TextField
@@ -140,14 +137,4 @@ function Analytics({
   );
 }
 
-const mapStateToProps = (state) => ({
-  selectedDate: state.date.selectedDate,
-  selectedCategory: state.dateCategory.category,
-});
-
-const mapDispatchToProps = {
-  setSelectedDate,
-  setSelectedCategory,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Analytics);
+export default Analytics;

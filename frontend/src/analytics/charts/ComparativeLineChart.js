@@ -1,9 +1,13 @@
 import React from 'react'
 import { Box, Typography, Button, useTheme } from '@mui/material';
 import { Line } from 'react-chartjs-2';
+import { DataContext } from '../../state/Datacontext';
 
 
 function ComparativeLineChart({incomeData, expenseData, savings}) {
+
+
+  
    const data = {
     labels: incomeData.map(item => item.date), // Assuming both datasets share the same dates
     datasets: [

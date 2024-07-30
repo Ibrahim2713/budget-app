@@ -1,12 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { connect } from "react-redux";
-import {
-  fetchIncome,
-  fetchSavings,
-  fetchExpenses,
-  setSelectedDate,
-  setSelectedCategory,
-} from "../../state/actionCreators";
+import React, { useContext, useMemo, useState } from "react";
 import { getTotalByMonth } from "../../analytics/utils/getTotalByMonth";
 import { formatDataByMonth } from "../../analytics/utils/formatData";
 import mockData from "../Mockdata";
@@ -31,31 +23,23 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { DownloadOutlined, Paid } from "@mui/icons-material";
+import { DataContext } from "../../state/Datacontext";
 
-function Dashboard({
-  selectedDate,
-  setSelectedDate,
-  fetchIncome,
-  fetchSavings,
-  fetchExpenses,
-  income,
-  savings,
-  expenses,
-}) {
+function Dashboard() {
   const theme = useTheme();
-  const token = localStorage.getItem("token");
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const [isLoading, setIsLoading] = useState();
   const [dataView, setDataView] = useState("Income");
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const data = mockData[0];
+  const {
+    income,
+    expenses,
+    savings,
+    selectedDate,
+    setSelectedDate,
+  } = useContext(DataContext);
 
-  useEffect(() => {
-    fetchIncome(token);
-    fetchSavings(token);
-    fetchExpenses(token);
-  }, [fetchIncome, fetchSavings, fetchExpenses, token]);
+
 
   const incomeTotal = getTotalByMonth(income, selectedDate);
   const expensesTotal = getTotalByMonth(expenses, selectedDate);
@@ -64,6 +48,8 @@ function Dashboard({
   const filteredIncome = formatDataByMonth(income, selectedDate);
   const filteredExpenses = formatDataByMonth(expenses, selectedDate);
   const filteredSavings = formatDataByMonth(savings, selectedDate);
+
+ 
 
   const columns = [
     {
@@ -301,20 +287,4 @@ function Dashboard({
   );
 }
 
-const mapStateToProps = (state) => ({
-  selectedDate: state.date.selectedDate,
-  selectedCategory: state.dateCategory.category,
-  income: state.income.income,
-  expenses: state.expense.expenses,
-  savings: state.savings.savings,
-});
-
-const mapDispatchToProps = {
-  setSelectedDate,
-  setSelectedCategory,
-  fetchIncome,
-  fetchSavings,
-  fetchExpenses,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default Dashboard;

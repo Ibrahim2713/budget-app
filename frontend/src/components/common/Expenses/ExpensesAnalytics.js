@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { connect } from "react-redux";
 import { Grid, Box, Paper, CircularProgress } from "@mui/material";
 import ExpensesLineGraph from "../../../analytics/charts/ExpensesLineGraph.js"
 import ExpensesPieChart from "../../../analytics/charts/ExpensesPieChart"
 import ExpenseTable from "../../../analytics/charts/ExpenseTable"
-import { fetchExpenses } from "../../../state/actionCreators/index.js";
+import { DataContext } from "../../../state/Datacontext.js";
 import { formatDataByMonth } from "../../../analytics/utils/formatData.js";
 
-function ExpensesAnalytics({ fetchExpenses, expenses, selectedDate }) {
+function ExpensesAnalytics() {
   const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      fetchExpenses(token).then(() => {
-        setLoading(false); // Set loading to false after data is fetched
-      });
-    }
-  }, [fetchExpenses]);
+  const {
+    income,
+    expenses,
+    savings,
+    selectedDate,
+    setSelectedDate,
+  } = useContext(DataContext);
+  
 
-  useEffect(() => {
-    const formattedData = formatDataByMonth(expenses, selectedDate);
-    setFilteredExpenses(formattedData);
-  }, [expenses, selectedDate]);
+  
 
   if (loading) {
     return (
@@ -66,13 +63,6 @@ function ExpensesAnalytics({ fetchExpenses, expenses, selectedDate }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  expenses: state.expense.expenses,
-  selectedDate: state.date.selectedDate,
-});
 
-const mapDispatchToProps = {
-  fetchExpenses,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpensesAnalytics);
+export default ExpensesAnalytics;

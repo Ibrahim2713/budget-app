@@ -1,29 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
-import { fetchSavings } from "../../../state/actionCreators";
+import { DataContext } from "../../../state/Datacontext";
 import { Grid, Box, Paper, CircularProgress } from "@mui/material";
 import SavingsLineGraph from "../../../analytics/charts/SavingsLineGraph"
 import SavingsBarGraph from "../../../analytics/charts/SavingsBarGraph"
 import SavingsTable from "../../../analytics/charts/SavingsTable"
 import { formatDataByMonth } from "../../../analytics/utils/formatData";
 
-function SavingsAnalytics({ savings, fetchSavings, selectedDate }) {
+function SavingsAnalytics() {
   const [filteredSavings, setFilteredSavings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      fetchSavings(token).then(() => {
-        setLoading(false); // Set loading to false after data is fetched
-      });
-    }
-  }, [fetchSavings]);
 
-  useEffect(() => {
-    const formattedData = formatDataByMonth(savings, selectedDate);
-    setFilteredSavings(formattedData);
-  }, [savings, selectedDate]);
+  const {
+    income,
+    expenses,
+    savings,
+    selectedDate,
+    setSelectedDate,
+  } = useContext(DataContext);
+
+ 
 
   if (loading) {
     return (
@@ -73,13 +70,5 @@ function SavingsAnalytics({ savings, fetchSavings, selectedDate }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  savings: state.savings.savings,
-  selectedDate: state.date.selectedDate,
-});
 
-const mapDispatchToProps = {
-  fetchSavings,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SavingsAnalytics);
+export default SavingsAnalytics;
