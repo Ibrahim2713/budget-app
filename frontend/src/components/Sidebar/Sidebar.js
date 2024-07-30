@@ -7,6 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +20,9 @@ function App() {
     { text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard' },
     { text: 'Analytics', icon: <AnalyticsIcon />, link: '/analytics' },
     { text: 'Settings', icon: <SettingsIcon />, link: '/settings' },
-    { text: 'Log Out', icon: <ExitToAppIcon />, action: () => logout() },
+    { text: 'Log Out', icon: <ExitToAppIcon />, action: () => logout(),
+    text: 'Logs', icon: <MenuBookOutlinedIcon/>, link: '/logs' 
+   },
   ];
 
 const handleDrawerOpen = () => {
@@ -85,7 +88,7 @@ const handleDrawerClose = () => {
                     item.action();
                   }
                 }}>
-              <ListItemIcon sx={{ color: theme.palette.secondary.main }}> {item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: theme.palette.secondary.light }}> {item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchSavings } from "../../state/actionCreators";
+import { fetchSavings } from "../../../state/actionCreators";
 import { Grid, Box, Paper, CircularProgress } from "@mui/material";
-import SavingsLineGraph from "../Analytics/Savings/SavingsLineGraph";
-import SavingsBarGraph from "../Analytics/Savings/SavingsBarGraph";
-import SavingsTable from "../Analytics/Savings/SavingsTable";
-import { formatDataByMonth } from "../../utils/formatData";
+import SavingsLineGraph from "../../../analytics/charts/SavingsLineGraph"
+import SavingsBarGraph from "../../../analytics/charts/SavingsBarGraph"
+import SavingsTable from "../../../analytics/charts/SavingsTable"
+import { formatDataByMonth } from "../../../analytics/utils/formatData";
 
 function SavingsAnalytics({ savings, fetchSavings, selectedDate }) {
   const [filteredSavings, setFilteredSavings] = useState([]);

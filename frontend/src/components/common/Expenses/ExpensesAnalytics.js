@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Grid, Box, Paper, CircularProgress } from "@mui/material";
-import ExpensesLineGraph from "../Analytics/Expenses/ExpensesLineGraph.js.js";
-import ExpensesPieChart from "../Analytics/Expenses/ExpensesPieChart.js";
-import ExpenseTable from "../Analytics/Expenses/ExpenseTable.js";
-import { fetchExpenses } from "../../state/actionCreators";
-import { formatDataByMonth } from "../../utils/formatData";
+import ExpensesLineGraph from "../../../analytics/charts/ExpensesLineGraph.js"
+import ExpensesPieChart from "../../../analytics/charts/ExpensesPieChart"
+import ExpenseTable from "../../../analytics/charts/ExpenseTable"
+import { fetchExpenses } from "../../../state/actionCreators/index.js";
+import { formatDataByMonth } from "../../../analytics/utils/formatData.js";
 
 function ExpensesAnalytics({ fetchExpenses, expenses, selectedDate }) {
   const [filteredExpenses, setFilteredExpenses] = useState([]);

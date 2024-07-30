@@ -32,7 +32,7 @@ import SavingsForm from "../../common/Forms/SavingsForm";
 import CategoryForm from "../../common/Forms/CategoryForm";
 
 
-function Dashboard({
+function SampleDashboard({
   selectedDate,
   setSelectedDate,
   fetchIncome,
@@ -387,4 +387,4 @@ const mapDispatchToProps = {
   fetchExpenses,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(SampleDashboard);

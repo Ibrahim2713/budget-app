@@ -7,13 +7,18 @@ import {
     DashboardOutlined
   } from "@mui/icons-material";
 
-function Navbar() {
+function Navbar({searchTerm, setSearchTerm}) {
     const theme = useTheme()
   return (
    <Box display="flex" justifyContent="space-between" p={2}>
         
         <Box display="flex" borderRadius="3px">
-    <InputBase sx={{ ml: 2, flex : 1, color: theme.palette.secondary.light, marginInline: 15}} placeholder="Search..." />
+        <InputBase
+          sx={{ ml: 2, flex: 1, color: theme.palette.secondary.light, marginInline: 15 }}
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <IconButton type="button" sx={{p :1}} >
             <SearchOutlined sx={{
                 color: theme.palette.secondary.light

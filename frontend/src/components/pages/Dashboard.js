@@ -1,65 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { connect} from "react-redux";
-import { fetchIncome, fetchSavings, fetchExpenses, setSelectedDate, setSelectedCategory } from "../state/actionCreators";
-import { getTotalByMonth } from "../utils/getTotalByMonth";
-import { formatDataByMonth } from "../utils/formatData";
-import mockData from "./Mockdata";
-import FlexBetween from "./FlexBetween";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import StatBox from "./StatBox";
+import React, { useState, useEffect, useMemo } from "react";
+import { connect } from "react-redux";
+import {
+  fetchIncome,
+  fetchSavings,
+  fetchExpenses,
+  setSelectedDate,
+  setSelectedCategory,
+} from "../../state/actionCreators";
+import { getTotalByMonth } from "../../analytics/utils/getTotalByMonth";
+import { formatDataByMonth } from "../../analytics/utils/formatData";
+import mockData from "../Mockdata";
+import FlexBetween from "../FlexBetween";
+import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar/Sidebar";
+import Header from "../Header";
+import StatBox from "../StatBox";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import OverviewChart from "./OverviewChart";
-import BreakdownChart from "./BreakdownChart";
-import { Box, Button, Typography, useTheme, useMediaQuery, TextField, Menu, MenuItem } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import OverviewChart from "../OverviewChart";
+import BreakdownChart from "../BreakdownChart";
 import {
-  DownloadOutlined,
-  Paid
- ,
-} from "@mui/icons-material";
+  Box,
+  Button,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  TextField,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { DownloadOutlined, Paid } from "@mui/icons-material";
 
-function Layout({ selectedDate,
+function Dashboard({
+  selectedDate,
   setSelectedDate,
   fetchIncome,
   fetchSavings,
   fetchExpenses,
   income,
   savings,
-  expenses,}) {
+  expenses,
+}) {
   const theme = useTheme();
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const [isLoading, setIsLoading] = useState();
-  const [dataView, setDataView] = useState("income");
+  const [dataView, setDataView] = useState("Income");
   const [anchorEl, setAnchorEl] = useState(null);
- 
+
   const data = mockData[0];
 
-  
-
-  
   useEffect(() => {
     fetchIncome(token);
     fetchSavings(token);
     fetchExpenses(token);
   }, [fetchIncome, fetchSavings, fetchExpenses, token]);
 
-
-
   const incomeTotal = getTotalByMonth(income, selectedDate);
   const expensesTotal = getTotalByMonth(expenses, selectedDate);
   const savingsTotal = getTotalByMonth(savings, selectedDate);
 
-const filteredIncome = formatDataByMonth(income, selectedDate);
-const filteredExpenses = formatDataByMonth(expenses, selectedDate);
-const filteredSavings = formatDataByMonth(savings, selectedDate);
-
-
-
-
+  const filteredIncome = formatDataByMonth(income, selectedDate);
+  const filteredExpenses = formatDataByMonth(expenses, selectedDate);
+  const filteredSavings = formatDataByMonth(savings, selectedDate);
 
   const columns = [
     {
@@ -68,27 +72,23 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
       flex: 1,
     },
     {
-      field: "userId",
-      headerName: "User ID",
+      field: "category",
+      headerName: "Category",
       flex: 1,
     },
     {
-      field: "createdAt",
-      headerName: "CreatedAt",
+      field: "amount",
+      headerName: "Amount",
       flex: 1,
+      renderCell: (params) => `$${Number(params.value).toFixed(2)}`, // Format amount as currency
     },
     {
-      field: "products",
-      headerName: "# of Products",
-      flex: 0.5,
-      sortable: false,
-      renderCell: (params) => params.value.length,
-    },
-    {
-      field: "cost",
-      headerName: "Cost",
+      field: "date",
+      headerName: "Date",
       flex: 1,
-      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+      renderCell: (params) => {
+        new Date(params.value).toLocaleDateString();
+      }, // Format date to readable string
     },
   ];
 
@@ -105,6 +105,19 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
     setAnchorEl(null);
   };
 
+  const gridData = useMemo(() => {
+    switch (dataView) {
+      case "Income":
+        return filteredIncome;
+      case "Expenses":
+        return filteredExpenses;
+      case "Savings":
+        return filteredSavings;
+      default:
+        return [];
+    }
+  }, [dataView, filteredIncome, filteredExpenses, filteredSavings]);
+
   return (
     <Box m="1.5rem 2.5" sx={{ backgroundColor: theme.palette.primary.main }}>
       <Navbar />
@@ -119,7 +132,7 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   sx={{
-                    backgroundColor: theme.palette.secondary.main,
+                    backgroundColor: theme.palette.secondary.light,
                   }}
                   views={["year", "month"]}
                   label="Select Month"
@@ -130,7 +143,11 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
                   )}
                 />
               </LocalizationProvider>
-              <Button onClick={handleMenuClick} variant="contained" color="secondary">
+              <Button
+                onClick={handleMenuClick}
+                variant="contained"
+                color="secondary"
+              >
                 View: {dataView.charAt(0).toUpperCase() + dataView.slice(1)}
               </Button>
               <Menu
@@ -138,9 +155,15 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
                 open={Boolean(anchorEl)}
                 onClose={handleCloseMenu}
               >
-                <MenuItem onClick={() => handleMenuItemClick("income")}>Income</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("expenses")}>Expenses</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("savings")}>Savings</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick("Income")}>
+                  Income
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick("Expenses")}>
+                  Expenses
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick("Savings")}>
+                  Savings
+                </MenuItem>
               </Menu>
             </Box>
           </FlexBetween>
@@ -185,10 +208,16 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
               p="1rem"
               borderRadius="0.55rem"
             >
-             <OverviewChart
+              <OverviewChart
                 isDashboard={true}
-                view={dataView} 
-                data={dataView === "income" ? income: dataView === "expenses" ? expenses : savings} 
+                view={dataView}
+                data={
+                  dataView === "Income"
+                    ? income
+                    : dataView === "Expenses"
+                    ? expenses
+                    : savings
+                }
                 dataKey="amount"
               />
             </Box>
@@ -203,18 +232,8 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
                 />
               }
             />
-            <StatBox
-              title="Total Debt"
-              value={data && data.yearlySalesTotal}
-              increase="+43%"
-              description=""
-              icon={
-                <Paid
-                  sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
-                />
-              }
-            />
-            {/* ROW 2 */}
+            {/* Placeholder */}
+
             <Box
               gridColumn="span 8"
               gridRow="span 3"
@@ -225,29 +244,29 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
                 },
                 "& .MuiDataGrid-cell": {
                   borderBottom: "none",
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.text.main,
                 },
                 "& .MuiDataGrid-columnHeaders": {
-                  backgroundColor: theme.palette.secondary.main,
-                  color: theme.palette.secondary[100],
+                  backgroundColor: theme.palette.primary.main,
                   borderBottom: "none",
                 },
                 "& .MuiDataGrid-virtualScroller": {
-                  backgroundColor: theme.palette.secondary.main,
+                  backgroundColor: theme.palette.primary.main,
                 },
                 "& .MuiDataGrid-footerContainer": {
-                  backgroundColor: theme.palette.secondary.main,
-                  color: theme.palette.secondary[100],
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.text.main,
                   borderTop: "none",
                 },
                 "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                  color: `${theme.palette.secondary.light} !important`,
+                  color: `${theme.palette.text.main} !important`,
                 },
               }}
             >
               <DataGrid
-                loading={isLoading || !data}
-                getRowId={(row) => row._id}
-                rows={(data && data.transactions) || []}
+                getRowId={(row) => row.id}
+                rows={gridData}
                 columns={columns}
               />
             </Box>
@@ -258,21 +277,22 @@ const filteredSavings = formatDataByMonth(savings, selectedDate);
               p="1.5rem"
               borderRadius="0.55rem"
             >
-              <Typography
-                variant="h6"
-                sx={{ color: theme.palette.text.main }}
-              >
-                Monthly Breakdown
+              <Typography variant="h6" sx={{ color: theme.palette.text.main }}>
+                {`Breakdown of Monthly ${dataView}`}
               </Typography>
-              <BreakdownChart data={{ income: filteredIncome, expenses: filteredExpenses, savings: filteredSavings }} view={dataView} />
+              <BreakdownChart
+                data={{
+                  income: filteredIncome,
+                  expenses: filteredExpenses,
+                  savings: filteredSavings,
+                }}
+                view={dataView}
+              />
               <Typography
                 p="0 0.6rem"
                 fontSize="0.8rem"
                 sx={{ color: theme.palette.secondary.main }}
-              >
-                Breakdown of real states and information via category for
-                revenue made for this year and total sales.
-              </Typography>
+              ></Typography>
             </Box>
           </Box>
         </Box>
@@ -297,4 +317,4 @@ const mapDispatchToProps = {
   fetchExpenses,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Grid, Box, Paper, CircularProgress } from "@mui/material";
-import IncomeLineGraph from "../Analytics/Income/IncomeLineGraph";
-import IncomePieChart from "../Analytics/Income/IncomePieChart";
-import IncomeTable from "../Analytics/Income/IncomeTable";
-import { fetchIncome } from "../../state/actionCreators";
-import { formatDataByMonth } from "../../utils/formatData";
+import IncomeLineGraph from "../../../analytics/charts/IncomeLineGraph"
+import IncomePieChart from "../../../analytics/charts/IncomePieChart"
+import IncomeTable from "../../../analytics/charts/IncomeTable"
+import { fetchIncome } from "../../../state/actionCreators";
+import { formatDataByMonth } from "../../../analytics/utils/formatData";
 
 function IncomeAnalytics({ fetchIncome, income, selectedDate }) {
   const [filteredIncome, setFilteredIncome] = useState([]);

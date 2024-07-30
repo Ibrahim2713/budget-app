@@ -5,31 +5,31 @@ export const formatDataByMonth = (data, selectedDate) => {
   const selectedYear = selectedDate.getUTCFullYear();
   const selectedMonth = selectedDate.getUTCMonth();
 
-  console.log('Selected Date:', selectedDate, 'Year:', selectedYear, 'Month:', selectedMonth);
+
 
   const filteredData = data.filter(item => {
       const itemDate = new Date(item.date);
       const itemYear = itemDate.getUTCFullYear();
       const itemMonth = itemDate.getUTCMonth();
       
-      console.log('Item Date:', itemDate, 'Year:', itemYear, 'Month:', itemMonth);
+
       
       return itemYear === selectedYear && itemMonth === selectedMonth;
   });
 
   const formattedData = filteredData.map(item => {
       const formattedDate = new Date(item.date).toISOString().split('T')[0];
-      console.log('Formatted Date:', formattedDate);
+    
 
       return {
           date: formattedDate,
           amount: Math.floor(Number(item.amount)),
           source: item.source,
-          category: item.category_name,
-          description: item.description
+          category: item.category_name || item.category,
+          description: item.description,
+          id: item.id
       };
   });
 
-  console.log('Formatted Data:', formattedData);
   return formattedData;
 };
