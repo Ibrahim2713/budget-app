@@ -37,17 +37,30 @@ function Dashboard() {
     savings,
     selectedDate,
     setSelectedDate,
+    filteredIncome,
+    filteredExpenses,
+    filteredSavings,
+    incomeTotals,
+    expenseTotals,
+    savingsTotals,
+
   } = useContext(DataContext);
 
+  const filteredData = {
+    Income: filteredIncome,
+    Expenses: filteredExpenses,
+    Savings: filteredSavings,
+  };
+
+  const totalData = {
+    Income: incomeTotals,
+    Expenses: expenseTotals,
+    Savings: savingsTotals
+  }
+
+ 
 
 
-  const incomeTotal = getTotalByMonth(income, selectedDate);
-  const expensesTotal = getTotalByMonth(expenses, selectedDate);
-  const savingsTotal = getTotalByMonth(savings, selectedDate);
-
-  const filteredIncome = formatDataByMonth(income, selectedDate);
-  const filteredExpenses = formatDataByMonth(expenses, selectedDate);
-  const filteredSavings = formatDataByMonth(savings, selectedDate);
 
  
 
@@ -94,15 +107,15 @@ function Dashboard() {
   const gridData = useMemo(() => {
     switch (dataView) {
       case "Income":
-        return filteredIncome;
+        return filteredData.Income;
       case "Expenses":
-        return filteredExpenses;
+        return filteredData.Expenses;
       case "Savings":
-        return filteredSavings;
+        return filteredData.Savings;
       default:
         return [];
     }
-  }, [dataView, filteredIncome, filteredExpenses, filteredSavings]);
+  }, [dataView, filteredData.Income, filteredData.Expenses, filteredData.Savings]);
 
   return (
     <Box m="1.5rem 2.5" sx={{ backgroundColor: theme.palette.primary.main }}>
@@ -167,7 +180,7 @@ function Dashboard() {
           >
             <StatBox
               title="Total Income"
-              value={`$${incomeTotal.toFixed(2)}`}
+              value={`$${totalData.Income.toFixed(2)}`}
               increase="+14%"
               description=""
               icon={
@@ -178,7 +191,7 @@ function Dashboard() {
             />
             <StatBox
               title="Total Expenses"
-              value={`$${expensesTotal.toFixed(2)}`}
+              value={`$${totalData.Expenses.toFixed(2)}`}
               increase="+21%"
               description=""
               icon={
@@ -209,7 +222,7 @@ function Dashboard() {
             </Box>
             <StatBox
               title="Net Savings"
-              value={`$${savingsTotal.toFixed(2)}`}
+              value={`$${totalData.Savings.toFixed(2)}`}
               increase="+5%"
               description=""
               icon={
@@ -268,9 +281,9 @@ function Dashboard() {
               </Typography>
               <BreakdownChart
                 data={{
-                  income: filteredIncome,
-                  expenses: filteredExpenses,
-                  savings: filteredSavings,
+                  income: filteredData.Income,
+                  expenses: filteredData.Expenses,
+                  savings: filteredData.Savings,
                 }}
                 view={dataView}
               />

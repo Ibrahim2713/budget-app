@@ -2,7 +2,8 @@ import React, { useMemo } from "react";
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 
-const OverviewChart = ({ 
+const 
+OverviewChart = ({ 
   isDashboard = false, 
   view = "income", 
   data, 
@@ -153,6 +154,7 @@ const OverviewChart = ({
             ]
           : undefined }
           tooltip={({ point }) => (
+         
             <div
               style={{
                 background: theme.palette.background.paper,
@@ -163,6 +165,9 @@ const OverviewChart = ({
               <strong>{point.data.xFormatted}</strong>
               <br />
               Amount: ${point.data.yFormatted}
+              <br />
+         
+              
               </div>
                )}
     />

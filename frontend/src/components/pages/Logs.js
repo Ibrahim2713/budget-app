@@ -10,12 +10,13 @@ import {
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { DataContext } from "../../state/Datacontext";
+import { format, parseISO } from "date-fns";
 
 const columns = [
   { field: "_id", headerName: "ID", flex: 1 },
   { field: "category", headerName: "Category", flex: 1 },
   { field: "amount", headerName: "Amount", flex: 1, renderCell: (params) => `$${Number(params.value).toFixed(2)}` },
-  { field: "date", headerName: "Date", flex: 1, renderCell: (params) => new Date(params.value).toLocaleDateString() },
+  { field: "date", headerName: "Date", flex: 1,  renderCell: (params) => format(parseISO(params.value), "MM/dd/yyyy")},
 ];
 
 function Logs() {
@@ -30,8 +31,11 @@ function Logs() {
     setSelectedCategory,
     searchTerm,
     setSearchTerm,
-    filteredData
+
   } = useContext(DataContext);
+
+
+ 
   
   const [dataView, setDataView] = useState("Income");
 
@@ -46,8 +50,30 @@ function Logs() {
     setAnchorEl(null);
   };
 
+
+ // Filter data based on searchTerm
+ const filteredData = {
+  Income: income.filter((row) =>
+    row.category?.toLowerCase().includes(searchTerm.toLowerCase())
+  ),
+  Expenses: expenses.filter((row) =>
+    row.category?.toLowerCase().includes(searchTerm.toLowerCase())
+  ),
+  Savings: savings.filter((row) =>
+    row.category?.toLowerCase().includes(searchTerm.toLowerCase())
+  ),
+};
+
+
+ 
+
   return (
-    <Box m="1.5rem 2.5rem" sx={{ backgroundColor: theme.palette.primary.main }}>
+    <Box m="1.5rem 2.5rem" sx={{   backgroundColor: theme.palette.primary.main,
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh',  // Ensure full viewport height
+      overflow: 'hidden', 
+      }}>
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <Sidebar />
       <Box
@@ -86,7 +112,7 @@ function Logs() {
       >
         <DataGrid
           getRowId={(row) => row.id}
-          rows={filteredData(dataView)}
+          rows={filteredData[dataView] || []}
           columns={columns}
         />
       </Box>

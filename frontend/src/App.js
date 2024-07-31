@@ -12,7 +12,6 @@ import Login from "./components/pages/Login";
 import IncomeAnalytics from "./components/pages/Analytics";
 import Dashboard from "./components/pages/Dashboard";
 import Logs from "./components/pages/Logs";
-import NewAnalytics from "./components/NewAnalytics";
 
 // TODO
 // USer wants to send transaction data to backend db and view this data whenever
@@ -26,7 +25,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/analytics" element={<IncomeAnalytics />} />
           <Route path="/logs" element={<Logs />} />
-          <Route path="/samp" element={<NewAnalytics />} />
         </Routes>
       </Router>
     </ThemeProvider>
