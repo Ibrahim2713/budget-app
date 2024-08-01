@@ -3,13 +3,11 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
 } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./styles/theme";
 import Login from "./components/pages/Login";
-
-import IncomeAnalytics from "./components/pages/Analytics";
+import Analytics from "./components/pages/Analytics";
 import Dashboard from "./components/pages/Dashboard";
 import Logs from "./components/pages/Logs";
 
@@ -23,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/analytics" element={<IncomeAnalytics />} />
+          <Route path="/analytics" element={<Analytics />} />
           <Route path="/logs" element={<Logs />} />
         </Routes>
       </Router>

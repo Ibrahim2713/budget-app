@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   setSelectedDate,
@@ -61,9 +61,6 @@ const theme = useTheme();
     fetchExpenses(token);
   }, [fetchIncome, fetchSavings, fetchExpenses, token]); */
 
-  const formattedIncomeData = formatDataByMonth(income, selectedDate);
-  const formattedSavingsData = formatDataByMonth(savings, selectedDate);
-  const formattedExpensesData = formatDataByMonth(expenses, selectedDate);
 
   return (
     <Box display="flex" flexDirection="column" height="100vh" sx={{ backgroundColor: theme.palette.primary.main }} >
@@ -368,23 +365,10 @@ const theme = useTheme();
         </Box>
       </Box>
     </Box>
-  );
+  ); 
 }
 
-const mapStateToProps = (state) => ({
-  selectedDate: state.date.selectedDate,
-  selectedCategory: state.dateCategory.category,
-  income: state.income.income,
-  expenses: state.expense.expenses,
-  savings: state.savings.savings,
-});
 
-const mapDispatchToProps = {
-  setSelectedDate,
-  setSelectedCategory,
-  fetchIncome,
-  fetchSavings,
-  fetchExpenses,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SampleDashboard);
+
+export default SampleDashboard;

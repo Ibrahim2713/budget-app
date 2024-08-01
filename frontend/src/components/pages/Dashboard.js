@@ -6,6 +6,7 @@ import FlexBetween from "../FlexBetween";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../Header";
+import CalendarPicker from "../CalanderPicker";
 import StatBox from "../StatBox";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
@@ -128,20 +129,10 @@ function Dashboard() {
           <FlexBetween>
             <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
             <Box display="flex" gap={5}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  sx={{
-                    backgroundColor: theme.palette.secondary.light,
-                  }}
-                  views={["year", "month"]}
-                  label="Select Month"
-                  value={selectedDate}
-                  onChange={(newValue) => setSelectedDate(newValue)}
-                  renderInput={(params) => (
-                    <TextField {...params} helperText={null} />
-                  )}
-                />
-              </LocalizationProvider>
+            <CalendarPicker
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
               <Button
                 onClick={handleMenuClick}
                 variant="contained"

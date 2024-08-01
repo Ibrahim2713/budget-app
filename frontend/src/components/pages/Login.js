@@ -1,6 +1,8 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import { DataContext } from "../../state/Datacontext";
+import CalendarPicker from "../CalanderPicker";
 import '../../styles/Login.css' // Import the CSS file
 import axios from "axios";
 
@@ -11,6 +13,11 @@ import { Container, TextField, Button, Typography, Grid, Box } from '@mui/materi
 
 
 function Login() {
+
+  const {
+    selectedDate,
+    setSelectedDate
+  } =useContext(DataContext)
 const theme = useTheme()
 const [email, setEmail] = useState()
 const [password, setPassword] = useState()
@@ -41,6 +48,11 @@ const handleLogin = (e) => {
         backgroundColor: theme.palette.primary.main, 
       }}
     >
+       <CalendarPicker
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
+      
         <Container
         maxWidth="sm" 
         sx={{

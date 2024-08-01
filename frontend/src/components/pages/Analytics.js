@@ -3,18 +3,15 @@ import {
   Box,
   InputAdornment,
   TextField,
-  IconButton,
-  Grid,
+  Typography,
   Button,
-  Paper,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { DataContext } from "../../state/Datacontext";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
-import ComparativeLineChart from "../../analytics/charts/ComparativeLineChart"
+import CalendarPicker from "../CalanderPicker";
+import ComparativeLineChart from "../../analytics/charts/ComparativeLineChart";
 
 function Analytics() {
   const theme = useTheme();
@@ -29,155 +26,125 @@ function Analytics() {
     setSelectedCategory,
     filteredIncome,
     filteredExpenses,
-    filteredSavings
+    filteredSavings,
   } = useContext(DataContext);
 
-
-  const handleChange = (event) => {
-   
-  };
-
-  const handleSearch = () => {
-    // Add search functionality here
-  };
-
-  const handleCategoryChange = (category) => {
-
-  };
+  console.log("Selected Date in Analytics:", selectedDate);
 
   return (
     <Box m="1.5rem 2.5" sx={{ backgroundColor: theme.palette.primary.main }}>
       <Navbar />
       <Sidebar />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  sx={{
-                    backgroundColor: theme.palette.secondary.light,
-                  }}
-                  views={["year", "month"]}
-                  label="Select Month"
-                  value={selectedDate}
-                  onChange={(newValue) => setSelectedDate(newValue)}
-                  renderInput={(params) => (
-                    <TextField {...params} helperText={null} />
-                  )}
-                />
-              </LocalizationProvider>
-      <Box
-        mt="20px"
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="160px"
-        gap="20px"
-      >
+
+      <Box flex="1" ml="170px">
+        <CalendarPicker
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
         <Box
-          gridColumn="span 2"
-          gridRow="span 1"
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          p="1.25rem 1rem"
-          flex="1 1 100%"
-          backgroundColor={theme.palette.primary.main}
-          borderRadius="0.55rem"
+          mt="20px"
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="160px"
+          gap="20px"
         >
-          <ComparativeLineChart incomeData={filteredIncome} expenseData={filteredExpenses} />
+          <Box
+            gridColumn="span 4"
+            gridRow="span 2"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            p="1.25rem 1rem"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.primary.main}
+            borderRadius="0.55rem"
+          >
+            <ComparativeLineChart
+              incomeData={income}
+              expenseData={expenses}
+              savingsData={savings}
+            />
+          </Box>
+          <Box
+            gridColumn="span 4"
+            gridRow="span 1"
+            justifyContent="space-between"
+            p="1.25rem 1rem"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.primary.main}
+            borderRadius="0.55rem"
+          >
+            <Typography
+              sx={{
+                color: theme.palette.text.main,
+              }}
+            >
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum."
+            </Typography>
+          </Box>
+          <Box
+            gridColumn="span 2"
+            gridRow="span 1"
+         
+            justifyContent="space-between"
+            p="1.25rem 1rem"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.primary.main}
+            borderRadius="0.55rem"
+          >
+            <Typography
+              sx={{
+                color: theme.palette.text.main,
+              }}
+            >
+              {" "}
+              "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+              quae ab illo inventore veritatis et quasi architecto beatae vitae
+              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+              eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
+              est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
+              velit, sed quia non numquam eius modi tempora incidunt ut labore
+              et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
+              veniam, quis nostrum exercitationem ullam corporis suscipit
+              laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
+              vel eum iure reprehenderit qui in ea voluptate velit esse quam
+              nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
+              voluptas nulla pariatur?"{" "}
+            </Typography>
+          </Box>
+          <Box gridColumn="span 4"
+          gridRow="span 5"
+          >
+              <Typography sx={{
+                color: theme.palette.text.main,
+              }} > "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+              quae ab illo inventore veritatis et quasi architecto beatae vitae
+              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+              eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
+              est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
+              velit, sed quia non numquam eius modi tempora incidunt ut labore
+              et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
+              veniam, quis nostrum exercitationem ullam corporis suscipit
+              laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
+              vel eum iure reprehenderit qui in ea voluptate velit esse quam
+              nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
+              voluptas nulla pariatur?</Typography>
+          </Box>
+
         </Box>
       </Box>
     </Box>
   );
 }
-
-/* <Box
-      sx={{
-        backgroundColor: theme.palette.primary.main,
-        minHeight: "100vh",
-        padding: "20px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Sidebar />
-
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        spacing={3}
-        style={{ marginTop: "20px" }}
-      >
-        <Grid item xs={12} sm={8} md={6}>
-          <TextField
-            variant="outlined"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={handleChange}
-            InputProps={{
-              style: { backgroundColor: "white", color: "black" },
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleSearch} className="white-icon">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={8} md={6}>
-          <Paper>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                views={["year", "month"]}
-                label="Select Month"
-                value={selectedDate}
-                onChange={(newValue) => setSelectedDate(newValue)}
-                renderInput={(params) => (
-                  <TextField {...params} helperText={null} />
-                )}
-              />
-            </LocalizationProvider>
-          </Paper>
-        </Grid>
-        <Grid item display="flex" justifyContent="space-between">
-          <Button
-            className="income-button"
-            onClick={() => handleCategoryChange("income")}
-            sx={{
-              backgroundColor: theme.palette.income.main,
-            }}
-          >
-            Income
-          </Button>
-          <Button
-            variant="contained"
-            className="savings-button"
-            onClick={() => handleCategoryChange("savings")}
-            sx={{
-              backgroundColor: theme.palette.savings.main,
-            }}
-          >
-            Savings
-          </Button>
-          <Button
-            variant="contained"
-            className="expenses-button"
-            onClick={() => handleCategoryChange("expenses")}
-            sx={{
-              backgroundColor: theme.palette.expenses.main,
-            }}
-          >
-            Expenses
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={11} md={10} lg={8}>
-          {selectedCategory === "income" && <IncomeAnalytics />}
-          {selectedCategory === "savings" && <SavingsAnalytics />}
-          {selectedCategory === "expenses" && <ExpensesAnalytics />}
-        </Grid>
-      </Grid>
-    </Box> */
 
 export default Analytics;
