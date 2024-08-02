@@ -4,6 +4,7 @@ const Savings = require('../models/savings-Model')
 // Get All income entries for a specific user
 exports.getAllSavingsByUser = async (req,res) => {
     try {
+      
         const userId = req.decoded.subject;
         const savings = await Savings.getAllSavingsByUser(userId);
         res.status(200).json(savings)

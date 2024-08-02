@@ -3,7 +3,10 @@ const Expense = require('../models/expense-Model')
 
 // Get All expenses entries for a specific user
 exports.getAllExpensesByUser = async (req,res) => {
+
     try {
+       
+
         const user_id = req.decoded.subject;
         const expenses = await Expense.getAllExpensesByUser(user_id);
         res.status(200).json(expenses)

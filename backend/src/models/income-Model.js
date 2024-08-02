@@ -10,7 +10,7 @@ const getAllIncomeByUser = async (userId) => {
             'income.*',
             'date_details.date as date',
             'income_categories.id as category_id',
-            'income_categories.name as category_name',
+            'income_categories.name as category',
             'date_details.month as month',  // Select month directly
             'date_details.year as year'    // Select year directly
         );
