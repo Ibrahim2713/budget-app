@@ -7,6 +7,7 @@ const SavingsRouter = require('./routes/savingsRoutes');
 const ExpenseRouter = require('./routes/expenseRoutes');
 const DateDetailsRouter = require('./routes/dateRoutes');
 const CategoryRouter = require('./routes/categoryRoutes');
+const GoalsRouter = require('./routes/goalRoutes')
 const server = express();
 
 
@@ -23,6 +24,7 @@ server.use('/api/savings', SavingsRouter);
 server.use('/api/expenses', ExpenseRouter);
 server.use('/api/dateDetails', DateDetailsRouter);
 server.use('/api/category', CategoryRouter);
+server.use('/api/goals', GoalsRouter);
 
 
 

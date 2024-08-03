@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']; // Define your colors
 
 const BreakdownChart = ({ data, view }) => {
-  console.log(data)
+
   const theme = useTheme()
   // Get the transactions based on the selected view
   const transactions = data[view.toLowerCase()] || []; 
@@ -20,6 +20,7 @@ const BreakdownChart = ({ data, view }) => {
     acc[category] += amount;
     return acc;
   }, {});
+
   
   // Format data for the PieChart
   const formattedData = Object.keys(categoryTotals).map(key => ({

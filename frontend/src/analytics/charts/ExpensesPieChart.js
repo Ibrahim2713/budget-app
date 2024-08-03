@@ -1,14 +1,14 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 
+const COLORS = ['#FF6347', '#4682B4', '#32CD32', '#FFD700', '#6A5ACD', '#FF1493', '#40E0D0', '#D2691E'];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#FF00BF'];
 
 export default function ExpensesPieChart({data}) {
   return (
     <>
-    <ResponsiveContainer width="100%" height={400}>
-          <PieChart width={400} height={400}>
+
+          <PieChart width={325} height={400}>
             <Pie
               data={data}
               dataKey="amount"
@@ -28,7 +28,7 @@ export default function ExpensesPieChart({data}) {
         />
             <Legend />
           </PieChart>
-          </ResponsiveContainer>
+      
         </>
   )
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 
-const StatBox = ({ title, value, increase, icon, description }) => {
+const StatBox = ({ title, value, increase, icon, description, color }) => {
   const theme = useTheme();
   return (
     <Box
@@ -13,7 +13,7 @@ const StatBox = ({ title, value, increase, icon, description }) => {
       justifyContent="space-between"
       p="1.25rem 1rem"
       flex="1 1 100%"
-      backgroundColor={theme.palette.primary.main}
+      backgroundColor={color}
       borderRadius="0.55rem"
     >
       <FlexBetween>

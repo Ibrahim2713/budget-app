@@ -22,14 +22,17 @@ export const theme = createTheme({
     },
 
     income: {
-      main: colorTokens.income[100],
+      main: colorTokens.income[500],
     },
     expenses: {
-      main: colorTokens.expense[100], 
+      main: colorTokens.expense[900], 
+      dark: "#FF3800"
     },
     savings: {
-      main: colorTokens.savings[100], // Ensure this exists if you're using it
+      main: colorTokens.savings[100],
+      dark: colorTokens.savings[500] // Ensure this exists if you're using it
     },
+
 
   },
 });

@@ -1,15 +1,10 @@
 import React, { useContext, useMemo, useState } from "react";
-import { getTotalByMonth } from "../../analytics/utils/getTotalByMonth";
-import { formatDataByMonth } from "../../analytics/utils/formatData";
-import mockData from "../Mockdata";
 import FlexBetween from "../FlexBetween";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../Header";
 import CalendarPicker from "../CalanderPicker";
 import StatBox from "../StatBox";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import OverviewChart from "../OverviewChart";
 import BreakdownChart from "../BreakdownChart";
 import {
@@ -18,12 +13,11 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  TextField,
   Menu,
   MenuItem,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { DownloadOutlined, Paid } from "@mui/icons-material";
+import { Paid } from "@mui/icons-material";
 import { DataContext } from "../../state/Datacontext";
 
 function Dashboard() {
@@ -41,11 +35,12 @@ function Dashboard() {
     filteredIncome,
     filteredExpenses,
     filteredSavings,
-    incomeTotals,
-    expenseTotals,
-    savingsTotals,
+    incomeTotalsbyMonth,
+    expenseTotalsbyMonth,
+    savingsTotalsbyMonth,
 
   } = useContext(DataContext);
+ 
 
   const filteredData = {
     Income: filteredIncome,
@@ -54,9 +49,9 @@ function Dashboard() {
   };
 
   const totalData = {
-    Income: incomeTotals,
-    Expenses: expenseTotals,
-    Savings: savingsTotals
+    Income: incomeTotalsbyMonth,
+    Expenses: expenseTotalsbyMonth,
+    Savings: savingsTotalsbyMonth
   }
 
  

@@ -11,10 +11,20 @@ import { DataContext } from "../../state/Datacontext";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import CalendarPicker from "../CalanderPicker";
-import ComparativeLineChart from "../../analytics/charts/ComparativeLineChart";
+import StatBox from "../StatBox";
+import IncomePieChart from "../../analytics/charts/IncomePieChart";
+import RecentExpenses from "../RecentExpenses";
+import IncomeGoalProgress from "../IncomeGoal";
+import { DownloadOutlined, Paid } from "@mui/icons-material";
+import ComparativeLineChart from "../../analytics/charts/ExpenseTrends";
+import ExpensesPieChart from "../../analytics/charts/ExpensesPieChart"
+import BreakdownChart from "../BreakdownChart";
+import ComparativeBarChart from "../../analytics/charts/ComparativeBarchart";
+import ExpenseLineChart from "../../analytics/charts/ExpenseTrends";
 
 function Analytics() {
   const theme = useTheme();
+
 
   const {
     income,
@@ -27,13 +37,26 @@ function Analytics() {
     filteredIncome,
     filteredExpenses,
     filteredSavings,
+    searchTerm,
+    setSearchTerm,
+    incomeTotalsbyMonth,
+    expenseTotalsbyMonth,
+    savingsTotalsbyMonth,
+    goals
   } = useContext(DataContext);
+ 
 
-  console.log("Selected Date in Analytics:", selectedDate);
+
+
+  const totalData = {
+    Income: incomeTotalsbyMonth,
+    Expenses: expenseTotalsbyMonth,
+    Savings: savingsTotalsbyMonth,
+  };
 
   return (
     <Box m="1.5rem 2.5" sx={{ backgroundColor: theme.palette.primary.main }}>
-      <Navbar />
+      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <Sidebar />
 
       <Box flex="1" ml="170px">
@@ -48,99 +71,138 @@ function Analytics() {
           gridAutoRows="160px"
           gap="20px"
         >
-          <Box
-            gridColumn="span 4"
-            gridRow="span 2"
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-between"
-            p="1.25rem 1rem"
-            flex="1 1 100%"
-            backgroundColor={theme.palette.primary.main}
-            borderRadius="0.55rem"
-          >
-            <ComparativeLineChart
-              incomeData={income}
-              expenseData={expenses}
-              savingsData={savings}
+         <Box 
+         gridColumn="span 3"
+         sx={{
+          backgroundColor: theme.palette.text.main
+          
+         }}>
+           <StatBox
+            
+              title="Total Networth"
+              value={`$${totalData.Income.toFixed(2)}`}
+              increase="+14%"
+              description=""
+              color={theme.palette.secondary.main}
+              
+              icon={
+                <Paid
+                  sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
+                />
+              }
+              
             />
-          </Box>
-          <Box
-            gridColumn="span 4"
-            gridRow="span 1"
-            justifyContent="space-between"
-            p="1.25rem 1rem"
-            flex="1 1 100%"
-            backgroundColor={theme.palette.primary.main}
-            borderRadius="0.55rem"
-          >
-            <Typography
-              sx={{
-                color: theme.palette.text.main,
-              }}
-            >
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum."
-            </Typography>
-          </Box>
-          <Box
-            gridColumn="span 2"
-            gridRow="span 1"
-         
-            justifyContent="space-between"
-            p="1.25rem 1rem"
-            flex="1 1 100%"
-            backgroundColor={theme.palette.primary.main}
-            borderRadius="0.55rem"
-          >
-            <Typography
-              sx={{
-                color: theme.palette.text.main,
-              }}
-            >
-              {" "}
-              "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-              eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
-              est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-              velit, sed quia non numquam eius modi tempora incidunt ut labore
-              et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
-              veniam, quis nostrum exercitationem ullam corporis suscipit
-              laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
-              vel eum iure reprehenderit qui in ea voluptate velit esse quam
-              nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-              voluptas nulla pariatur?"{" "}
-            </Typography>
-          </Box>
-          <Box gridColumn="span 4"
-          gridRow="span 5"
-          >
-              <Typography sx={{
-                color: theme.palette.text.main,
-              }} > "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-              eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
-              est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-              velit, sed quia non numquam eius modi tempora incidunt ut labore
-              et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
-              veniam, quis nostrum exercitationem ullam corporis suscipit
-              laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
-              vel eum iure reprehenderit qui in ea voluptate velit esse quam
-              nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-              voluptas nulla pariatur?</Typography>
-          </Box>
+         </Box>
+         <Box 
+          gridColumn="span 3"
+         sx={{
+          backgroundColor: theme.palette.income.main
+         }}>
+            <StatBox
+              title="Monthly Income"
+              value={`$${totalData.Income.toFixed(2)}`}
+              increase="+14%"
+              description=""
+              icon={
+                <Paid
+                  sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
+                />
+              }
+            />
+         </Box>
+         <Box 
+          gridColumn="1 / span 3"
+         sx={{
+          backgroundColor: theme.palette.primary.main
+         }}>
+             <Typography sx={{
+            fontWeight:"600",
+            color: theme.palette.text.main
+          }}> Income Categories</Typography>
+            <IncomePieChart  data={income}    sx={{
+                width: "100%", // Full width of the parent Box
+                height: "100%", // Full height of the parent Box
+              }}/>
+         </Box>
+         <Box 
+          gridColumn=" span 3"
+         sx={{
+          backgroundColor: theme.palette.secondary.main
+         }}>
+            <StatBox
+              color={theme.palette.expenses.dark}
+              title="Monthly Expenses"
+              value={`$${totalData.Income.toFixed(2)}`}
+              increase="+14%"
+              description=""
+              icon={
+                <Paid
+                  sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
+                />
+              }
+            />
+         </Box>
+         <Box 
+         gridRow="1 / span 2"
+          gridColumn=" 7 / span 3"
+         sx={{
+          backgroundColor: theme.palette.primary.main
+         }}>
+            <RecentExpenses expenses={expenses}/>
+         </Box>
+         <Box 
+         gridRow="1 / span 1"
+          gridColumn=" 10 / span 6"
+         sx={{
+          backgroundColor: theme.palette.primary.main
+         }}>
+            <IncomeGoalProgress />
+         </Box>
+         <Box 
+         gridRow="3 / span 2"
+          gridColumn=" 1 / span 6"
+         sx={{
+          backgroundColor: theme.palette.primary.main
+         }}>
+          <Typography sx={{
+            fontWeight:"600",
+            color: theme.palette.text.main
+          }}> Income Vs Expenses</Typography>
+            <ComparativeBarChart incomeData={income} expensesData={expenses} />
+         </Box>
+         <Box 
+         gridRow="3 / span 2"
+          gridColumn=" 6 / span 3"
+         sx={{
+          backgroundColor: theme.palette.primary.main
+         }}>
+             <Typography sx={{
+            fontWeight:"600",
+            color: theme.palette.text.main
+          }}> Expenses By Category</Typography>
+            <ExpensesPieChart  data={expenses} sx={{
+              width:"100%",
+              height: "100%"
+            }}/>
+         </Box>
 
+         <Box 
+         gridRow="3 / span 2"
+          gridColumn=" 10 / span 4"
+         sx={{
+          backgroundColor: theme.palette.primary.main
+         }}>
+         <ExpenseLineChart  expenseData={expenses}/>
+         </Box>
+
+         
+
+          
+          
+
+        
+
+         
         </Box>
       </Box>
     </Box>

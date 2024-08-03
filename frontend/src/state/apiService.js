@@ -22,3 +22,11 @@ export const fetchSavings = async (token) => {
   });
   return response.data;
 };
+
+
+export const fetchGoals = async (token) => {
+  const response = await axios.get(`${BASE_URL}/goals`, {
+    headers: {Authorization: `Bearer ${token}`}
+  });
+  return response.data;
+}

@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { fetchIncome, fetchExpenses, fetchSavings } from './apiService';
+import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals } from './apiService';
 import { formatDataByMonth } from '../analytics/utils/formatData';
 import { getTotalByMonth } from '../analytics/utils/getTotalByMonth';
+import { calculateTotalIncome } from '../analytics/utils/getTotal';
 
 export const DataContext = createContext();
 
@@ -9,6 +10,7 @@ export const DataProvider = ({ children }) => {
   const [income, setIncome] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [savings, setSavings] = useState([]);
+  const [goals, setGoals] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedCategory, setSelectedCategory] = useState("income");
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,15 +19,17 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [incomeData, expensesData, savingsData] = await Promise.all([
+        const [incomeData, expensesData, savingsData, goalsData] = await Promise.all([
           fetchIncome(token),
           fetchExpenses(token),
           fetchSavings(token),
+          fetchGoals(token)
         ]);
 
         setIncome(incomeData);
         setExpenses(expensesData);
         setSavings(savingsData);
+        setGoals(goalsData)
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -33,6 +37,13 @@ export const DataProvider = ({ children }) => {
 
     loadData();
   }, [token]);
+
+const incomeTotal = useMemo(
+  () => calculateTotalIncome(income),
+  [income]
+)
+
+
 
   // Memoize filtered data
   const filteredIncome = useMemo(
@@ -51,17 +62,17 @@ export const DataProvider = ({ children }) => {
   );
 
   // Memoize totals
-  const incomeTotals = useMemo(
+  const incomeTotalsbyMonth = useMemo(
     () => getTotalByMonth(income, selectedDate),
     [income, selectedDate]
   );
 
-  const expenseTotals = useMemo(
+  const expenseTotalsbyMonth = useMemo(
     () => getTotalByMonth(expenses, selectedDate),
     [expenses, selectedDate]
   );
 
-  const savingsTotals = useMemo(
+  const savingsTotalsbyMonth = useMemo(
     () => getTotalByMonth(savings, selectedDate),
     [savings, selectedDate]
   );
@@ -75,15 +86,18 @@ export const DataProvider = ({ children }) => {
         filteredIncome,
         filteredExpenses,
         filteredSavings,
-        incomeTotals,
-        expenseTotals,
-        savingsTotals,
+        incomeTotalsbyMonth,
+        expenseTotalsbyMonth,
+        savingsTotalsbyMonth,
         selectedDate,
         setSelectedDate,
         selectedCategory,
         setSelectedCategory,
         searchTerm,
-        setSearchTerm
+        setSearchTerm,
+        goals,
+        setGoals,
+        incomeTotal
       }}
     >
       {children}

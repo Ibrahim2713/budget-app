@@ -22,7 +22,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/logs" element={<Logs />} />
+          <Route path="/spreadsheet" element={<Logs />} />
         </Routes>
       </Router>
     </ThemeProvider>

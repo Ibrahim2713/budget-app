@@ -5,12 +5,12 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 function IncomePieChart({ data }) {
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <PieChart>
+  
+      <PieChart width={300} height={150}>
         <Pie
           data={data}
           dataKey="amount"
-          nameKey="source"
+          nameKey="category"
           cx="50%"
           cy="50%"
           outerRadius="80%"
@@ -18,15 +18,15 @@ function IncomePieChart({ data }) {
           label
         >
           {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${entry.category}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
         <Tooltip 
-    formatter={(value, name, props) => [`Amount: ${value}`, `Source: ${props.payload.source}`]}
+    formatter={(value, name, props) => [`Amount: ${value}`, `Category: ${props.payload.category}`]}
   />
         <Legend />
       </PieChart>
-    </ResponsiveContainer>
+  
   );
 }
 

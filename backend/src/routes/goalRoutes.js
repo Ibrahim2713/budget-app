@@ -7,15 +7,15 @@ const router = express.Router();
 
 
 // Route to create a new goal
-router.post('/goals',md.authenticated , goalController.createGoal);
+router.post('/',md.authenticated , goalController.createGoal);
 
 // Route to get all goals for a user
-router.get('/goals', md.authenticated, goalController.getAllGoals);
+router.get('/', md.authenticated, goalController.getAllGoals);
 
 // Route to update a goal
-router.put('/goals/:id', md.authenticated, goalController.updateGoal);
+router.put('/;id', md.authenticated, goalController.updateGoal);
 
 // Route to delete a goal
-router.delete('/goals/:id', md.authenticated, goalController.deleteGoal);
+router.delete('/:id', md.authenticated, goalController.deleteGoal);
 
 module.exports = router;
