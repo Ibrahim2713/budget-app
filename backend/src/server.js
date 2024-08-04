@@ -6,8 +6,10 @@ const IncomeRouter = require('./routes/incomeRoutes');
 const SavingsRouter = require('./routes/savingsRoutes');
 const ExpenseRouter = require('./routes/expenseRoutes');
 const DateDetailsRouter = require('./routes/dateRoutes');
-const CategoryRouter = require('./routes/categoryRoutes');
-const GoalsRouter = require('./routes/goalRoutes')
+const expenseCategory = require('./routes/expenseCategory');
+const incomeCategory = require('./routes/incomeCategory');
+const savingsCategory = require('./routes/savingsCategory')
+const GoalsRouter = require('./routes/goalRoutes');
 const server = express();
 
 
@@ -23,7 +25,11 @@ server.use('/api/income', IncomeRouter);
 server.use('/api/savings', SavingsRouter);
 server.use('/api/expenses', ExpenseRouter);
 server.use('/api/dateDetails', DateDetailsRouter);
-server.use('/api/category', CategoryRouter);
+server.use('/api/expense-categories', expenseCategory);
+server.use('/api/income-categories', incomeCategory);
+server.use('/api/savings-categories', savingsCategory);
+
+
 server.use('/api/goals', GoalsRouter);
 
 

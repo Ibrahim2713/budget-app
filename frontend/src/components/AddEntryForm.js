@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
-import { Box, TextField, Button, MenuItem, useTheme } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { DataContext } from '../state/Datacontext';
+import { Box, TextField, Button, Select, MenuItem, useTheme } from '@mui/material';
 import { postIncome, postExpense, postSavings } from '../state/apiService';
 
 const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
@@ -8,7 +9,14 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
-  const token = localStorage.getItem('token');
+  const {
+   incomeCategory,
+   expensesCategory,
+   savingsCategory
+  } = useContext(DataContext);
+  const token = localStorage.getItem('token')
+
+  
 
 
   const handleSubmit = (e) => {
@@ -18,10 +26,29 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
     setAmount('');
     setDate('');
 
-    if(dataType === "Income"){
-       postExpense()
+    if (dataType === "Income") {
+      postIncome(token);
+    } else if (dataType === "Expenses") {
+      postExpense(token);
+    } else if (dataType === "Savings") {
+      postSavings(token);
     }
   };
+
+  const getCategoryList = () => {
+    switch (dataType) {
+      case 'Income':
+        return incomeCategory;
+      case 'Expenses':
+        return expensesCategory;
+      case 'Savings':
+        return savingsCategory;
+      default:
+        return [];
+    }
+  };
+
+
 
   return (
     <Box
@@ -36,12 +63,22 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
         borderRadius: '8px',
       }}
     >
-      <TextField
+       <Select
         label="Category"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
+        displayEmpty
         required
-      />
+      >
+        <MenuItem value="" disabled>
+          Select Category
+        </MenuItem>
+        {getCategoryList().map((cat) => (
+          <MenuItem key={cat.id} value={cat.name}>
+            {cat.name}
+          </MenuItem>
+        ))}
+      </Select>
       <TextField
         label="Amount"
         type="number"

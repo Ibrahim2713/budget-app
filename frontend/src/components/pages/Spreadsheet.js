@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { fetchExpenseCategories } from "../../state/apiService";
 import { DataGrid } from "@mui/x-data-grid";
 import {
   Box,
@@ -20,7 +21,12 @@ const columns = [
   { field: "date", headerName: "Date", flex: 1, renderCell: (params) => format(parseISO(params.value), "MM/dd/yyyy")},
 ];
 
+
+
 function Spreadsheet() {
+
+
+ 
   const theme = useTheme();
   const {
     income,

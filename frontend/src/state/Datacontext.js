@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals } from './apiService';
+import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories } from './apiService';
 import { formatDataByMonth } from '../analytics/utils/formatData';
 import { getTotalByMonth } from '../analytics/utils/getTotalByMonth';
 import { calculateTotalIncome } from '../analytics/utils/getTotal';
@@ -11,6 +11,9 @@ export const DataProvider = ({ children }) => {
   const [income, setIncome] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [savings, setSavings] = useState([]);
+  const [incomeCategory, setIncomeCategory] = useState([]);
+  const [expensesCategory, setExpensesCategory] = useState([]);
+  const [savingsCategory, setSavingsCategory] = useState([]);
   const [goals, setGoals] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedCategory, setSelectedCategory] = useState("income");
@@ -20,17 +23,24 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [incomeData, expensesData, savingsData, goalsData] = await Promise.all([
+        const [incomeData, expensesData, savingsData, goalsData, incomeCategory, expenseCategory, savingsCategory] = await Promise.all([
           fetchIncome(token),
           fetchExpenses(token),
           fetchSavings(token),
-          fetchGoals(token)
+          fetchGoals(token),
+          fetchIncomeCategories(token),
+          fetchExpenseCategories(token),
+          fetchSavingsCategories(token)
+
         ]);
 
         setIncome(incomeData);
         setExpenses(expensesData);
         setSavings(savingsData);
-        setGoals(goalsData)
+        setGoals(goalsData);
+        setIncomeCategory(incomeCategory);
+        setExpensesCategory(expenseCategory);
+        setSavingsCategory(savingsCategory);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -104,7 +114,10 @@ const incomeTotal = useMemo(
         goals,
         setGoals,
         incomeTotal,
-        netWorth
+        netWorth,
+        incomeCategory,
+        expensesCategory,
+        savingsCategory
       }}
     >
       {children}

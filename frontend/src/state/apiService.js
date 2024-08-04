@@ -48,3 +48,26 @@ export const postSavings = async (data,token) => {
   })
   return response.data
 }
+
+export const fetchExpenseCategories = async(token ) => {
+  const response = await axios.get(`${BASE_URL}/expense-categories`, {
+    headers: {Authorization: `Bearer ${token}`}
+  })
+  return response.data
+}
+
+export const fetchIncomeCategories = async(token ) => {
+  const response = await axios.get(`${BASE_URL}/income-categories`, {
+    headers: {Authorization: `Bearer ${token}`}
+  })
+  return response.data
+}
+
+export const fetchSavingsCategories = async(token ) => {
+  const response = await axios.get(`${BASE_URL}/savings-categories`, {
+    headers: {Authorization: `Bearer ${token}`}
+  })
+  return response.data
+}
+
+
