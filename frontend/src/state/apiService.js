@@ -30,3 +30,21 @@ export const fetchGoals = async (token) => {
   });
   return response.data;
 }
+export const postIncome = async (data, token) => {
+  const response = await axios.post(`${BASE_URL}/income`, data, {
+    headers: {Authorization: `Bearer ${token}`}
+  })
+  return response.data
+}
+export const postExpense = async (data,token) => {
+  const response = await axios.post(`${BASE_URL}/iexpenses`, data, {
+    headers: {Authorization: `Bearer ${token}`}
+  })
+  return response.data
+}
+export const postSavings = async (data,token) => {
+  const response = await axios.post(`${BASE_URL}/savings`, data,  {
+    headers: {Authorization: `Bearer ${token}`}
+  })
+  return response.data
+}

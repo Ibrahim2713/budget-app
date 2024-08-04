@@ -9,7 +9,7 @@ import { theme } from "./styles/theme";
 import Login from "./components/pages/Login";
 import Analytics from "./components/pages/Analytics";
 import Dashboard from "./components/pages/Dashboard";
-import Logs from "./components/pages/Logs";
+import Spreadsheet from "./components/pages/Spreadsheet";
 
 // TODO
 // USer wants to send transaction data to backend db and view this data whenever
@@ -22,7 +22,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/spreadsheet" element={<Logs />} />
+          <Route path="/spreadsheet" element={<Spreadsheet />} />
         </Routes>
       </Router>
     </ThemeProvider>

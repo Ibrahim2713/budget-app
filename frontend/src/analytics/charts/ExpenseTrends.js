@@ -2,12 +2,18 @@ import React, { useMemo } from "react";
 import { useTheme } from "@emotion/react";
 import { ResponsiveLine } from "@nivo/line";
 
-const ExpenseLineChart = ({ expenseData = [] }) => {
+const ExpenseTrends = ({ expenseData = [] }) => {
   const theme = useTheme();
-  console.log(expenseData)
+
 
   // Define the color for the expense dataset
   const color = theme.palette.expenses.dark;
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
 
   // Combine the data into one array for expenses
   const dataLines = useMemo(() => {
@@ -89,13 +95,7 @@ const ExpenseLineChart = ({ expenseData = [] }) => {
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        format: (v) => {
-          const monthNames = [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-          ];
-          return monthNames[v - 1];
-        },
+        format: (v) =>  monthNames[v - 1],
         orient: "bottom",
         tickSize: 10,
         tickPadding: 10,
@@ -118,9 +118,9 @@ const ExpenseLineChart = ({ expenseData = [] }) => {
       enableGridX={false}
       enableGridY={false}
       pointSize={10}
-      pointColor={theme.palette.secondary.main}
+      pointColor={theme.palette.expenses.dark}
       pointBorderWidth={2}
-      pointBorderColor={theme.palette.secondary.main}
+      pointBorderColor={theme.palette.expenses.dark}
       pointLabelYOffset={-12}
       pointLabel="label"
       useMesh={true}
@@ -168,4 +168,4 @@ const ExpenseLineChart = ({ expenseData = [] }) => {
   );
 };
 
-export default ExpenseLineChart;
+export default ExpenseTrends;

@@ -29,7 +29,7 @@ export const theme = createTheme({
       dark: "#FF3800"
     },
     savings: {
-      main: colorTokens.savings[100],
+      main: colorTokens.savings[300],
       dark: colorTokens.savings[500] // Ensure this exists if you're using it
     },
 

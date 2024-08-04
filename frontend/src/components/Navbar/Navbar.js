@@ -51,6 +51,17 @@ const navigate = useNavigate()
         >
           Spreadsheet
         </Button>
+        <Button
+          variant="outlined"
+          sx={{
+            color: theme.palette.secondary.light,
+            borderColor: theme.palette.secondary.light,
+          }}
+          onClick={() => redirect('/analytics')}
+        >
+          Analytics
+        </Button>
+
       </Box>
 
       <Box display="flex">

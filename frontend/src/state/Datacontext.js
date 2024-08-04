@@ -3,6 +3,7 @@ import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals } from './apiServi
 import { formatDataByMonth } from '../analytics/utils/formatData';
 import { getTotalByMonth } from '../analytics/utils/getTotalByMonth';
 import { calculateTotalIncome } from '../analytics/utils/getTotal';
+import { calculateNetWorth } from '../analytics/utils/calculateNetworth';
 
 export const DataContext = createContext();
 
@@ -77,6 +78,11 @@ const incomeTotal = useMemo(
     [savings, selectedDate]
   );
 
+  const netWorth = useMemo(
+    () => calculateNetWorth(incomeTotalsbyMonth, expenseTotalsbyMonth, savingsTotalsbyMonth),
+    [incomeTotalsbyMonth, expenseTotalsbyMonth, savingsTotalsbyMonth]
+  );
+
   return (
     <DataContext.Provider
       value={{
@@ -97,7 +103,8 @@ const incomeTotal = useMemo(
         setSearchTerm,
         goals,
         setGoals,
-        incomeTotal
+        incomeTotal,
+        netWorth
       }}
     >
       {children}
