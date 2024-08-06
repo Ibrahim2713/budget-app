@@ -26,7 +26,6 @@ const columns = [
 function Spreadsheet() {
 
 
- 
   const theme = useTheme();
   const {
     income,

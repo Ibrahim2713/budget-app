@@ -67,6 +67,15 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
     }
   };
 
+  const renderMenuItems = (categories, indent = 0) => {
+    return categories.flatMap((category) => [
+      <MenuItem key={category.id} value={category.id} sx={{ pl: indent }}>
+        {category.name}
+      </MenuItem>,
+      ...(category.children ? renderMenuItems(category.children, indent + 2) : []),
+    ]);
+  };
+
   return (
     <Box
       component="form"
@@ -90,11 +99,7 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
         <MenuItem value="" disabled>
           Select Category
         </MenuItem>
-        {getCategoryList().map((cat) => (
-          <MenuItem key={cat.id} value={cat.id}>
-            {cat.name}
-          </MenuItem>
-        ))}
+        {renderMenuItems(getCategoryList())}
       </Select>
       <TextField
         label="Amount"
