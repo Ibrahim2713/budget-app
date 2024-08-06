@@ -33,7 +33,7 @@ exports.getIncomeById = async (req,res) => {
 
 // Create a new income entry for specific user
 exports.addIncome = async (req,res) => {
-    const { date, month, year, amount, source } = req.body;
+    const { date, month, year, amount, category_id } = req.body;
 
     const user_id = req.decoded.subject;
     
@@ -42,7 +42,7 @@ exports.addIncome = async (req,res) => {
       }
 
     try {
-        await Income.addIncomeWithDate({ date, month, year, amount, source, user_id });
+        await Income.addIncomeWithDate({ date, month, year, amount,  user_id,category_id });
         res.status(201).json({ message: 'Income entry added successfully' });
     }
     catch (error) {

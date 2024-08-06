@@ -117,7 +117,10 @@ const incomeTotal = useMemo(
         netWorth,
         incomeCategory,
         expensesCategory,
-        savingsCategory
+        savingsCategory,
+        setIncome,
+        setSavings,
+        setExpenses
       }}
     >
       {children}

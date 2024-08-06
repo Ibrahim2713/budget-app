@@ -37,6 +37,8 @@ function Spreadsheet() {
     setSavings,
     searchTerm,
     setSearchTerm,
+    postIncome,
+    postExpense,postSavings
   } = useContext(DataContext);
 
   const [dataView, setDataView] = useState("Income");
@@ -51,16 +53,37 @@ function Spreadsheet() {
     setAnchorEl(null);
   };
 
-  const handleAddEntry = (newEntry) => {
-    if (dataView === "Income") {
-      setIncome(prev => [...prev, { ...newEntry, _id: new Date().toISOString() }]);
-    } else if (dataView === "Expenses") {
-      setExpenses(prev => [...prev, { ...newEntry, _id: new Date().toISOString() }]);
-    } else if (dataView === "Savings") {
-      setSavings(prev => [...prev, { ...newEntry, _id: new Date().toISOString() }]);
+  const handleAddEntry = async (newEntry) => {
+    try {
+      let response;
+  
+      if (dataView === "Income") {
+        response = await postIncome(newEntry); // Assuming this returns the new entry
+      } else if (dataView === "Expenses") {
+        response = await postExpense(newEntry);
+      } else if (dataView === "Savings") {
+        response = await postSavings(newEntry);
+      }
+  
+      // Assuming the response contains the new entry with the backend-assigned ID
+      const createdEntry = response.data;
+  
+      // Update the local state with the new entry
+      if (dataView === "Income") {
+        setIncome((prev) => [...prev, createdEntry]);
+      } else if (dataView === "Expenses") {
+        setExpenses((prev) => [...prev, createdEntry]);
+      } else if (dataView === "Savings") {
+        setSavings((prev) => [...prev, createdEntry]);
+      }
+  
+      setFormVisible(false);
+    } catch (error) {
+      console.error("Error adding entry:", error);
+      // Optionally handle error here, e.g., show a notification
     }
-    setFormVisible(false);
   };
+  
 
   const filteredData = {
     Income: income.filter((row) =>
@@ -126,7 +149,7 @@ function Spreadsheet() {
         sx={{
           "& .MuiDataGrid-root": { border: "none", borderRadius: "5rem" },
           "& .MuiDataGrid-cell": { borderBottom: "none", backgroundColor: theme.palette.primary.main, color: theme.palette.text.main },
-          "& .MuiDataGrid-columnHeaders": { backgroundColor: theme.palette.primary.main, borderBottom: "none" },
+          "& .MuiDataGrid-columnHeaders": { backgroundColor: theme.palette.secondary.main, borderBottom: "none" },
           "& .MuiDataGrid-virtualScroller": { backgroundColor: theme.palette.primary.main },
           "& .MuiDataGrid-footerContainer": { backgroundColor: theme.palette.primary.main, color: theme.palette.text.main, borderTop: "none" },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": { color: `${theme.palette.text.main} !important` },

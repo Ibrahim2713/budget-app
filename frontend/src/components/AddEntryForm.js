@@ -1,4 +1,3 @@
-
 import React, { useState, useContext } from 'react';
 import { DataContext } from '../state/Datacontext';
 import { Box, TextField, Button, Select, MenuItem, useTheme } from '@mui/material';
@@ -6,32 +5,52 @@ import { postIncome, postExpense, postSavings } from '../state/apiService';
 
 const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
   const theme = useTheme();
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
+  const [description, setDescription] = useState(''); // New state for description
   const {
-   incomeCategory,
-   expensesCategory,
-   savingsCategory
+    incomeCategory,
+    expensesCategory,
+    savingsCategory
   } = useContext(DataContext);
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
+  console.log(categoryId);
 
-  
-
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAdd({ category, amount: parseFloat(amount), date });
-    setCategory('');
-    setAmount('');
-    setDate('');
+    const dateObj = new Date(date);
+    const month = dateObj.getMonth() + 1;
+    const year = dateObj.getFullYear();
+    const newEntry = { 
+      category_id: categoryId, 
+      amount: parseFloat(amount), 
+      date, 
+      month, 
+      year,
+      description // Include description in the newEntry object
+    };
 
-    if (dataType === "Income") {
-      postIncome(token);
-    } else if (dataType === "Expenses") {
-      postExpense(token);
-    } else if (dataType === "Savings") {
-      postSavings(token);
+    try {
+      let response;
+      if (dataType === 'Income') {
+        response = await postIncome(newEntry, token); // Pass newEntry to the API
+      } else if (dataType === 'Expenses') {
+        response = await postExpense(newEntry, token);
+      } else if (dataType === 'Savings') {
+        response = await postSavings(newEntry, token);
+      }
+
+      // Assuming the response contains the new entry with the backend-assigned ID
+      onAdd(response.data);
+
+      // Reset form fields
+      setCategoryId('');
+      setAmount('');
+      setDate('');
+      setDescription(''); // Reset description field
+    } catch (error) {
+      console.error('Error adding entry:', error);
     }
   };
 
@@ -48,8 +67,6 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
     }
   };
 
-
-
   return (
     <Box
       component="form"
@@ -63,10 +80,10 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
         borderRadius: '8px',
       }}
     >
-       <Select
+      <Select
         label="Category"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
+        value={categoryId}
+        onChange={(e) => setCategoryId(e.target.value)}
         displayEmpty
         required
       >
@@ -74,7 +91,7 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
           Select Category
         </MenuItem>
         {getCategoryList().map((cat) => (
-          <MenuItem key={cat.id} value={cat.name}>
+          <MenuItem key={cat.id} value={cat.id}>
             {cat.name}
           </MenuItem>
         ))}
@@ -93,6 +110,11 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
         value={date}
         onChange={(e) => setDate(e.target.value)}
         required
+      />
+      <TextField
+        label="Description" // New description field
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
         <Button type="submit" variant="contained" color="primary">Add</Button>
