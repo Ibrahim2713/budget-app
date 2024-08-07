@@ -2,11 +2,11 @@ import React, { useContext, useMemo, useState } from "react";
 import FlexBetween from "../FlexBetween";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
-import Header from "../Header";
-import CalendarPicker from "../CalanderPicker";
-import StatBox from "../StatBox";
-import OverviewChart from "../OverviewChart";
-import BreakdownChart from "../BreakdownChart";
+import Header from "../Header/Header";
+import CalendarPicker from "../Dashboard/CalanderPicker";
+import StatBox from "../Dashboard/StatBox";
+import OverviewChart from "../../analytics/charts/OverviewChart";
+import BreakdownChart from "../../analytics/charts/BreakdownChart";
 import {
   Box,
   Button,
@@ -38,9 +38,7 @@ function Dashboard() {
     incomeTotalsbyMonth,
     expenseTotalsbyMonth,
     savingsTotalsbyMonth,
-
   } = useContext(DataContext);
- 
 
   const filteredData = {
     Income: filteredIncome,
@@ -51,14 +49,8 @@ function Dashboard() {
   const totalData = {
     Income: incomeTotalsbyMonth,
     Expenses: expenseTotalsbyMonth,
-    Savings: savingsTotalsbyMonth
-  }
-
- 
-
-
-
- 
+    Savings: savingsTotalsbyMonth,
+  };
 
   const columns = [
     {
@@ -111,7 +103,12 @@ function Dashboard() {
       default:
         return [];
     }
-  }, [dataView, filteredData.Income, filteredData.Expenses, filteredData.Savings]);
+  }, [
+    dataView,
+    filteredData.Income,
+    filteredData.Expenses,
+    filteredData.Savings,
+  ]);
 
   return (
     <Box m="1.5rem 2.5" sx={{ backgroundColor: theme.palette.primary.main }}>
@@ -124,7 +121,7 @@ function Dashboard() {
           <FlexBetween>
             <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
             <Box display="flex" gap={5}>
-            <CalendarPicker
+              <CalendarPicker
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
               />

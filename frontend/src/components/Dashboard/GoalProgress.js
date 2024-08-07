@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
-import { Box, Typography, LinearProgress, useTheme } from '@mui/material';
-import { DataContext } from '../state/Datacontext';
+import React, { useContext } from "react";
+import { Box, Typography, LinearProgress, useTheme } from "@mui/material";
+import { DataContext } from "../../state/Datacontext";
 
 function GoalProgress() {
   const theme = useTheme();
-  const { goals, incomeTotalsbyMonth, expensesTotalsbyMonth, savingsTotalsbyMonth } = useContext(DataContext);
+  const {
+    goals,
+    incomeTotalsbyMonth,
+    expensesTotalsbyMonth,
+    savingsTotalsbyMonth,
+  } = useContext(DataContext);
 
   // Function to get the total amount for a specific goal
   const getTotalAmountForGoal = (goal) => {
@@ -12,12 +17,12 @@ function GoalProgress() {
     let totalAmount = 0;
 
     // Get the total amount for the current month based on the goal type
-    if (goal.type === 'savings') {
-      totalAmount = (savingsTotalsbyMonth[month]?.amount || 0);
-    } else if (goal.type === 'expenses') {
-      totalAmount = (expensesTotalsbyMonth[month]?.amount || 0);
-    } else if (goal.type === 'income') {
-      totalAmount = (incomeTotalsbyMonth[month]?.amount || 0);
+    if (goal.type === "savings") {
+      totalAmount = savingsTotalsbyMonth[month]?.amount || 0;
+    } else if (goal.type === "expenses") {
+      totalAmount = expensesTotalsbyMonth[month]?.amount || 0;
+    } else if (goal.type === "income") {
+      totalAmount = incomeTotalsbyMonth[month]?.amount || 0;
     }
 
     return totalAmount;
@@ -30,7 +35,11 @@ function GoalProgress() {
 
   return (
     <Box p={2} sx={{ backgroundColor: theme.palette.primary.main }}>
-      <Typography variant="h6" gutterBottom sx={{ color: theme.palette.text.main }}>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{ color: theme.palette.text.main }}
+      >
         Recent Goals
       </Typography>
       {recentGoals.length > 0 ? (
@@ -40,13 +49,22 @@ function GoalProgress() {
 
           return (
             <Box key={index} mb={2}>
-              <Typography variant="body1" sx={{ color: theme.palette.secondary.light }}>
+              <Typography
+                variant="body1"
+                sx={{ color: theme.palette.secondary.light }}
+              >
                 <strong>Type:</strong> {goal.type}
               </Typography>
-              <Typography variant="body1" sx={{ color: theme.palette.secondary.light }}>
+              <Typography
+                variant="body1"
+                sx={{ color: theme.palette.secondary.light }}
+              >
                 {goal.description}
               </Typography>
-              <Typography variant="body2" sx={{ color: theme.palette.secondary.light }}>
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.secondary.light }}
+              >
                 Deadline: {new Date(goal.deadline).toLocaleDateString()}
               </Typography>
               {goal.amount !== undefined && (
@@ -57,13 +75,16 @@ function GoalProgress() {
                     height: 10,
                     borderRadius: 5,
                     backgroundColor: theme.palette.grey[200],
-                    '& .MuiLinearProgress-bar': {
+                    "& .MuiLinearProgress-bar": {
                       backgroundColor: theme.palette.secondary.main,
                     },
                   }}
                 />
               )}
-              <Typography variant="body2" sx={{ color: theme.palette.secondary.light, mt: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.secondary.light, mt: 1 }}
+              >
                 {goal.amount !== undefined
                   ? `$${totalAmount.toFixed(2)} of $${goal.amount.toFixed(2)}`
                   : `Amount information unavailable`}
@@ -72,7 +93,10 @@ function GoalProgress() {
           );
         })
       ) : (
-        <Typography variant="body2" sx={{ color: theme.palette.secondary.light }}>
+        <Typography
+          variant="body2"
+          sx={{ color: theme.palette.secondary.light }}
+        >
           No recent goals set.
         </Typography>
       )}

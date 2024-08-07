@@ -1,28 +1,23 @@
 import React, { useContext } from "react";
-import {
-  Box,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { DataContext } from "../../state/Datacontext";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
-import CalendarPicker from "../CalanderPicker";
-import StatBox from "../StatBox";
+import CalendarPicker from "../Dashboard/CalanderPicker";
+import StatBox from "../Dashboard/StatBox";
 import IncomePieChart from "../../analytics/charts/IncomePieChart";
-import RecentExpenses from "../RecentExpenses";
-import GoalProgress from "../GoalProgress";
-import { DownloadOutlined, Paid } from "@mui/icons-material";
-import ComparativeLineChart from "../../analytics/charts/ExpenseTrends";
-import ExpensesPieChart from "../../analytics/charts/ExpensesPieChart"
-import BreakdownChart from "../BreakdownChart";
-import ComparativeBarChart from "../../analytics/charts/ComparativeBarchart";
+import RecentExpenses from "../Dashboard/RecentExpenses";
+import GoalProgress from "../Dashboard/GoalProgress";
+import { Paid } from "@mui/icons-material";
+
+import ExpensesPieChart from "../../analytics/charts/ExpensesPieChart";
+
 import ExpenseTrends from "../../analytics/charts/ExpenseTrends";
 import SavingsTrends from "../../analytics/charts/SavingsLineGraph";
 import SavingsPieChart from "../../analytics/charts/SavingsPieChart";
 function Analytics() {
   const theme = useTheme();
-
 
   const {
     income,
@@ -37,15 +32,11 @@ function Analytics() {
     savingsTotalsbyMonth,
     netWorth,
     filteredIncome,
-        filteredExpenses,
-        filteredSavings,
+    filteredExpenses,
+    filteredSavings,
   } = useContext(DataContext);
 
-  console.log(savings)
-
- 
-
-
+  console.log(savings);
 
   const totalData = {
     Income: incomeTotalsbyMonth,
@@ -70,33 +61,31 @@ function Analytics() {
           gridAutoRows="160px"
           gap="20px"
         >
-         <Box 
-         gridColumn="span 3"
-         sx={{
-          backgroundColor: theme.palette.text.main
-          
-         }}>
-           <StatBox
-            
+          <Box
+            gridColumn="span 3"
+            sx={{
+              backgroundColor: theme.palette.text.main,
+            }}
+          >
+            <StatBox
               title="Total Networth"
               value={`$${netWorth.toFixed(2)}`}
               increase="+14%"
               description=""
               color={theme.palette.secondary.main}
-              
               icon={
                 <Paid
                   sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
                 />
               }
-              
             />
-         </Box>
-         <Box 
-          gridColumn="span 3"
-         sx={{
-          backgroundColor: theme.palette.income.main
-         }}>
+          </Box>
+          <Box
+            gridColumn="span 3"
+            sx={{
+              backgroundColor: theme.palette.income.main,
+            }}
+          >
             <StatBox
               title="Monthly Income"
               value={`$${totalData.Income.toFixed(2)}`}
@@ -108,12 +97,13 @@ function Analytics() {
                 />
               }
             />
-         </Box>
-         <Box 
-          gridColumn="1 / span 3"
-         sx={{
-          backgroundColor: theme.palette.primary.main
-         }}>
+          </Box>
+          <Box
+            gridColumn="1 / span 3"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+            }}
+          >
             <StatBox
               color={theme.palette.savings.dark}
               title="Monthly Savings"
@@ -126,12 +116,13 @@ function Analytics() {
                 />
               }
             />
-         </Box>
-         <Box 
-          gridColumn=" span 3"
-         sx={{
-          backgroundColor: theme.palette.secondary.main
-         }}>
+          </Box>
+          <Box
+            gridColumn=" span 3"
+            sx={{
+              backgroundColor: theme.palette.secondary.main,
+            }}
+          >
             <StatBox
               color={theme.palette.expenses.dark}
               title="Monthly Expenses"
@@ -144,118 +135,144 @@ function Analytics() {
                 />
               }
             />
-         </Box>
-         <Box 
-         gridRow="1 / span 2"
-          gridColumn=" 7 / span 3"
-         sx={{
-          backgroundColor: theme.palette.primary.main
-         }}>
-            <RecentExpenses expenses={expenses}/>
-         </Box>
-         <Box 
-         gridRow="1 / span 1"
-          gridColumn=" 10 / span 6"
-         sx={{
-          backgroundColor: theme.palette.primary.main
-         }}>
+          </Box>
+          <Box
+            gridRow="1 / span 2"
+            gridColumn=" 7 / span 3"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+            }}
+          >
+            <RecentExpenses expenses={expenses} />
+          </Box>
+          <Box
+            gridRow="1 / span 1"
+            gridColumn=" 10 / span 6"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+            }}
+          >
             <GoalProgress />
-         </Box>
-         <Box 
-         gridRow="3 / span 3"
-          gridColumn=" 1 / span 5"
-         sx={{
-          backgroundColor: theme.palette.primary.main
-         }}>
-          <Typography sx={{
-            fontWeight:"600",
-            color: theme.palette.text.main
-          }}> Income Breakdown</Typography>
-          <IncomePieChart filteredIncome={filteredIncome}   sx={{
-              width:"100%",
-              height: "100%"
-          }}
-          />
-         </Box>
-         <Box 
-         gridRow="3 / span 3"
-          gridColumn=" 6 / span 4"
-         sx={{
-          backgroundColor: theme.palette.primary.main,
-          overflow: 'hidden', // Ensure contents do not overflow
-          position: 'relative',
-          padding: '1rem', 
-          
-         }}>
-             <Typography sx={{
-            fontWeight:"600",
-            color: theme.palette.text.main
-          }}> Expenses Breakdown</Typography>
-            <ExpensesPieChart  filteredExpenses={filteredExpenses} sx={{
-              width:"100%",
-              height: "100%"
-            }}/>
-         </Box>
+          </Box>
+          <Box
+            gridRow="3 / span 3"
+            gridColumn=" 1 / span 5"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "600",
+                color: theme.palette.text.main,
+              }}
+            >
+              {" "}
+              Income Breakdown
+            </Typography>
+            <IncomePieChart
+              filteredIncome={filteredIncome}
+              sx={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </Box>
+          <Box
+            gridRow="3 / span 3"
+            gridColumn=" 6 / span 4"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              overflow: "hidden", // Ensure contents do not overflow
+              position: "relative",
+              padding: "1rem",
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "600",
+                color: theme.palette.text.main,
+              }}
+            >
+              {" "}
+              Expenses Breakdown
+            </Typography>
+            <ExpensesPieChart
+              filteredExpenses={filteredExpenses}
+              sx={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </Box>
 
-         <Box 
-         gridRow="3 / span 2"
-          gridColumn=" 10 / span 4"
-         sx={{
-          backgroundColor: theme.palette.primary.main
-         }}>
-           <Typography sx={{
-            fontWeight:"600",
-            color: theme.palette.text.main
-          }}>  Savings Breakdown</Typography>
-              <SavingsPieChart  filteredSavings={filteredSavings} sx={{
-              width:"100%",
-              height: "100%"
-            }}/>
-         </Box>
-         <Box 
-         gridColumn="1 / span 6"
-         gridRow="5 / span 3"
-         
-         sx={{
-          backgroundColor: theme.palette.primary.main,
-          padding: '1rem',
-          position: 'relative', // Ensure proper stacking context
-          zIndex: 0
-         }}>
-           <Typography sx={{
-            fontWeight:"600",
-            color: theme.palette.text.main,
-            mb: 1,
-           
-          }}> Savings Trends</Typography>
+          <Box
+            gridRow="3 / span 2"
+            gridColumn=" 10 / span 4"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "600",
+                color: theme.palette.text.main,
+              }}
+            >
+              {" "}
+              Savings Breakdown
+            </Typography>
+            <SavingsPieChart
+              filteredSavings={filteredSavings}
+              sx={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </Box>
+          <Box
+            gridColumn="1 / span 6"
+            gridRow="5 / span 3"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              padding: "1rem",
+              position: "relative", // Ensure proper stacking context
+              zIndex: 0,
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "600",
+                color: theme.palette.text.main,
+                mb: 1,
+              }}
+            >
+              {" "}
+              Savings Trends
+            </Typography>
             <SavingsTrends savingsData={savings} />
-         </Box>
-         <Box
-         gridColumn="7 / span 6"
-         gridRow="5 / span 3"
-         sx={{
-          backgroundColor: theme.palette.primary.main,
-          padding: '1rem',
-          position: 'relative', 
-      
-         }}
-         >
-           <Typography sx={{
-            fontWeight:"600",
-            color: theme.palette.text.main,
-            mb: 1, 
-          }}> Expenses Trends</Typography>
-                 <ExpenseTrends  expenseData={expenses}/>
-         </Box>
-
-         
-
-          
-          
-
-        
-
-         
+          </Box>
+          <Box
+            gridColumn="7 / span 6"
+            gridRow="5 / span 3"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              padding: "1rem",
+              position: "relative",
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "600",
+                color: theme.palette.text.main,
+                mb: 1,
+              }}
+            >
+              {" "}
+              Expenses Trends
+            </Typography>
+            <ExpenseTrends expenseData={expenses} />
+          </Box>
         </Box>
       </Box>
     </Box>

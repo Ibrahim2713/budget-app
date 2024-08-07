@@ -1,31 +1,31 @@
 import React, { useState, useContext, useEffect } from "react";
 import { fetchExpenseCategories } from "../../state/apiService";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Menu, MenuItem, useTheme } from "@mui/material";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { DataContext } from "../../state/Datacontext";
 import { format, parseISO } from "date-fns";
-import AddEntryForm from '../AddEntryForm';
+import AddEntryForm from "../Forms/AddEntryForm";
 
 const columns = [
   { field: "_id", headerName: "ID", flex: 1 },
   { field: "category", headerName: "Category", flex: 1 },
-  { field: "amount", headerName: "Amount", flex: 1, renderCell: (params) => `$${Number(params.value).toFixed(2)}` },
-  { field: "date", headerName: "Date", flex: 1, renderCell: (params) => format(parseISO(params.value), "MM/dd/yyyy")},
+  {
+    field: "amount",
+    headerName: "Amount",
+    flex: 1,
+    renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+  },
+  {
+    field: "date",
+    headerName: "Date",
+    flex: 1,
+    renderCell: (params) => format(parseISO(params.value), "MM/dd/yyyy"),
+  },
 ];
 
-
-
 function Spreadsheet() {
-
-
   const theme = useTheme();
   const {
     income,
@@ -37,7 +37,8 @@ function Spreadsheet() {
     searchTerm,
     setSearchTerm,
     postIncome,
-    postExpense,postSavings
+    postExpense,
+    postSavings,
   } = useContext(DataContext);
 
   const [dataView, setDataView] = useState("Income");
@@ -55,7 +56,7 @@ function Spreadsheet() {
   const handleAddEntry = async (newEntry) => {
     try {
       let response;
-  
+
       if (dataView === "Income") {
         response = await postIncome(newEntry); // Assuming this returns the new entry
       } else if (dataView === "Expenses") {
@@ -63,10 +64,10 @@ function Spreadsheet() {
       } else if (dataView === "Savings") {
         response = await postSavings(newEntry);
       }
-  
+
       // Assuming the response contains the new entry with the backend-assigned ID
       const createdEntry = response.data;
-  
+
       // Update the local state with the new entry
       if (dataView === "Income") {
         setIncome((prev) => [...prev, createdEntry]);
@@ -75,14 +76,13 @@ function Spreadsheet() {
       } else if (dataView === "Savings") {
         setSavings((prev) => [...prev, createdEntry]);
       }
-  
+
       setFormVisible(false);
     } catch (error) {
       console.error("Error adding entry:", error);
       // Optionally handle error here, e.g., show a notification
     }
   };
-  
 
   const filteredData = {
     Income: income.filter((row) =>
@@ -99,12 +99,12 @@ function Spreadsheet() {
   return (
     <Box
       m="1.5rem 2.5rem"
-      sx={{ 
+      sx={{
         backgroundColor: theme.palette.primary.main,
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-        overflow: 'hidden',
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        overflow: "hidden",
       }}
     >
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
@@ -126,13 +126,37 @@ function Spreadsheet() {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={() => { setDataView("Income"); handleMenuClose(); }}>Income</MenuItem>
-          <MenuItem onClick={() => { setDataView("Savings"); handleMenuClose(); }}>Savings</MenuItem>
-          <MenuItem onClick={() => { setDataView("Expenses"); handleMenuClose(); }}>Expenses</MenuItem>
+          <MenuItem
+            onClick={() => {
+              setDataView("Income");
+              handleMenuClose();
+            }}
+          >
+            Income
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setDataView("Savings");
+              handleMenuClose();
+            }}
+          >
+            Savings
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setDataView("Expenses");
+              handleMenuClose();
+            }}
+          >
+            Expenses
+          </MenuItem>
         </Menu>
         <Button
           onClick={() => setFormVisible(true)}
-          sx={{ marginLeft: '1rem', backgroundColor: theme.palette.secondary.light }}
+          sx={{
+            marginLeft: "1rem",
+            backgroundColor: theme.palette.secondary.light,
+          }}
         >
           Add New
         </Button>
@@ -147,11 +171,26 @@ function Spreadsheet() {
       <Box
         sx={{
           "& .MuiDataGrid-root": { border: "none", borderRadius: "5rem" },
-          "& .MuiDataGrid-cell": { borderBottom: "none", backgroundColor: theme.palette.primary.main, color: theme.palette.text.main },
-          "& .MuiDataGrid-columnHeaders": { backgroundColor: theme.palette.secondary.main, borderBottom: "none" },
-          "& .MuiDataGrid-virtualScroller": { backgroundColor: theme.palette.primary.main },
-          "& .MuiDataGrid-footerContainer": { backgroundColor: theme.palette.primary.main, color: theme.palette.text.main, borderTop: "none" },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": { color: `${theme.palette.text.main} !important` },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.text.main,
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: theme.palette.secondary.main,
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: theme.palette.primary.main,
+          },
+          "& .MuiDataGrid-footerContainer": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.text.main,
+            borderTop: "none",
+          },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${theme.palette.text.main} !important`,
+          },
         }}
       >
         <DataGrid

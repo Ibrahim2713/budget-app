@@ -1,20 +1,24 @@
-import React, { useState, useContext } from 'react';
-import { DataContext } from '../state/Datacontext';
-import { Box, TextField, Button, Select, MenuItem, useTheme } from '@mui/material';
-import { postIncome, postExpense, postSavings } from '../state/apiService';
+import React, { useState, useContext } from "react";
+import { DataContext } from "../../state/Datacontext";
+import {
+  Box,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  useTheme,
+} from "@mui/material";
+import { postIncome, postExpense, postSavings } from "../../state/apiService";
 
 const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
   const theme = useTheme();
-  const [categoryId, setCategoryId] = useState('');
-  const [amount, setAmount] = useState('');
-  const [date, setDate] = useState('');
-  const [description, setDescription] = useState(''); // New state for description
-  const {
-    incomeCategory,
-    expensesCategory,
-    savingsCategory
-  } = useContext(DataContext);
-  const token = localStorage.getItem('token');
+  const [categoryId, setCategoryId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [description, setDescription] = useState(""); // New state for description
+  const { incomeCategory, expensesCategory, savingsCategory } =
+    useContext(DataContext);
+  const token = localStorage.getItem("token");
   console.log(categoryId);
 
   const handleSubmit = async (e) => {
@@ -22,22 +26,22 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
     const dateObj = new Date(date);
     const month = dateObj.getMonth() + 1;
     const year = dateObj.getFullYear();
-    const newEntry = { 
-      category_id: categoryId, 
-      amount: parseFloat(amount), 
-      date, 
-      month, 
+    const newEntry = {
+      category_id: categoryId,
+      amount: parseFloat(amount),
+      date,
+      month,
       year,
-      description // Include description in the newEntry object
+      description, // Include description in the newEntry object
     };
 
     try {
       let response;
-      if (dataType === 'Income') {
+      if (dataType === "Income") {
         response = await postIncome(newEntry, token); // Pass newEntry to the API
-      } else if (dataType === 'Expenses') {
+      } else if (dataType === "Expenses") {
         response = await postExpense(newEntry, token);
-      } else if (dataType === 'Savings') {
+      } else if (dataType === "Savings") {
         response = await postSavings(newEntry, token);
       }
 
@@ -45,22 +49,22 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
       onAdd(response.data);
 
       // Reset form fields
-      setCategoryId('');
-      setAmount('');
-      setDate('');
-      setDescription(''); // Reset description field
+      setCategoryId("");
+      setAmount("");
+      setDate("");
+      setDescription(""); // Reset description field
     } catch (error) {
-      console.error('Error adding entry:', error);
+      console.error("Error adding entry:", error);
     }
   };
 
   const getCategoryList = () => {
     switch (dataType) {
-      case 'Income':
+      case "Income":
         return incomeCategory;
-      case 'Expenses':
+      case "Expenses":
         return expensesCategory;
-      case 'Savings':
+      case "Savings":
         return savingsCategory;
       default:
         return [];
@@ -72,7 +76,9 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
       <MenuItem key={category.id} value={category.id} sx={{ pl: indent }}>
         {category.name}
       </MenuItem>,
-      ...(category.children ? renderMenuItems(category.children, indent + 2) : []),
+      ...(category.children
+        ? renderMenuItems(category.children, indent + 2)
+        : []),
     ]);
   };
 
@@ -81,12 +87,12 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem',
-        padding: '1rem',
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        padding: "1rem",
         backgroundColor: theme.palette.background.paper,
-        borderRadius: '8px',
+        borderRadius: "8px",
       }}
     >
       <Select
@@ -121,9 +127,13 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-        <Button type="submit" variant="contained" color="primary">Add</Button>
-        <Button variant="outlined" onClick={onCancel}>Cancel</Button>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}>
+        <Button type="submit" variant="contained" color="primary">
+          Add
+        </Button>
+        <Button variant="outlined" onClick={onCancel}>
+          Cancel
+        </Button>
       </Box>
     </Box>
   );

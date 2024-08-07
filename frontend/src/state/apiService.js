@@ -37,7 +37,7 @@ export const postIncome = async (data, token) => {
   return response.data
 }
 export const postExpense = async (data,token) => {
-  const response = await axios.post(`${BASE_URL}/expenses`, data, {
+  const response = await axios.post(`${BASE_URL}/3expenses`, data, {
     headers: {Authorization: `Bearer ${token}`}
   })
   return response.data

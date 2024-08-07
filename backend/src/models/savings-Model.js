@@ -23,7 +23,7 @@ const getSavingsById = async ({date, month,year,amount, description, user_id}) =
 }
 
 // Create a new savings entry 
-const createSavings = async ({date,month,year,amount, description, user_id}) => {
+const createSavings = async ({date,month,year,amount, description, user_id, category_id}) => {
     return db.transaction(async (trx) => {
     const [dateDetailId] = await trx('date_details').insert({
         date, month, year,
@@ -34,13 +34,14 @@ const createSavings = async ({date,month,year,amount, description, user_id}) => 
         amount,
         description,
         user_id,
-        date_detail_id: dateDetailId.id
+        date_detail_id: dateDetailId.id,
+        category_id
 });
 })
 }
 
 //Update a savings entry
-const updateSavings = async ({id, date, month, year, amount, description, user_id}) => {
+const updateSavings = async ({id, date, month, year, amount, description, user_id, category_id}) => {
     return db.transaction(async (trx) => {
         await trx('date_details').where({id}).update({
             date,
@@ -51,7 +52,8 @@ const updateSavings = async ({id, date, month, year, amount, description, user_i
         await trx('savings').where({ id }).update({
             amount,
             description,
-            user_id
+            user_id,
+            category_id
         })
     })
 

@@ -34,12 +34,12 @@ exports.getSavingsById = async (req,res) => {
 // Create a new income entry for specific user
 exports.createSavings = async (req,res) => {
     const user_id = req.decoded.subject;
-    const { date, month, year, amount, description } = req.body;
+    const { date, month, year, amount, description, category_id } = req.body;
     try {
         if (!user_id) {
             return res.status(400).json({ message: 'User ID is missing in the token.' });
           }
-     await Savings.createSavings({date, month, year, amount, description, user_id});
+     await Savings.createSavings({date, month, year, amount, description, user_id, category_id});
      res.status(201).json({ message: 'Savings entry added successfully' });
     }
     catch(error){
