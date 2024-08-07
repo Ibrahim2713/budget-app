@@ -43,8 +43,8 @@ exports.createExpense = async (req,res) => {
     }
 
     try {
-        await Expense.addExpense({ amount, description, date, month, year, user_id, category_id });
-        res.status(201).json({ message: 'Expense added successfully' });
+      const response =  await Expense.addExpense({ amount, description, date, month, year, user_id, category_id });
+        res.status(201).json(response);
     } catch (error) {
         console.error('Error adding expense:', error);
         res.status(500).json({ message: 'Error adding expense', error });

@@ -31,13 +31,16 @@ const addExpense = async ({ amount, description, date, month, year, user_id, cat
             year,
             user_id 
         }).returning('id');
-        await trx('expenses').insert({
+       const [newExpense] = await trx('expenses').insert({
             amount,
             description,
             user_id,
             category_id,
             date_detail_id: dateDetailId.id
-        });
+        })
+        .returning('*');
+
+        return newExpense
     })
 }
 

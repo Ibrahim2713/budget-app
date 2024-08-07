@@ -1,4 +1,5 @@
 export function calculateTotalIncome(incomes) {
+
     if (!Array.isArray(incomes)) {
       throw new Error('Invalid input: incomes should be an array.');
     }

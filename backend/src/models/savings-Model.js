@@ -30,13 +30,15 @@ const createSavings = async ({date,month,year,amount, description, user_id, cate
         user_id
     })
     .returning('id');
-    await trx('savings').insert({
+    const [newSavingsEntry] = await trx('savings').insert({
         amount,
         description,
         user_id,
         date_detail_id: dateDetailId.id,
         category_id
-});
+}) .returning('*');
+
+return newSavingsEntry
 })
 }
 

@@ -16,45 +16,27 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState(""); // New state for description
-  const { incomeCategory, expensesCategory, savingsCategory } =
+  const { incomeCategory, expensesCategory, savingsCategory, addEntry } =
     useContext(DataContext);
-  const token = localStorage.getItem("token");
-  console.log(categoryId);
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const dateObj = new Date(date);
     const month = dateObj.getMonth() + 1;
     const year = dateObj.getFullYear();
-    const newEntry = {
-      category_id: categoryId,
-      amount: parseFloat(amount),
-      date,
-      month,
-      year,
-      description, // Include description in the newEntry object
-    };
+    const newEntry = { category_id: categoryId, amount: parseFloat(amount), date, month, year, description };
 
     try {
-      let response;
-      if (dataType === "Income") {
-        response = await postIncome(newEntry, token); // Pass newEntry to the API
-      } else if (dataType === "Expenses") {
-        response = await postExpense(newEntry, token);
-      } else if (dataType === "Savings") {
-        response = await postSavings(newEntry, token);
-      }
-
-      // Assuming the response contains the new entry with the backend-assigned ID
-      onAdd(response.data);
-
-      // Reset form fields
-      setCategoryId("");
-      setAmount("");
-      setDate("");
-      setDescription(""); // Reset description field
+      await addEntry(dataType, newEntry);
+      setCategoryId('');
+      setAmount('');
+      setDate('');
+      setDescription('');
     } catch (error) {
-      console.error("Error adding entry:", error);
+      console.error('Error adding entry:', error);
     }
   };
 

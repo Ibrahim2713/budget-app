@@ -38,6 +38,9 @@ function Dashboard() {
     incomeTotalsbyMonth,
     expenseTotalsbyMonth,
     savingsTotalsbyMonth,
+    incomeIncrease,
+    expenseIncrease,
+    savingsIncrease
   } = useContext(DataContext);
 
   const filteredData = {
@@ -164,8 +167,8 @@ function Dashboard() {
             <StatBox
               title="Total Income"
               value={`$${totalData.Income.toFixed(2)}`}
-              increase="+14%"
-              description=""
+              increase={`+${incomeIncrease.toFixed(2)}%`}
+              description="Increase from last month"
               icon={
                 <Paid
                   sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
@@ -175,8 +178,8 @@ function Dashboard() {
             <StatBox
               title="Total Expenses"
               value={`$${totalData.Expenses.toFixed(2)}`}
-              increase="+21%"
-              description=""
+              increase={`+${expenseIncrease.toFixed(2)}%`}
+              description="Increase from last month"
               icon={
                 <Paid
                   sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
@@ -206,8 +209,8 @@ function Dashboard() {
             <StatBox
               title="Net Savings"
               value={`$${totalData.Savings.toFixed(2)}`}
-              increase="+5%"
-              description=""
+              increase={`+${savingsIncrease.toFixed(2)}%`}
+              description="Increase from last month"
               icon={
                 <Paid
                   sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}

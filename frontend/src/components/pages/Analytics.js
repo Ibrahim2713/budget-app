@@ -34,9 +34,12 @@ function Analytics() {
     filteredIncome,
     filteredExpenses,
     filteredSavings,
+    incomeIncrease,
+    expenseIncrease,
+    savingsIncrease
   } = useContext(DataContext);
 
-  console.log(savings);
+
 
   const totalData = {
     Income: incomeTotalsbyMonth,
@@ -88,9 +91,9 @@ function Analytics() {
           >
             <StatBox
               title="Monthly Income"
-              value={`$${totalData.Income.toFixed(2)}`}
-              increase="+14%"
-              description=""
+              value={`+${incomeIncrease.toFixed(2)}%`}
+              increase={`+${incomeIncrease.toFixed(2)}%`}
+              description="Increase from last month"
               icon={
                 <Paid
                   sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
@@ -108,8 +111,8 @@ function Analytics() {
               color={theme.palette.savings.dark}
               title="Monthly Savings"
               value={`$${totalData.Savings.toFixed(2)}`}
-              increase="+14%"
-              description=""
+              increase={`+${savingsIncrease.toFixed(2)}%`}
+              description="Increase from last month"
               icon={
                 <Paid
                   sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}
@@ -127,8 +130,8 @@ function Analytics() {
               color={theme.palette.expenses.dark}
               title="Monthly Expenses"
               value={`$${totalData.Expenses.toFixed(2)}`}
-              increase="+14%"
-              description=""
+              increase={`+${expenseIncrease.toFixed(2)}%`}
+              description="Increase from last month"
               icon={
                 <Paid
                   sx={{ color: theme.palette.secondary.main, fontSize: "26px" }}

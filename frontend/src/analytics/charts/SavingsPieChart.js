@@ -6,7 +6,6 @@ import {
   Cell,
   Legend,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 const COLORS = [

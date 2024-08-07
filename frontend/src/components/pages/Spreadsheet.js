@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { fetchExpenseCategories } from "../../state/apiService";
+import React, { useState, useContext} from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Menu, MenuItem, useTheme } from "@mui/material";
 import Navbar from "../Navbar/Navbar";
@@ -7,9 +6,10 @@ import Sidebar from "../Sidebar/Sidebar";
 import { DataContext } from "../../state/Datacontext";
 import { format, parseISO } from "date-fns";
 import AddEntryForm from "../Forms/AddEntryForm";
+import AddCategoryForm from "../Forms/AddCategory";
 
 const columns = [
-  { field: "_id", headerName: "ID", flex: 1 },
+  { field: "id", headerName: "ID", flex: 1 },
   { field: "category", headerName: "Category", flex: 1 },
   {
     field: "amount",
@@ -23,6 +23,12 @@ const columns = [
     flex: 1,
     renderCell: (params) => format(parseISO(params.value), "MM/dd/yyyy"),
   },
+
+  {field: "description",
+  headerName: "Description",
+  flex: 1,
+ 
+}
 ];
 
 function Spreadsheet() {
@@ -31,19 +37,15 @@ function Spreadsheet() {
     income,
     expenses,
     savings,
-    setIncome,
-    setExpenses,
-    setSavings,
     searchTerm,
     setSearchTerm,
-    postIncome,
-    postExpense,
-    postSavings,
   } = useContext(DataContext);
+
 
   const [dataView, setDataView] = useState("Income");
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFormVisible, setFormVisible] = useState(false);
+  const [isCategoryFormVisible, setCategoryFormVisible] = useState(false);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -53,36 +55,7 @@ function Spreadsheet() {
     setAnchorEl(null);
   };
 
-  const handleAddEntry = async (newEntry) => {
-    try {
-      let response;
-
-      if (dataView === "Income") {
-        response = await postIncome(newEntry); // Assuming this returns the new entry
-      } else if (dataView === "Expenses") {
-        response = await postExpense(newEntry);
-      } else if (dataView === "Savings") {
-        response = await postSavings(newEntry);
-      }
-
-      // Assuming the response contains the new entry with the backend-assigned ID
-      const createdEntry = response.data;
-
-      // Update the local state with the new entry
-      if (dataView === "Income") {
-        setIncome((prev) => [...prev, createdEntry]);
-      } else if (dataView === "Expenses") {
-        setExpenses((prev) => [...prev, createdEntry]);
-      } else if (dataView === "Savings") {
-        setSavings((prev) => [...prev, createdEntry]);
-      }
-
-      setFormVisible(false);
-    } catch (error) {
-      console.error("Error adding entry:", error);
-      // Optionally handle error here, e.g., show a notification
-    }
-  };
+ 
 
   const filteredData = {
     Income: income.filter((row) =>
@@ -105,10 +78,16 @@ function Spreadsheet() {
         flexDirection: "column",
         height: "100vh",
         overflow: "hidden",
+        margin: 0, // Ensure no margin is applied
+        padding: 0, 
       }}
     >
+          <Box sx={{ flex: 'none', marginBottom: '0' }}>
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      </Box>
+      <Box>
       <Sidebar />
+      </Box>
       <Box
         display="flex"
         alignItems="flex-start"
@@ -117,9 +96,9 @@ function Spreadsheet() {
       >
         <Button
           onClick={handleMenuOpen}
-          sx={{ backgroundColor: theme.palette.secondary.light }}
+          sx={{ backgroundColor: theme.palette.secondary.main }}
         >
-          Data View
+          Data View: {dataView}
         </Button>
         <Menu
           anchorEl={anchorEl}
@@ -155,48 +134,56 @@ function Spreadsheet() {
           onClick={() => setFormVisible(true)}
           sx={{
             marginLeft: "1rem",
-            backgroundColor: theme.palette.secondary.light,
+            backgroundColor: theme.palette.secondary.main,
           }}
         >
-          Add New
+          Add Entry
+        </Button>
+        <Button     
+        onClick={() => setCategoryFormVisible(true)}
+        sx={{
+            marginLeft: "1rem",
+            backgroundColor: theme.palette.secondary.main,
+          }}>
+          Create a Category
         </Button>
       </Box>
       {isFormVisible && (
         <AddEntryForm
           dataType={dataView}
-          onAdd={handleAddEntry}
           onCancel={() => setFormVisible(false)}
         />
       )}
+       {isCategoryFormVisible && (
+        <AddCategoryForm
+          open={isCategoryFormVisible}
+          onClose={() => setCategoryFormVisible(false)}
+          dataType={dataView}
+        />
+      )}
       <Box
-        sx={{
-          "& .MuiDataGrid-root": { border: "none", borderRadius: "5rem" },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.text.main,
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.secondary.main,
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.main,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.text.main,
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.text.main} !important`,
-          },
-        }}
+       
       >
         <DataGrid
           getRowId={(row) => row.id} // Make sure row ID is unique
           rows={filteredData[dataView] || []}
           columns={columns}
+          checkboxSelection
+          sx={{
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: theme.palette.secondary.main, // Header background color
+            },
+            '& .MuiDataGrid-columnHeaderTitle': {
+              color: theme.palette.text.primary, // Header text color
+            },
+            '& .MuiDataGrid-cell': {
+              backgroundColor: theme.palette.primary.light, // Cell background color
+              color: theme.palette.text.main, // Cell text color
+            },
+            '& .MuiDataGrid-cell:hover': {
+              backgroundColor: theme.palette.secondary.main, // Cell background color on hover
+            },
+          }}
         />
       </Box>
     </Box>

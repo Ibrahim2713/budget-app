@@ -1,9 +1,6 @@
 import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories } from './apiService';
-import { formatDataByMonth } from '../analytics/utils/formatData';
-import { getTotalByMonth } from '../analytics/utils/getTotalByMonth';
-import { calculateTotalIncome } from '../analytics/utils/getTotal';
-import { calculateNetWorth } from '../analytics/utils/calculateNetworth';
+import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories, postIncome, postSavings, postExpense, postIncomeCategory,postExpenseCategory, postSavingsCategory } from './apiService';
+import {useFinancialCalculations} from '/Users/ibrahim/Desktop/Ibrahim/budget-app/frontend/src/components/hooks/useFinancialCalculations.js'
 
 export const DataContext = createContext();
 
@@ -23,7 +20,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [incomeData, expensesData, savingsData, goalsData, incomeCategory, expenseCategory, savingsCategory] = await Promise.all([
+        const [incomeData, expensesData, savingsData, goalsData, incomeCategory, expensesCategory, savingsCategory] = await Promise.all([
           fetchIncome(token),
           fetchExpenses(token),
           fetchSavings(token),
@@ -39,7 +36,7 @@ export const DataProvider = ({ children }) => {
         setSavings(savingsData);
         setGoals(goalsData);
         setIncomeCategory(incomeCategory);
-        setExpensesCategory(expenseCategory);
+        setExpensesCategory(expensesCategory);
         setSavingsCategory(savingsCategory);
       } catch (error) {
         console.error('Error loading data:', error);
@@ -49,49 +46,63 @@ export const DataProvider = ({ children }) => {
     loadData();
   }, [token]);
 
-const incomeTotal = useMemo(
-  () => calculateTotalIncome(income),
-  [income]
-)
+
+  const addEntry = async (dataType, newEntry) => {
+    try {
+      let response;
+      if (dataType === 'Income') {
+        response = await postIncome(newEntry, token);
+        await fetchIncome(token); // Refetch income
+      } else if (dataType === 'Expenses') {
+        response = await postExpense(newEntry, token);
+        await fetchExpenses(token); // Refetch expenses
+      } else if (dataType === 'Savings') {
+        response = await postSavings(newEntry, token);
+        await fetchSavings(token); // Refetch savings
+      }
+    } catch (error) {
+      console.error(`Error adding ${dataType} entry:`, error);
+      throw error;
+    }
+  };
+
+  const addCategory =  async (dataType, category) => {
+      
+    try {
+      let response;
+      if (dataType === 'Income') {
+        response = await postIncomeCategory(category, token);
+
+      } else if (dataType === 'Expenses') {
+        response = await postExpenseCategory(category, token);
+
+      } else if (dataType === 'Savings') {
+        response = await postSavingsCategory(category, token);
+   
+      }
+    }
+    catch(error) {
+     console.error(`Error adding ${dataType} Category:`, error);
+      throw error;
+    }
+  }
+  
+
+  const {
+    filteredIncome,
+    filteredExpenses,
+    filteredSavings,
+    incomeTotalsbyMonth,
+    expenseTotalsbyMonth,
+    savingsTotalsbyMonth,
+    incomeTotal,
+    netWorth,
+    incomeIncrease,
+    expenseIncrease,
+    savingsIncrease
+  } = useFinancialCalculations(income, expenses, savings, selectedDate);
 
 
-
-  // Memoize filtered data
-  const filteredIncome = useMemo(
-    () => formatDataByMonth(income, selectedDate),
-    [income, selectedDate]
-  );
-
-  const filteredExpenses = useMemo(
-    () => formatDataByMonth(expenses, selectedDate),
-    [expenses, selectedDate]
-  );
-
-  const filteredSavings = useMemo(
-    () => formatDataByMonth(savings, selectedDate),
-    [savings, selectedDate]
-  );
-
-  // Memoize totals
-  const incomeTotalsbyMonth = useMemo(
-    () => getTotalByMonth(income, selectedDate),
-    [income, selectedDate]
-  );
-
-  const expenseTotalsbyMonth = useMemo(
-    () => getTotalByMonth(expenses, selectedDate),
-    [expenses, selectedDate]
-  );
-
-  const savingsTotalsbyMonth = useMemo(
-    () => getTotalByMonth(savings, selectedDate),
-    [savings, selectedDate]
-  );
-
-  const netWorth = useMemo(
-    () => calculateNetWorth(incomeTotalsbyMonth, expenseTotalsbyMonth, savingsTotalsbyMonth),
-    [incomeTotalsbyMonth, expenseTotalsbyMonth, savingsTotalsbyMonth]
-  );
 
   return (
     <DataContext.Provider
@@ -105,6 +116,9 @@ const incomeTotal = useMemo(
         incomeTotalsbyMonth,
         expenseTotalsbyMonth,
         savingsTotalsbyMonth,
+        incomeIncrease,
+        expenseIncrease,
+        savingsIncrease,
         selectedDate,
         setSelectedDate,
         selectedCategory,
@@ -120,7 +134,9 @@ const incomeTotal = useMemo(
         savingsCategory,
         setIncome,
         setSavings,
-        setExpenses
+        setExpenses,
+        addEntry,
+        addCategory
       }}
     >
       {children}

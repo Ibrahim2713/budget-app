@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 // Define colors for the chart
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];

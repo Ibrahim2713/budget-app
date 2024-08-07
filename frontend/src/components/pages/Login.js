@@ -1,7 +1,7 @@
-import React, {useState, useContext} from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { DataContext } from "../../state/Datacontext";
+
 import '../../styles/Login.css' // Import the CSS file
 import axios from "axios";
 
@@ -13,10 +13,7 @@ import { Container, TextField, Button, Typography, Grid, Box } from '@mui/materi
 
 function Login() {
 
-  const {
-    selectedDate,
-    setSelectedDate
-  } =useContext(DataContext)
+ 
 const theme = useTheme()
 const [email, setEmail] = useState()
 const [password, setPassword] = useState()

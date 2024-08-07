@@ -1,9 +1,23 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
+
 import FlexBetween from "../FlexBetween";
 
-const StatBox = ({ title, value, increase, icon, description, color }) => {
+const StatBox = ({ title, value, increase,  icon, description, color }) => {
+
   const theme = useTheme();
+  
+
+
+
+
+
+
+
+
+
+
+
   return (
     <Box
       gridColumn="span 2"

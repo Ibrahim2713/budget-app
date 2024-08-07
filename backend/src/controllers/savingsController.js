@@ -39,8 +39,8 @@ exports.createSavings = async (req,res) => {
         if (!user_id) {
             return res.status(400).json({ message: 'User ID is missing in the token.' });
           }
-     await Savings.createSavings({date, month, year, amount, description, user_id, category_id});
-     res.status(201).json({ message: 'Savings entry added successfully' });
+     const response = await Savings.createSavings({date, month, year, amount, description, user_id, category_id});
+     res.status(201).json(response);
     }
     catch(error){
         console.error('Error adding Savings entry:', error);
