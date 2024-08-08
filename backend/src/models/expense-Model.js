@@ -3,17 +3,21 @@ const db = require('../../database/db-config')
 // Get All expenses entries for a specific user
 const getAllExpensesByUser = async (userId) => {
     return await db('expenses')
-        .join('date_details', 'expenses.date_detail_id', 'date_details.id') 
-        .join('expense_categories', 'expenses.category_id', 'expense_categories.id') // Join with expense_categories
+        .join('date_details', 'expenses.date_detail_id', 'date_details.id')
+        .join('expense_categories as ec', 'expenses.category_id', 'ec.id') // Join with expense_categories for the category
+        .leftJoin('expense_categories as parent', 'ec.parent_id', 'parent.id') // Join with expense_categories for the parent category
         .where({'expenses.user_id': userId})
         .select(
             'expenses.*',
             'date_details.date as date',
-            'expense_categories.name as category',
+            'ec.name as category',
+            'ec.parent_id as parent_id',
             'date_details.month as month', // Assuming month is stored separately
-            'date_details.year as year'  // Select name from expense_categories
+            'date_details.year as year',
+            'parent.name as parent_name' // Select the parent name from the joined table
         );
-}
+};
+
 
 
 // Get expenses by ID

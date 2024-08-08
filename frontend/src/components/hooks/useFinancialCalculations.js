@@ -3,6 +3,7 @@ import { formatDataByMonth } from "../../analytics/utils/formatData";
 import { getTotalByMonth } from "../../analytics/utils/getTotalByMonth";
 import {calculateTotalIncome} from "../../analytics/utils/calculateTotalIncome";
 import {calculateNetWorth} from "../../analytics/utils/calculateNetworth";
+import { formatExpenseDataByMonthAndParentCategory } from "../../analytics/utils/formatExpenseDataByParentCategory";
 import { startOfMonth, subMonths, endOfMonth } from "date-fns";
 
 export const useFinancialCalculations = (income, expenses, savings, selectedDate) => {
@@ -26,7 +27,7 @@ export const useFinancialCalculations = (income, expenses, savings, selectedDate
 
   // Memoized filtered data
   const filteredIncome = useMemo(() => formatDataByMonth(income, selectedDate), [income, selectedDate]);
-  const filteredExpenses = useMemo(() => formatDataByMonth(expenses, selectedDate), [expenses, selectedDate]);
+  const filteredExpenses = useMemo(() => formatExpenseDataByMonthAndParentCategory(expenses, selectedDate), [expenses, selectedDate]);
   const filteredSavings = useMemo(() => formatDataByMonth(savings, selectedDate), [savings, selectedDate]);
 
   // Memoized totals

@@ -23,7 +23,6 @@ import { DataContext } from "../../state/Datacontext";
 function Dashboard() {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const [dataView, setDataView] = useState("Income");
   const [anchorEl, setAnchorEl] = useState(null);
 
   const {
@@ -40,7 +39,9 @@ function Dashboard() {
     savingsTotalsbyMonth,
     incomeIncrease,
     expenseIncrease,
-    savingsIncrease
+    savingsIncrease,
+    dataView,
+    setDataView
   } = useContext(DataContext);
 
   const filteredData = {

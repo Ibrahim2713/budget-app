@@ -1,63 +1,49 @@
-import React, { useMemo } from 'react';
-import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
+import React from "react";
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import { useTheme } from "@mui/material";
 
-const COLORS = ['#FF6347', '#4682B4', '#32CD32', '#FFD700', '#6A5ACD', '#FF1493', '#40E0D0', '#D2691E'];
-
-// Define month names
-const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+const COLORS = [
+  "#FF6347",
+  "#4682B4",
+  "#32CD32",
+  "#FFD700",
+  "#6A5ACD",
+  "#FF1493",
+  "#40E0D0",
+  "#D2691E",
 ];
 
 export default function ExpensesPieChart({ filteredExpenses }) {
-  // Aggregate expenses by month and category
-  const data = useMemo(() => {
-    const monthlyData = Array(12).fill(null).map(() => ({}));
-
-    filteredExpenses.forEach(({ date, amount, category }) => {
-      const month = new Date(date).getMonth();
-      if (!monthlyData[month][category]) {
-        monthlyData[month][category] = 0;
-      }
-      monthlyData[month][category] += amount;
-    });
-
-    return monthlyData.map((categories, monthIndex) => {
-      return {
-        month: MONTH_NAMES[monthIndex],
-        categories: Object.entries(categories).map(([name, value]) => ({
-          name,
-          value,
-        })),
-      };
-    });
-  }, [filteredExpenses]);
+  const theme = useTheme();
 
   return (
-    
-      <PieChart  width={700} height={700}>
-        {data.map(({ month, categories }, index) => (
-          <Pie
-            key={month}
-            data={categories}
-            dataKey="value"
-            nameKey="name"
-            cx={index % 2 === 0 ? "25%" : "75%"}
-            cy={index < 2 ? "25%" : "75%"}
-            outerRadius="30%"
-            fill="#8884d8"
-            label={({ name, value }) => `${name}: $${value}`}
-          >
-            {categories.map((entry, categoryIndex) => (
-              <Cell key={`cell-${index}-${categoryIndex}`} fill={COLORS[categoryIndex % COLORS.length]} />
-            ))}
-          </Pie>
-        ))}
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          data={filteredExpenses}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius="40%"
+          fill={theme.palette.primary.main}
+          label={({ name, value }) => `$${value}`}
+        >
+          {filteredExpenses.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[index % COLORS.length]}
+            />
+          ))}
+        </Pie>
         <Tooltip
-          formatter={(value, name) => [`Amount: $${value}`, `Category: ${name}`]}
+          formatter={(value, name) => [
+            `Amount: $${value}`,
+            `Category: ${name}`,
+          ]}
         />
         <Legend />
       </PieChart>
-  
+    </ResponsiveContainer>
   );
 }

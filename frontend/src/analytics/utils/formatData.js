@@ -27,7 +27,8 @@ export const formatDataByMonth = (data, selectedDate) => {
           source: item.source,
           category: item.category_name || item.category,
           description: item.description,
-          id: item.id
+          id: item.id,
+          children: item.children
       };
   });
 

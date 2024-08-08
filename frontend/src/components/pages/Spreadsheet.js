@@ -39,10 +39,12 @@ function Spreadsheet() {
     savings,
     searchTerm,
     setSearchTerm,
+    dataView,
+    setDataView
   } = useContext(DataContext);
 
 
-  const [dataView, setDataView] = useState("Income");
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFormVisible, setFormVisible] = useState(false);
   const [isCategoryFormVisible, setCategoryFormVisible] = useState(false);

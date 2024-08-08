@@ -36,8 +36,10 @@ function Analytics() {
     filteredSavings,
     incomeIncrease,
     expenseIncrease,
-    savingsIncrease
+    savingsIncrease,
+    
   } = useContext(DataContext);
+ 
 
 
 
@@ -91,7 +93,7 @@ function Analytics() {
           >
             <StatBox
               title="Monthly Income"
-              value={`+${incomeIncrease.toFixed(2)}%`}
+              value={`$${totalData.Income.toFixed(2)}`}
               increase={`+${incomeIncrease.toFixed(2)}%`}
               description="Increase from last month"
               icon={
@@ -157,82 +159,99 @@ function Analytics() {
           >
             <GoalProgress />
           </Box>
+
+          {/* Income PieChart */}
           <Box
-            gridRow="3 / span 3"
-            gridColumn=" 1 / span 5"
+            gridRow="3 / span 2"
+            gridColumn=" 1 / span 4"
+            mt={2}
             sx={{
               backgroundColor: theme.palette.primary.main,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            
             }}
           >
-            <Typography
+                <Typography
               sx={{
                 fontWeight: "600",
                 color: theme.palette.text.main,
+                mb: 1,
               }}
             >
-              {" "}
               Income Breakdown
             </Typography>
+        
             <IncomePieChart
               filteredIncome={filteredIncome}
-              sx={{
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          </Box>
-          <Box
-            gridRow="3 / span 3"
-            gridColumn=" 6 / span 4"
-            sx={{
-              backgroundColor: theme.palette.primary.main,
-              overflow: "hidden", // Ensure contents do not overflow
-              position: "relative",
-              padding: "1rem",
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: "600",
-                color: theme.palette.text.main,
-              }}
-            >
-              {" "}
-              Expenses Breakdown
-            </Typography>
-            <ExpensesPieChart
-              filteredExpenses={filteredExpenses}
-              sx={{
-                width: "100%",
-                height: "100%",
-              }}
+          
             />
           </Box>
 
+
+                {/* Expense PieChart */}
           <Box
             gridRow="3 / span 2"
-            gridColumn=" 10 / span 4"
+            gridColumn=" 5 / span 4"
+            mt={2}
             sx={{
               backgroundColor: theme.palette.primary.main,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Typography
+             <Typography
               sx={{
                 fontWeight: "600",
                 color: theme.palette.text.main,
+                mb: 1,
               }}
             >
-              {" "}
+              Expense Breakdown
+            </Typography>
+
+            <ExpensesPieChart
+              filteredExpenses={filteredExpenses}
+             
+            />
+          </Box>
+
+
+
+              {/* Savings PieChart */}
+          <Box
+            gridRow="3 / span 2"
+            gridColumn=" 9 / span 4"
+            mt={2}
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            
+            }}
+          >
+             <Typography
+              sx={{
+                fontWeight: "600",
+                color: theme.palette.text.main,
+                mb: 1,
+              }}
+            >
               Savings Breakdown
             </Typography>
             <SavingsPieChart
               filteredSavings={filteredSavings}
-              sx={{
-                width: "100%",
-                height: "100%",
-              }}
+            
             />
           </Box>
+
+
           <Box
             gridColumn="1 / span 6"
             gridRow="5 / span 3"
@@ -241,6 +260,7 @@ function Analytics() {
               padding: "1rem",
               position: "relative", // Ensure proper stacking context
               zIndex: 0,
+       
             }}
           >
             <Typography
@@ -248,9 +268,10 @@ function Analytics() {
                 fontWeight: "600",
                 color: theme.palette.text.main,
                 mb: 1,
+
               }}
             >
-              {" "}
+             
               Savings Trends
             </Typography>
             <SavingsTrends savingsData={savings} />
@@ -269,6 +290,7 @@ function Analytics() {
                 fontWeight: "600",
                 color: theme.palette.text.main,
                 mb: 1,
+              
               }}
             >
               {" "}

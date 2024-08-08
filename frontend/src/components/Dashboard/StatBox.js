@@ -52,7 +52,9 @@ const StatBox = ({ title, value, increase,  icon, description, color }) => {
         >
           {increase}
         </Typography>
-        <Typography>{description}</Typography>
+        <Typography  
+          fontStyle="italic"
+          sx={{ color: theme.palette.secondary.light }} >{description}</Typography>
       </FlexBetween>
     </Box>
   );

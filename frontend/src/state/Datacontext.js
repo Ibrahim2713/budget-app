@@ -15,7 +15,9 @@ export const DataProvider = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedCategory, setSelectedCategory] = useState("income");
   const [searchTerm, setSearchTerm] = useState("");
+  const [dataView, setDataView] = useState("Income")
   const token = localStorage.getItem('token');
+
 
   useEffect(() => {
     const loadData = async () => {
@@ -52,13 +54,18 @@ export const DataProvider = ({ children }) => {
       let response;
       if (dataType === 'Income') {
         response = await postIncome(newEntry, token);
-        await fetchIncome(token); // Refetch income
+        const updatedIncome = await fetchIncome(token);
+        setIncome(updatedIncome); 
       } else if (dataType === 'Expenses') {
         response = await postExpense(newEntry, token);
-        await fetchExpenses(token); // Refetch expenses
+        await fetchExpenses(token); 
+        const updatedExpenses = await fetchExpenses(token); 
+        setExpenses(updatedExpenses); 
       } else if (dataType === 'Savings') {
         response = await postSavings(newEntry, token);
-        await fetchSavings(token); // Refetch savings
+        await fetchSavings(token);
+        const updatedSavings = await fetchSavings(token); // Update state with new data
+        setSavings(updatedSavings);  // Refetch savings
       }
     } catch (error) {
       console.error(`Error adding ${dataType} entry:`, error);
@@ -72,12 +79,18 @@ export const DataProvider = ({ children }) => {
       let response;
       if (dataType === 'Income') {
         response = await postIncomeCategory(category, token);
+        const updatedIncomeCategory = await fetchIncomeCategories(token);
+        setIncomeCategory(updatedIncomeCategory)
 
       } else if (dataType === 'Expenses') {
         response = await postExpenseCategory(category, token);
+        const updatedExpensesCategory = await fetchExpenseCategories(token);
+        setExpensesCategory(updatedExpensesCategory)
 
       } else if (dataType === 'Savings') {
         response = await postSavingsCategory(category, token);
+        const updatedSavingsCategory = await fetchSavingsCategories(token);
+        setSavingsCategory(updatedSavingsCategory)
    
       }
     }
@@ -136,7 +149,9 @@ export const DataProvider = ({ children }) => {
         setSavings,
         setExpenses,
         addEntry,
-        addCategory
+        addCategory,
+        dataView,
+        setDataView
       }}
     >
       {children}
