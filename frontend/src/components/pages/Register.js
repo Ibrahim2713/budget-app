@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useTheme} from "@emotion/react";
+import { useTheme, Global, css } from "@emotion/react";
 import loginBackground from '../../assets/images/flatlay-of-coffee-and-computer-on-wooden-surface.jpg';
-import { Container, TextField, Button, Typography, Box, Link} from '@mui/material';
+import { Container, TextField, Button, Typography, Box, Link } from '@mui/material';
 
 
 
-function Login() {
+function Register() {
   const theme = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const data = { email: email, password: password };
-    axios.post('http://localhost:8000/api/auth/login', data)
+    const data = { email, password, first_name: firstName, last_name: lastName };
+    axios.post('http://localhost:8000/api/auth/register', data)
       .then((res) => {
-        const token = res.data.token;
-        localStorage.setItem('token', token);
-        navigate('/dashboard');
+        navigate('/login');
       })
       .catch(() => {
         console.log('error logging in');
@@ -29,7 +29,8 @@ function Login() {
 
   return (
     <>
- 
+      {/* Global CSS reset */}
+     
       <Box sx={{ minHeight: "100vh", margin: 0, padding: 0, display: "flex", position: "relative" }}>
         <Box
           sx={{
@@ -77,11 +78,36 @@ function Login() {
               </Typography>
             </Box>
             <form onSubmit={handleLogin}>
+            <Box sx={{ mb: 2 }}>
+                <TextField
+                  placeholder="First name"
+                  fullWidth
+                  label="First name"
+                  variant="standard"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  sx={{ backgroundColor: "white" }}
+                />
+              </Box>
               <Box sx={{ mb: 2 }}>
                 <TextField
-                  placeholder="email"
+                  placeholder="Last name"
                   fullWidth
-                  label="email"
+                  label="Last name"
+                  variant="standard"
+                  value={firstName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  sx={{ backgroundColor: "white" }}
+                />
+              </Box>
+
+
+
+              <Box sx={{ mb: 2 }}>
+                <TextField
+                  placeholder="Email"
+                  fullWidth
+                  label="Email"
                   variant="standard"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -108,15 +134,15 @@ function Login() {
                   type="submit"
                   sx={{ backgroundColor: "black", color: theme.palette.text.main }}
                 >
-                  Login
+                  Register
                 </Button>
               </Box>
             </form>
             <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={1}>
               <Typography variant="subtitle1" gutterBottom fontWeight="lighter">
-                Don't have an account?{' '}
-                <Link href="/register" color="inherit" underline="hover">
-                  Sign Up
+                Already have an account{' '}
+                <Link href="/login" color="inherit" underline="hover">
+                  Login
                 </Link>
               </Typography>
             </Box>
@@ -127,4 +153,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

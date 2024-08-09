@@ -15,6 +15,7 @@ import {
   useMediaQuery,
   Menu,
   MenuItem,
+  
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Paid } from "@mui/icons-material";
@@ -115,6 +116,7 @@ function Dashboard() {
   ]);
 
   return (
+    
     <Box m="1.5rem 2.5" sx={{ backgroundColor: theme.palette.primary.main }}>
       <Navbar />
       <Box display="flex">
@@ -284,6 +286,7 @@ function Dashboard() {
         </Box>
       </Box>
     </Box>
+   
   );
 }
 

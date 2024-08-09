@@ -20,9 +20,8 @@ function App() {
     { text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard' },
     { text: 'Analytics', icon: <AnalyticsIcon />, link: '/analytics' },
     { text: 'Settings', icon: <SettingsIcon />, link: '/settings' },
-    { text: 'Log Out', icon: <ExitToAppIcon />, action: () => logout(),
-    text: 'Logs', icon: <MenuBookOutlinedIcon/>, link: '/logs' 
-   },
+    {text: 'Spreadsheet', icon: <MenuBookOutlinedIcon/>, link: '/spreadsheet'},
+    { text: 'Log Out', icon: <ExitToAppIcon />, action: () => logout() },
   ];
 
 const handleDrawerOpen = () => {

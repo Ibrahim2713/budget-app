@@ -25,7 +25,7 @@ router.post('/register', md.checkEmailExists, md.checkPasswordLength, async (req
 //route to login into account
 router.post('/login', (req,res,next) => {
     let {email, password} = req.body;
-
+    console.log(password)
     User.findBy({email})
         .then(([user]) => {
             console.log(user)
