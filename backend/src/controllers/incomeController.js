@@ -69,18 +69,22 @@ exports.updateIncome = async (req, res) => {
     }
 };
 
-//Delete a income entry for specific user
+//Delete one or more income entries for a specific user
 exports.deleteIncome = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.body; // Expecting an array of IDs or a single ID in the request body
         const user_id = req.decoded.subject;
 
         if (!user_id) {
             return res.status(400).json({ message: 'User ID is missing in the token.' });
         }
 
-         await Income.deleteIncome(id);
-         res.status(200).json({ message: 'Income entry deleted successfully' });
+        if (!id || (Array.isArray(id) && id.length === 0)) {
+            return res.status(400).json({ message: 'No ID(s) provided for deletion.' });
+        }
+
+        await Income.deleteIncome(id); // Pass the array or single ID to the model function
+        res.status(200).json({ message: 'Income entry/entries deleted successfully' });
     } catch (error) {
         console.error('Error deleting income entry:', error);
         res.status(500).json({ message: 'Error deleting income entry', error });

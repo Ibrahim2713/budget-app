@@ -1,12 +1,14 @@
 import React, { useState, useContext} from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Menu, MenuItem, useTheme } from "@mui/material";
+import { Box, Button, Menu, MenuItem, useTheme, IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { DataContext } from "../../state/Datacontext";
 import { format, parseISO } from "date-fns";
 import AddEntryForm from "../Forms/AddEntryForm";
 import AddCategoryForm from "../Forms/AddCategory";
+import axios from 'axios'
 
 const columns = [
   { field: "id", headerName: "ID", flex: 1 },
@@ -48,6 +50,7 @@ function Spreadsheet() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFormVisible, setFormVisible] = useState(false);
   const [isCategoryFormVisible, setCategoryFormVisible] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]); //
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,6 +59,24 @@ function Spreadsheet() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleDelete = async () => {
+    if (selectedIds.length === 0) {
+      alert("Please select at least one entry to delete.");
+      return;
+    }
+
+    try {
+      await axios.delete('/api/income', { data: { id: selectedIds } }); // Assuming delete endpoint for income
+    
+      setSelectedIds([]); // Clear selection
+    } catch (error) {
+      console.error("Error deleting entries:", error);
+    }
+  };
+
+
+
 
  
 
@@ -149,6 +170,16 @@ function Spreadsheet() {
           }}>
           Create a Category
         </Button>
+        <IconButton
+          onClick={handleDelete}
+          sx={{
+            marginLeft: "1rem",
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.text.primary
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
       </Box>
       {isFormVisible && (
         <AddEntryForm
@@ -171,6 +202,9 @@ function Spreadsheet() {
           rows={filteredData[dataView] || []}
           columns={columns}
           checkboxSelection
+          onSelectionModelChange={(newSelection) => {
+            setSelectedIds(newSelection);
+          }}
           sx={{
             '& .MuiDataGrid-columnHeaders': {
               backgroundColor: theme.palette.secondary.main, // Header background color

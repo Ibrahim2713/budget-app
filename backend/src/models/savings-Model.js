@@ -62,10 +62,14 @@ const updateSavings = async ({id, date, month, year, amount, description, user_i
 }
 
 //Delete a savings entry for specific user
-const deleteSavings = async (id) => {
+const deleteSavings = async (ids) => {
+
+const idsArray = Array.isArray(ids) ? ids : [ids];
+
     return db.transaction(async (trx) => {
-        await trx('savings').where({id}).del()
-        await trx('date_details').where({id}).del()
+        await trx('savings').whereIn('id', idsArray).del();
+        
+        await trx('date_details').whereIn('id',idsArray).del()
       })
 }
 

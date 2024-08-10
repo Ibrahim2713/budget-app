@@ -69,11 +69,14 @@ exports.updateSavings = async (req, res) => {
 //Delete a income entry for specific user
 exports.deleteSavings = async (req, res) => {
     try {
-        const {id} = req.params;
+        const {id} = req.body;
         const user_id = req.decoded.subject;
 
         if (!user_id) {
             return res.status(400).json({ message: 'User ID is missing in the token.' });
+        }
+             if (!id || (Array.isArray(id) && id.length === 0)) {
+            return res.status(400).json({ message: 'No ID(s) provided for deletion.' });
         }
 
          await Savings.deleteSavings(id);

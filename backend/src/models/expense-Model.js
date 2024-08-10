@@ -68,10 +68,14 @@ const updateExpense = async ({id, amount, description, date, month, year, user_i
 
 //Delete a expense entry for specific user
 const deleteExpense = async (id) => {
+    const idsArray = Array.isArray(ids) ? ids : [ids];
+
     return db.transaction(async (trx) => {
-        await trx('expenses').where({id}).del()
-        await trx('date_details').where({id}).del()
-      })
+
+        await trx('expenses').where('id', idsArray).del()
+
+        await trx('date_details').where('id',idsArray).del()
+      });
 }
 
 

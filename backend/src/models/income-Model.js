@@ -68,12 +68,19 @@ const updateIncome = async ({id,date,month,year,amount,source,user_id}) => {
 }
 
 //Delete a income entry for specific user
-const deleteIncome = async (id) => {
-  return db.transaction(async (trx) => {
-    await trx('income').where({id}).del()
-    await trx('date_details').where({id}).del()
-  })
-}
+const deleteIncome = async (ids) => {
+    // Ensure `ids` is always an array
+    const idsArray = Array.isArray(ids) ? ids : [ids];
+  
+    return db.transaction(async (trx) => {
+      // Delete from the 'income' table where ID is in the list of provided IDs
+      await trx('income').whereIn('id', idsArray).del();
+      
+      // Delete from the 'date_details' table where ID is in the list of provided IDs
+      await trx('date_details').whereIn('id', idsArray).del();
+    });
+  };
+  
 
 
 
