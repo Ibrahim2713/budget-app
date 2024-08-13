@@ -8,7 +8,7 @@ import { DataContext } from "../../state/Datacontext";
 import { format, parseISO } from "date-fns";
 import AddEntryForm from "../Forms/AddEntryForm";
 import AddCategoryForm from "../Forms/AddCategory";
-import axios from 'axios'
+import { deleteEntries } from "../../state/apiService";
 
 const columns = [
   { field: "id", headerName: "ID", flex: 1 },
@@ -42,7 +42,8 @@ function Spreadsheet() {
     searchTerm,
     setSearchTerm,
     dataView,
-    setDataView
+    setDataView,
+    token
   } = useContext(DataContext);
 
 
@@ -50,7 +51,8 @@ function Spreadsheet() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFormVisible, setFormVisible] = useState(false);
   const [isCategoryFormVisible, setCategoryFormVisible] = useState(false);
-  const [selectedIds, setSelectedIds] = useState([]); //
+  const [selectedIds, setSelectedIds] = useState([]); 
+
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -60,6 +62,7 @@ function Spreadsheet() {
     setAnchorEl(null);
   };
 
+
   const handleDelete = async () => {
     if (selectedIds.length === 0) {
       alert("Please select at least one entry to delete.");
@@ -67,14 +70,12 @@ function Spreadsheet() {
     }
 
     try {
-      await axios.delete('/api/income', { data: { id: selectedIds } }); // Assuming delete endpoint for income
-    
-      setSelectedIds([]); // Clear selection
+      await deleteEntries(selectedIds, dataView, token); // Call the function here
+      setSelectedIds([]); // Clear selection after successful deletion
     } catch (error) {
       console.error("Error deleting entries:", error);
     }
   };
-
 
 
 

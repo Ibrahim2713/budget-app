@@ -12,6 +12,7 @@ import Analytics from "./components/pages/Analytics";
 import Dashboard from "./components/pages/Dashboard";
 import Spreadsheet from "./components/pages/Spreadsheet";
 import Register from "./components/pages/Register";
+import Calander from "./components/pages/Calander";
 import { PrivateRoute } from "./components/Auth/PrivateRoute";
 
 // TODO
@@ -41,6 +42,9 @@ function App() {
         </Route>
         <Route path="/spreadsheet" element={<PrivateRoute />} >
         <Route path="/spreadsheet" element={<Spreadsheet />}/>
+        </Route>
+        <Route path="/calander" element={<PrivateRoute />} >
+        <Route path="/calander" element={<Calander />}/>
         </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />}/>

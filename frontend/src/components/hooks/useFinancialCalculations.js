@@ -45,6 +45,10 @@ export const useFinancialCalculations = (income, expenses, savings, selectedDate
   const incomeTotal = useMemo(() => calculateTotalIncome(income), [income]);
   const netWorth = useMemo(() => calculateNetWorth(incomeTotalsbyMonth, expenseTotalsbyMonth, savingsTotalsbyMonth), [incomeTotalsbyMonth, expenseTotalsbyMonth, savingsTotalsbyMonth]);
 
+
+    // Calculate net worth for the previous month
+    const netWorthPrevious = useMemo(() => calculateNetWorth(incomeTotalsbyMonthPrevious, expenseTotalsbyMonthPrevious, savingsTotalsbyMonthPrevious), [incomeTotalsbyMonthPrevious, expenseTotalsbyMonthPrevious, savingsTotalsbyMonthPrevious]);
+
  // Calculate increase for income, expenses, and savings
  const incomeIncrease = useMemo(() => {
   if (incomeTotalsbyMonthPrevious === 0) return 0;
@@ -61,6 +65,11 @@ const savingsIncrease = useMemo(() => {
   return ((savingsTotalsbyMonth - savingsTotalsbyMonthPrevious) / savingsTotalsbyMonthPrevious) * 100;
 }, [savingsTotalsbyMonth, savingsTotalsbyMonthPrevious]);
 
+const netWorthIncrease = useMemo(() => {
+  if (netWorthPrevious === 0) return 0;
+  return ((netWorth - netWorthPrevious) / netWorthPrevious) * 100;
+}, [netWorth, netWorthPrevious]);
+
 
 return {
   filteredIncome,
@@ -73,6 +82,7 @@ return {
   netWorth,
   incomeIncrease,
   expenseIncrease,
-  savingsIncrease
+  savingsIncrease,
+  netWorthIncrease
 };
 };

@@ -10,6 +10,7 @@ function GoalProgress() {
     expensesTotalsbyMonth,
     savingsTotalsbyMonth,
   } = useContext(DataContext);
+  console.log(goals)
 
   // Function to get the total amount for a specific goal
   const getTotalAmountForGoal = (goal) => {

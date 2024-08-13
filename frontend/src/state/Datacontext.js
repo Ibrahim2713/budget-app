@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories, postIncome, postSavings, postExpense, postIncomeCategory,postExpenseCategory, postSavingsCategory } from './apiService';
+import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories, postIncome, postSavings, postExpense, postIncomeCategory,postExpenseCategory, postSavingsCategory, postGoals } from './apiService';
 import {useFinancialCalculations} from '/Users/ibrahim/Desktop/Ibrahim/budget-app/frontend/src/components/hooks/useFinancialCalculations.js'
 
 export const DataContext = createContext();
@@ -99,6 +99,19 @@ export const DataProvider = ({ children }) => {
       throw error;
     }
   }
+
+  const addGoals = async (data) => {
+    try {
+      const response = await postGoals(data, token);
+      return response;
+    }
+    catch(error){
+      console.error(`Error adding Goal`, error);
+      throw error;
+    }
+  }
+
+
   
 
   const {
@@ -112,7 +125,8 @@ export const DataProvider = ({ children }) => {
     netWorth,
     incomeIncrease,
     expenseIncrease,
-    savingsIncrease
+    savingsIncrease,
+    netWorthIncrease
   } = useFinancialCalculations(income, expenses, savings, selectedDate);
 
 
@@ -132,6 +146,7 @@ export const DataProvider = ({ children }) => {
         incomeIncrease,
         expenseIncrease,
         savingsIncrease,
+        netWorthIncrease,
         selectedDate,
         setSelectedDate,
         selectedCategory,
@@ -150,8 +165,10 @@ export const DataProvider = ({ children }) => {
         setExpenses,
         addEntry,
         addCategory,
+        addGoals,
         dataView,
-        setDataView
+        setDataView,
+        token
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import { Box, IconButton, Typography, Drawer, List, ListItemButton, ListItem, Li
 import { useTheme } from '@emotion/react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -21,7 +21,9 @@ function App() {
     { text: 'Analytics', icon: <AnalyticsIcon />, link: '/analytics' },
     { text: 'Settings', icon: <SettingsIcon />, link: '/settings' },
     {text: 'Spreadsheet', icon: <MenuBookOutlinedIcon/>, link: '/spreadsheet'},
+    {text: 'Calander', icon: <CalendarViewMonthIcon/>, link: '/calander'},
     { text: 'Log Out', icon: <ExitToAppIcon />, action: () => logout() },
+
   ];
 
 const handleDrawerOpen = () => {

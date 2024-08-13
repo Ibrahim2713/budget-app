@@ -37,6 +37,7 @@ function Analytics() {
     incomeIncrease,
     expenseIncrease,
     savingsIncrease,
+    netWorthIncrease,
     
   } = useContext(DataContext);
  
@@ -75,8 +76,8 @@ function Analytics() {
             <StatBox
               title="Total Networth"
               value={`$${netWorth.toFixed(2)}`}
-              increase="+14%"
-              description=""
+              increase={`$${netWorthIncrease.toFixed(2)}%`}
+              description="Increase from last month"
               color={theme.palette.secondary.main}
               icon={
                 <Paid
