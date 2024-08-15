@@ -20,7 +20,7 @@ function RecentExpenses({ expenses }) {
           color: theme.palette.secondary.main
         }}
       >
-        Recent Expenses
+        Recent Transactions
       </Typography>
       <List>
         {recentExpenses.map((expense, index) => (

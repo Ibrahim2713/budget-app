@@ -16,6 +16,9 @@ import ExpensesPieChart from "../../analytics/charts/ExpensesPieChart";
 import ExpenseTrends from "../../analytics/charts/ExpenseTrends";
 import SavingsTrends from "../../analytics/charts/SavingsLineGraph";
 import SavingsPieChart from "../../analytics/charts/SavingsPieChart";
+import IncomeTrends from "../../analytics/charts/IncomeLineGraph";
+
+
 function Analytics() {
   const theme = useTheme();
 
@@ -299,6 +302,27 @@ function Analytics() {
             </Typography>
             <ExpenseTrends expenseData={expenses} />
           </Box>
+          <Box
+            gridColumn="1 / span 12"
+            gridRow="8 / span 3"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              padding: "1rem",
+              position: "relative",
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "600",
+                color: theme.palette.text.main,
+                mb: 1,
+              }}
+            >
+              Income Trends
+            </Typography>
+            <IncomeTrends incomeData={income} />
+          </Box>
+
         </Box>
       </Box>
     </Box>

@@ -177,7 +177,6 @@ export const DataProvider = ({ children }) => {
   } = useFinancialCalculations(income, expenses, savings, selectedDate);
 
 
-
   return (
     <DataContext.Provider
       value={{

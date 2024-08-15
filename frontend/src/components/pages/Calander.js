@@ -7,16 +7,20 @@ import { Dialog, DialogContent, DialogTitle, useTheme, Box} from '@mui/material'
 import AddGoalForm from '../Forms/AddGoals';
 import { DataContext } from '../../state/Datacontext';
 import GoalProgress from '../Dashboard/GoalProgress';
+import Sidebar from "../Sidebar/Sidebar"
+import Navbar from '../Navbar/Navbar';
 import Legend from '../Legend/Legend';
 
 
 
 function Calander() {       
 const {
-goals
+goals,
+searchTerm,
+setSearchTerm
 } = useContext(DataContext);
 const theme = useTheme();
-console.log(theme)
+console.log(goals)
 const [open, setOpen] = useState(false);
 
 
@@ -42,15 +46,22 @@ const handleOpen = () => {
 };
 
 
+  // Filter goals based on the search term
+  const filteredGoals = goals.filter(goal =>
+    goal.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    goal.type.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
- // Correctly map goals to the format FullCalendar expects
- const events = goals.map((item) => ({
-    title: `${item.description} (${item.type})`,
-    date: item.deadline,
-    backgroundColor: colorMapping[item.type] || theme.palette.primary.main,
-    borderColor: colorMapping[item.type] || theme.palette.primary.main,
-    textColor: theme.palette.text.primary // Use 'date' instead of 'deadline'
-  }));
+
+
+ // Map filtered goals to the format FullCalendar expects
+ const events = filteredGoals.map((item) => ({
+  title: `${item.description} (${item.type})`,
+  date: item.deadline,
+  backgroundColor: colorMapping[item.type] || theme.palette.primary.main,
+  borderColor: colorMapping[item.type] || theme.palette.primary.main,
+  textColor: theme.palette.text.primary
+}));
 
 
 
@@ -59,6 +70,11 @@ const handleOpen = () => {
         backgroundColor: theme.palette.primary.light,
         color: theme.palette.text.main
     }}>
+      <Navbar  searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+      <Sidebar />
+      <Box sx={{
+        ml: 8
+      }}>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -90,6 +106,7 @@ const handleOpen = () => {
             );
         }}
       />
+      </Box>
 
       {/* Dialog for the Add Goal Form */}
       <Dialog open={open} onClose={handleClose}>
