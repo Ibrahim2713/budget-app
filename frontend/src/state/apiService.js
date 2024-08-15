@@ -134,4 +134,23 @@ export const deleteEntries = async (ids, dataType, token) => {
 };
 
 
+export const editEntries = async (ids, dataType, token, data) => {
+  try {
+    const endpoint = `${BASE_URL}/${dataType.toLowerCase()}`;
+    const response = await axios.put(
+      endpoint,
+      { id: ids, ...data }, // Include ids and other data in the request body
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error editing entries:", error);
+    throw error;
+  }
+};
+
+
+
 

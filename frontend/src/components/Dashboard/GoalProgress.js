@@ -10,24 +10,10 @@ function GoalProgress() {
     expensesTotalsbyMonth,
     savingsTotalsbyMonth,
   } = useContext(DataContext);
-  console.log(goals)
+ 
 
   // Function to get the total amount for a specific goal
-  const getTotalAmountForGoal = (goal) => {
-    const month = new Date().getMonth() + 1; // Current month
-    let totalAmount = 0;
-
-    // Get the total amount for the current month based on the goal type
-    if (goal.type === "savings") {
-      totalAmount = savingsTotalsbyMonth[month]?.amount || 0;
-    } else if (goal.type === "expenses") {
-      totalAmount = expensesTotalsbyMonth[month]?.amount || 0;
-    } else if (goal.type === "income") {
-      totalAmount = incomeTotalsbyMonth[month]?.amount || 0;
-    }
-
-    return totalAmount;
-  };
+ 
 
   // Sort goals by creation date and limit to 5 most recent
   const recentGoals = goals
@@ -35,7 +21,7 @@ function GoalProgress() {
     .slice(0, 5);
 
   return (
-    <Box p={2} sx={{ backgroundColor: theme.palette.primary.main }}>
+    <Box p={2} sx={{ backgroundColor: theme.palette.primary.light }}>
       <Typography
         variant="h6"
         gutterBottom
@@ -45,8 +31,7 @@ function GoalProgress() {
       </Typography>
       {recentGoals.length > 0 ? (
         recentGoals.map((goal, index) => {
-          const totalAmount = getTotalAmountForGoal(goal);
-          const progress = goal.amount ? (totalAmount / goal.amount) * 100 : 0;
+       
 
           return (
             <Box key={index} mb={2}>
@@ -68,28 +53,7 @@ function GoalProgress() {
               >
                 Deadline: {new Date(goal.deadline).toLocaleDateString()}
               </Typography>
-              {goal.amount !== undefined && (
-                <LinearProgress
-                  variant="determinate"
-                  value={progress}
-                  sx={{
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: theme.palette.grey[200],
-                    "& .MuiLinearProgress-bar": {
-                      backgroundColor: theme.palette.secondary.main,
-                    },
-                  }}
-                />
-              )}
-              <Typography
-                variant="body2"
-                sx={{ color: theme.palette.secondary.light, mt: 1 }}
-              >
-                {goal.amount !== undefined
-                  ? `$${totalAmount.toFixed(2)} of $${goal.amount.toFixed(2)}`
-                  : `Amount information unavailable`}
-              </Typography>
+            
             </Box>
           );
         })

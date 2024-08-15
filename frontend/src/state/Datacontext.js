@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories, postIncome, postSavings, postExpense, postIncomeCategory,postExpenseCategory, postSavingsCategory, postGoals } from './apiService';
-import {useFinancialCalculations} from '/Users/ibrahim/Desktop/Ibrahim/budget-app/frontend/src/components/hooks/useFinancialCalculations.js'
+import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories, postIncome, postSavings, postExpense, postIncomeCategory,postExpenseCategory, postSavingsCategory, postGoals, deleteEntries, editEntries} from './apiService';
+
+import {useFinancialCalculations} from '/Users/ibrahim/Desktop/Ibrahim/budget-app/frontend/src/components/hooks/useFinancialCalculations.js';
+import { useSnackbar } from 'notistack'; 
 
 export const DataContext = createContext();
 
@@ -17,6 +19,7 @@ export const DataProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dataView, setDataView] = useState("Income")
   const token = localStorage.getItem('token');
+  const { enqueueSnackbar } = useSnackbar(); 
 
 
   useEffect(() => {
@@ -103,13 +106,57 @@ export const DataProvider = ({ children }) => {
   const addGoals = async (data) => {
     try {
       const response = await postGoals(data, token);
-      return response;
+      const updatedGoals = await fetchGoals(token);
+      setGoals(updatedGoals);
     }
     catch(error){
       console.error(`Error adding Goal`, error);
       throw error;
     }
   }
+
+  const handleDeleteEntries = async (selectedIds) => {
+    try {
+      await deleteEntries(selectedIds, dataView, token);
+     if(dataView === "Income"){
+      const updated =  await fetchIncome(token);
+      setIncome(updated)
+     } else if(dataView === "Savings"){
+       const updated =  await fetchSavings(token);
+       setSavings(updated)
+
+     } else if(dataView === "Expenses") {
+      const updated = await fetchExpenses(token);
+      setExpenses(updated)
+     }
+      enqueueSnackbar("Entries deleted successfully!", { variant: 'success' }); 
+    } catch (error) {
+      console.error("Error deleting entries:", error);
+      enqueueSnackbar("Failed to delete entries.", { variant: 'error' }); 
+    }
+  };
+
+  const handleEditEntries = async (selectedIds, dataView, token, data) => {
+    try {
+      await editEntries(selectedIds, dataView, token, data);
+     if(dataView === "Income"){
+      const updated =  await fetchIncome(token);
+      setIncome(updated)
+      enqueueSnackbar("Entries updated successfully!", { variant: 'success' }); 
+     } else if(dataView === "Savings"){
+       const updated =  await fetchSavings(token);
+       setSavings(updated)
+       enqueueSnackbar("Entries updated successfully!", { variant: 'success' }); 
+     } else if(dataView === "Expenses") {
+      const updated = await fetchExpenses(token);
+      setExpenses(updated)
+      enqueueSnackbar("Entries updated successfully!", { variant: 'success' }); 
+     }
+    } catch (error) {
+      console.error("Error updating entries:", error);
+      enqueueSnackbar("Failed to update entries.", { variant: 'error' }); 
+    }
+  };
 
 
   
@@ -168,7 +215,9 @@ export const DataProvider = ({ children }) => {
         addGoals,
         dataView,
         setDataView,
-        token
+        token,
+        handleDeleteEntries,
+        handleEditEntries
       }}
     >
       {children}

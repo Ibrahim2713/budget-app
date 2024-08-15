@@ -2,13 +2,14 @@ import React, { useState, useContext} from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Menu, MenuItem, useTheme, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { DataContext } from "../../state/Datacontext";
 import { format, parseISO } from "date-fns";
 import AddEntryForm from "../Forms/AddEntryForm";
 import AddCategoryForm from "../Forms/AddCategory";
-import { deleteEntries } from "../../state/apiService";
+
 
 const columns = [
   { field: "id", headerName: "ID", flex: 1 },
@@ -43,7 +44,9 @@ function Spreadsheet() {
     setSearchTerm,
     dataView,
     setDataView,
-    token
+    token,
+    handleDeleteEntries,
+    handleEditEntries
   } = useContext(DataContext);
 
 
@@ -51,7 +54,12 @@ function Spreadsheet() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFormVisible, setFormVisible] = useState(false);
   const [isCategoryFormVisible, setCategoryFormVisible] = useState(false);
+  const [editEntry, setEditEntry] = useState('')
   const [selectedIds, setSelectedIds] = useState([]); 
+
+
+ 
+
 
 
   const handleMenuOpen = (event) => {
@@ -70,12 +78,40 @@ function Spreadsheet() {
     }
 
     try {
-      await deleteEntries(selectedIds, dataView, token); // Call the function here
+      await handleDeleteEntries(selectedIds, dataView, token); // Call the function here
       setSelectedIds([]); // Clear selection after successful deletion
     } catch (error) {
       console.error("Error deleting entries:", error);
     }
   };
+
+  const handleEdit = () => {
+    if (selectedIds.length !== 1) {
+      alert("Please select exactly one entry to edit.");
+      return;
+    }
+  
+    // Proceed with editing
+    const entryId = selectedIds[0];
+    // Find the entry to edit from the data
+    const entryToEdit = filteredData[dataView].find(entry => entry.id === entryId);
+    if (entryToEdit) {
+      setEditEntry(entryToEdit); // Assuming you have a state to manage the entry being edited
+      setFormVisible(true); // Show the form to edit the entry
+    }
+  };
+
+  const handleSave = async (entry) => {
+
+    try {
+      await handleEditEntries(selectedIds, dataView, token, entry);
+      setFormVisible(false);
+      setEditEntry(null);
+    } catch (error) {
+      console.error("Error saving entry:", error);
+    }
+  };
+  
 
 
 
@@ -181,11 +217,23 @@ function Spreadsheet() {
         >
           <DeleteIcon />
         </IconButton>
+        <IconButton
+          onClick={handleEdit}
+          sx={{
+            marginLeft: "1rem",
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.text.primary
+          }}
+        >
+          <ModeEditIcon />
+        </IconButton>
       </Box>
       {isFormVisible && (
         <AddEntryForm
           dataType={dataView}
           onCancel={() => setFormVisible(false)}
+          entryToEdit={editEntry}
+          onSave={handleSave}
         />
       )}
        {isCategoryFormVisible && (
@@ -203,9 +251,12 @@ function Spreadsheet() {
           rows={filteredData[dataView] || []}
           columns={columns}
           checkboxSelection
-          onSelectionModelChange={(newSelection) => {
-            setSelectedIds(newSelection);
+          disableSelectionOnClick
+          onRowSelectionModelChange={(ids) => {
+           setSelectedIds(ids)
           }}
+           
+
           sx={{
             '& .MuiDataGrid-columnHeaders': {
               backgroundColor: theme.palette.secondary.main, // Header background color

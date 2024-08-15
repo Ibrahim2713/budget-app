@@ -3,9 +3,11 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'; 
-import { Button, Dialog, DialogContent, DialogTitle, useTheme } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, useTheme, Box} from '@mui/material';
 import AddGoalForm from '../Forms/AddGoals';
 import { DataContext } from '../../state/Datacontext';
+import GoalProgress from '../Dashboard/GoalProgress';
+import Legend from '../Legend/Legend';
 
 
 
@@ -14,6 +16,7 @@ const {
 goals
 } = useContext(DataContext);
 const theme = useTheme();
+console.log(theme)
 const [open, setOpen] = useState(false);
 
 
@@ -31,18 +34,31 @@ const handleOpen = () => {
     handleClose();
   };
 
+  const colorMapping = {
+    'income': theme.palette.income.main, 
+    'savings': theme.palette.savings.main, 
+    'expenses': theme.palette.expenses.main, 
+   
+};
+
 
 
  // Correctly map goals to the format FullCalendar expects
  const events = goals.map((item) => ({
     title: `${item.description} (${item.type})`,
-    date: item.deadline, // Use 'date' instead of 'deadline'
+    date: item.deadline,
+    backgroundColor: colorMapping[item.type] || theme.palette.primary.main,
+    borderColor: colorMapping[item.type] || theme.palette.primary.main,
+    textColor: theme.palette.text.primary // Use 'date' instead of 'deadline'
   }));
 
 
 
   return (
-    <>
+    <Box sx={{
+        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.text.main
+    }}>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -60,7 +76,19 @@ const handleOpen = () => {
           },
         }}
         height="auto"
-        eventTextColor={theme.palette.text.primary}
+        eventTextColor={theme.palette.text.main}
+        dayHeaderContent={({ date }) => {
+            return (
+                <Box
+                    sx={{
+                        color: theme.palette.primary.main,
+                        fontWeight: 'bold',
+                    }}
+                >
+                    {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                </Box>
+            );
+        }}
       />
 
       {/* Dialog for the Add Goal Form */}
@@ -70,7 +98,15 @@ const handleOpen = () => {
           <AddGoalForm onSave={handleAddGoal} onCancel={handleClose} />
         </DialogContent>
       </Dialog>
-    </>
+
+      <Legend colorMapping={colorMapping} />
+      <Box sx={{
+        mt: 5
+      }}>
+        <GoalProgress />
+        </Box>
+    </Box>
+   
   );
 }
 

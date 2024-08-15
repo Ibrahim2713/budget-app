@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DataContext } from "../../state/Datacontext";
 import {
   Box,
@@ -10,35 +10,77 @@ import {
 } from "@mui/material";
 
 
-const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
+const AddEntryForm = ({ dataType, onAdd, onCancel, entryToEdit, onSave }) => {
   const theme = useTheme();
-  const [categoryId, setCategoryId] = useState("");
-  const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState(""); // New state for description
+  const [entry, setEntry] = useState({
+    category_id: "",
+    amount: "",
+    date: "",
+    description: "",
+  })
+
+  
+  useEffect(() => {
+    if (entryToEdit) {
+      setEntry(entryToEdit);
+    } else {
+      setEntry({
+        id: "",
+        category: "",
+        amount: "",
+        date: "",
+        description: "",
+      });
+    }
+  }, [entryToEdit]);
+
+
   const { incomeCategory, expensesCategory, savingsCategory, addEntry } =
     useContext(DataContext);
 
 
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const dateObj = new Date(date);
-    const month = dateObj.getMonth() + 1;
-    const year = dateObj.getFullYear();
-    const newEntry = { category_id: categoryId, amount: parseFloat(amount), date, month, year, description };
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+    
+      const dateObj = new Date(entry.date);
+      const month = dateObj.getMonth() + 1;
+      const year = dateObj.getFullYear();
+    
+      const newEntry = {
+        category_id: entry.category_id,
+        amount: parseFloat(entry.amount),
+        date: entry.date,
+        month,
+        year,
+        description: entry.description,
+      };
+    
+      try {
+        if (entryToEdit) {
+          // If editing, call onSave with the updated entry
+          onSave({
+            ...entryToEdit, // Keep other properties of the entry being edited
+            ...newEntry, // Update with the new values
+          });
+        } else {
+          // If adding, call addEntry
+          await addEntry(dataType, newEntry);
+          setEntry({
+            category_id: "",
+            amount: "",
+            date: "",
+            description: "",
+          });
+        }
+      } catch (error) {
+        console.error('Error saving entry:', error);
+      }
+    };
+    
 
-    try {
-      await addEntry(dataType, newEntry);
-      setCategoryId('');
-      setAmount('');
-      setDate('');
-      setDescription('');
-    } catch (error) {
-      console.error('Error adding entry:', error);
-    }
-  };
+ 
 
   const getCategoryList = () => {
     switch (dataType) {
@@ -64,6 +106,10 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
     ]);
   };
 
+  const handleSave = () => {
+    onSave(entry);
+  };
+
   return (
     <Box
       component="form"
@@ -79,8 +125,8 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
     >
       <Select
         label="Category"
-        value={categoryId}
-        onChange={(e) => setCategoryId(e.target.value)}
+        value={entry.category_id}
+        onChange={(e) => setEntry({...entry, category_id: e.target.value})}
         displayEmpty
         required
       >
@@ -92,22 +138,22 @@ const AddEntryForm = ({ dataType, onAdd, onCancel }) => {
       <TextField
         label="Amount"
         type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        value={entry.amount}
+        onChange={(e) => setEntry({...entry, amount: e.target.value})}
         required
       />
       <TextField
         label="Date"
         type="date"
         InputLabelProps={{ shrink: true }}
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
+        value={entry.date}
+        onChange={(e) => setEntry({...entry, date: e.target.value})}
         required
       />
       <TextField
         label="Description" // New description field
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={entry.description}
+        onChange={(e) => setEntry({...entry, description: e.target.value})}
       />
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}>
         <Button type="submit" variant="contained" color="primary">
