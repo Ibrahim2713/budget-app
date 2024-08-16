@@ -56,9 +56,23 @@ function ExpenseTable({data}) {
           fullWidth
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          InputProps={{
+            style: {
+              color: theme.palette.secondary.light, // Text color
+            },
+            classes: {
+              notchedOutline: {
+                borderColor: theme.palette.secondary.light, // Border color
+              },
+            },
+          }}
+          InputLabelProps={{
+            style: {
+              color: theme.palette.secondary.light, // Label color
+            },
+          }}
           sx={{
-            backgroundColor: theme.palette.text.main,
-            color: 'black'
+            backgroundColor: theme.palette.primary.light,
           }}
         />
       </Box>
@@ -72,7 +86,7 @@ function ExpenseTable({data}) {
           sx={{
             color: theme.palette.text.main,
             '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: 'black'
+              backgroundColor: theme.palette.primary.main
             },
             '& .MuiDataGrid-columnHeaderTitle': {
               color: 'black',

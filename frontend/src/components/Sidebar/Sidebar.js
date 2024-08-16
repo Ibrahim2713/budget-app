@@ -11,7 +11,7 @@ import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from "react-router-dom";
 
-function App() {
+function Sidebar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   const theme = useTheme()
@@ -19,7 +19,6 @@ function App() {
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard' },
     { text: 'Analytics', icon: <AnalyticsIcon />, link: '/analytics' },
-    { text: 'Settings', icon: <SettingsIcon />, link: '/settings' },
     {text: 'Spreadsheet', icon: <MenuBookOutlinedIcon/>, link: '/spreadsheet'},
     {text: 'Calander', icon: <CalendarViewMonthIcon/>, link: '/calander'},
     { text: 'Log Out', icon: <ExitToAppIcon />, action: () => logout() },
@@ -102,4 +101,4 @@ const handleDrawerClose = () => {
   );
 }
 
-export default App;
+export default Sidebar;

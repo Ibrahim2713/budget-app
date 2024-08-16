@@ -1,15 +1,12 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Menu, MenuItem, useTheme, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import Navbar from "../Navbar/Navbar";
-import Sidebar from "../Sidebar/Sidebar";
 import { DataContext } from "../../state/Datacontext";
 import { format, parseISO } from "date-fns";
 import AddEntryForm from "../Forms/AddEntryForm";
 import AddCategoryForm from "../Forms/AddCategory";
-
 
 const columns = [
   { field: "id", headerName: "ID", flex: 1 },
@@ -26,12 +23,7 @@ const columns = [
     flex: 1,
     renderCell: (params) => format(parseISO(params.value), "MM/dd/yyyy"),
   },
-
-  {field: "description",
-  headerName: "Description",
-  flex: 1,
- 
-}
+  { field: "description", headerName: "Description", flex: 1 },
 ];
 
 function Spreadsheet() {
@@ -46,21 +38,14 @@ function Spreadsheet() {
     setDataView,
     token,
     handleDeleteEntries,
-    handleEditEntries
+    handleEditEntries,
   } = useContext(DataContext);
-
-
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFormVisible, setFormVisible] = useState(false);
   const [isCategoryFormVisible, setCategoryFormVisible] = useState(false);
-  const [editEntry, setEditEntry] = useState('')
-  const [selectedIds, setSelectedIds] = useState([]); 
-
-
- 
-
-
+  const [editEntry, setEditEntry] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -70,7 +55,6 @@ function Spreadsheet() {
     setAnchorEl(null);
   };
 
-
   const handleDelete = async () => {
     if (selectedIds.length === 0) {
       alert("Please select at least one entry to delete.");
@@ -78,7 +62,7 @@ function Spreadsheet() {
     }
 
     try {
-      await handleDeleteEntries(selectedIds, dataView, token); // Call the function here
+      await handleDeleteEntries(selectedIds, dataView, token);
       setSelectedIds([]); // Clear selection after successful deletion
     } catch (error) {
       console.error("Error deleting entries:", error);
@@ -90,19 +74,16 @@ function Spreadsheet() {
       alert("Please select exactly one entry to edit.");
       return;
     }
-  
-    // Proceed with editing
+
     const entryId = selectedIds[0];
-    // Find the entry to edit from the data
-    const entryToEdit = filteredData[dataView].find(entry => entry.id === entryId);
+    const entryToEdit = filteredData[dataView].find((entry) => entry.id === entryId);
     if (entryToEdit) {
-      setEditEntry(entryToEdit); // Assuming you have a state to manage the entry being edited
-      setFormVisible(true); // Show the form to edit the entry
+      setEditEntry(entryToEdit);
+      setFormVisible(true);
     }
   };
 
   const handleSave = async (entry) => {
-
     try {
       await handleEditEntries(selectedIds, dataView, token, entry);
       setFormVisible(false);
@@ -111,11 +92,6 @@ function Spreadsheet() {
       console.error("Error saving entry:", error);
     }
   };
-  
-
-
-
- 
 
   const filteredData = {
     Income: income.filter((row) =>
@@ -138,16 +114,8 @@ function Spreadsheet() {
         flexDirection: "column",
         height: "100vh",
         overflow: "hidden",
-        margin: 0, // Ensure no margin is applied
-        padding: 0, 
       }}
     >
-          <Box sx={{ flex: 'none', marginBottom: '0' }}>
-      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      </Box>
-      <Box>
-      <Sidebar />
-      </Box>
       <Box
         display="flex"
         alignItems="flex-start"
@@ -199,12 +167,13 @@ function Spreadsheet() {
         >
           Add Entry
         </Button>
-        <Button     
-        onClick={() => setCategoryFormVisible(true)}
-        sx={{
+        <Button
+          onClick={() => setCategoryFormVisible(true)}
+          sx={{
             marginLeft: "1rem",
             backgroundColor: theme.palette.secondary.main,
-          }}>
+          }}
+        >
           Create a Category
         </Button>
         <IconButton
@@ -212,7 +181,7 @@ function Spreadsheet() {
           sx={{
             marginLeft: "1rem",
             backgroundColor: theme.palette.secondary.main,
-            color: theme.palette.text.primary
+            color: theme.palette.text.primary,
           }}
         >
           <DeleteIcon />
@@ -222,7 +191,7 @@ function Spreadsheet() {
           sx={{
             marginLeft: "1rem",
             backgroundColor: theme.palette.secondary.main,
-            color: theme.palette.text.primary
+            color: theme.palette.text.primary,
           }}
         >
           <ModeEditIcon />
@@ -236,40 +205,36 @@ function Spreadsheet() {
           onSave={handleSave}
         />
       )}
-       {isCategoryFormVisible && (
+      {isCategoryFormVisible && (
         <AddCategoryForm
           open={isCategoryFormVisible}
           onClose={() => setCategoryFormVisible(false)}
           dataType={dataView}
         />
       )}
-      <Box
-       
-      >
+      <Box>
         <DataGrid
-          getRowId={(row) => row.id} // Make sure row ID is unique
+          getRowId={(row) => row.id}
           rows={filteredData[dataView] || []}
           columns={columns}
           checkboxSelection
           disableSelectionOnClick
           onRowSelectionModelChange={(ids) => {
-           setSelectedIds(ids)
+            setSelectedIds(ids);
           }}
-           
-
           sx={{
-            '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: theme.palette.secondary.main, // Header background color
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: theme.palette.secondary.main,
             },
-            '& .MuiDataGrid-columnHeaderTitle': {
-              color: theme.palette.text.primary, // Header text color
+            "& .MuiDataGrid-columnHeaderTitle": {
+              color: theme.palette.text.primary,
             },
-            '& .MuiDataGrid-cell': {
-              backgroundColor: theme.palette.primary.light, // Cell background color
-              color: theme.palette.text.main, // Cell text color
+            "& .MuiDataGrid-cell": {
+              backgroundColor: theme.palette.primary.light,
+              color: theme.palette.text.main,
             },
-            '& .MuiDataGrid-cell:hover': {
-              backgroundColor: theme.palette.secondary.main, // Cell background color on hover
+            "& .MuiDataGrid-cell:hover": {
+              backgroundColor: theme.palette.secondary.main,
             },
           }}
         />

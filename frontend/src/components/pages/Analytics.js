@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { DataContext } from "../../state/Datacontext";
-import Navbar from "../Navbar/Navbar";
-import Sidebar from "../Sidebar/Sidebar";
 import CalendarPicker from "../Dashboard/CalanderPicker";
 import StatBox from "../Dashboard/StatBox";
 import IncomePieChart from "../../analytics/charts/IncomePieChart";
@@ -12,15 +10,14 @@ import GoalProgress from "../Dashboard/GoalProgress";
 import { Paid } from "@mui/icons-material";
 
 import ExpensesPieChart from "../../analytics/charts/ExpensesPieChart";
-
 import ExpenseTrends from "../../analytics/charts/ExpenseTrends";
 import SavingsTrends from "../../analytics/charts/SavingsLineGraph";
 import SavingsPieChart from "../../analytics/charts/SavingsPieChart";
 import IncomeTrends from "../../analytics/charts/IncomeLineGraph";
 
-
 function Analytics() {
   const theme = useTheme();
+
 
   const {
     income,
@@ -41,11 +38,7 @@ function Analytics() {
     expenseIncrease,
     savingsIncrease,
     netWorthIncrease,
-    
   } = useContext(DataContext);
- 
-
-
 
   const totalData = {
     Income: incomeTotalsbyMonth,
@@ -55,10 +48,7 @@ function Analytics() {
 
   return (
     <Box m="1.5rem 2.5" sx={{ backgroundColor: theme.palette.primary.main }}>
-      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <Sidebar />
-
-      <Box flex="1" ml="170px">
+      <Box flex="1">
         <CalendarPicker
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
@@ -175,10 +165,9 @@ function Analytics() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-            
             }}
           >
-                <Typography
+            <Typography
               sx={{
                 fontWeight: "600",
                 color: theme.palette.text.main,
@@ -187,15 +176,11 @@ function Analytics() {
             >
               Income Breakdown
             </Typography>
-        
-            <IncomePieChart
-              filteredIncome={filteredIncome}
-          
-            />
+
+            <IncomePieChart filteredIncome={filteredIncome} />
           </Box>
 
-
-                {/* Expense PieChart */}
+          {/* Expense PieChart */}
           <Box
             gridRow="3 / span 2"
             gridColumn=" 5 / span 4"
@@ -208,7 +193,7 @@ function Analytics() {
               alignItems: "center",
             }}
           >
-             <Typography
+            <Typography
               sx={{
                 fontWeight: "600",
                 color: theme.palette.text.main,
@@ -218,15 +203,10 @@ function Analytics() {
               Expense Breakdown
             </Typography>
 
-            <ExpensesPieChart
-              filteredExpenses={filteredExpenses}
-             
-            />
+            <ExpensesPieChart filteredExpenses={filteredExpenses} />
           </Box>
 
-
-
-              {/* Savings PieChart */}
+          {/* Savings PieChart */}
           <Box
             gridRow="3 / span 2"
             gridColumn=" 9 / span 4"
@@ -237,10 +217,9 @@ function Analytics() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-            
             }}
           >
-             <Typography
+            <Typography
               sx={{
                 fontWeight: "600",
                 color: theme.palette.text.main,
@@ -249,12 +228,8 @@ function Analytics() {
             >
               Savings Breakdown
             </Typography>
-            <SavingsPieChart
-              filteredSavings={filteredSavings}
-            
-            />
+            <SavingsPieChart filteredSavings={filteredSavings} />
           </Box>
-
 
           <Box
             gridColumn="1 / span 6"
@@ -264,7 +239,6 @@ function Analytics() {
               padding: "1rem",
               position: "relative", // Ensure proper stacking context
               zIndex: 0,
-       
             }}
           >
             <Typography
@@ -272,10 +246,8 @@ function Analytics() {
                 fontWeight: "600",
                 color: theme.palette.text.main,
                 mb: 1,
-
               }}
             >
-             
               Savings Trends
             </Typography>
             <SavingsTrends savingsData={savings} />
@@ -294,10 +266,8 @@ function Analytics() {
                 fontWeight: "600",
                 color: theme.palette.text.main,
                 mb: 1,
-              
               }}
             >
-              {" "}
               Expenses Trends
             </Typography>
             <ExpenseTrends expenseData={expenses} />
@@ -322,7 +292,6 @@ function Analytics() {
             </Typography>
             <IncomeTrends incomeData={income} />
           </Box>
-
         </Box>
       </Box>
     </Box>

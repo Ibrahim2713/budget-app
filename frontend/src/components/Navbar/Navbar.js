@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DataContext } from '../../state/Datacontext';
 import { Box, IconButton, useTheme, InputBase, Button } from '@mui/material';
 import {
   SearchOutlined,
@@ -9,9 +10,13 @@ import {
 } from "@mui/icons-material";
 
 
-function Navbar({ searchTerm, setSearchTerm }) {
+function Navbar() {
 const navigate = useNavigate()
   const theme = useTheme();
+  const {
+    searchTerm,
+    setSearchTerm
+  } = useContext(DataContext)
 
   const redirect = (link) => {
     navigate(link)
