@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import FlexBetween from "../FlexBetween";
 import Header from "../Header/Header";
 import { DownloadOutlined } from "@mui/icons-material";
@@ -8,37 +8,49 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Modal,
+  Dialog,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import { DataContext } from "../../state/Datacontext";
 import ExpenseTable from "../../analytics/charts/ExpenseTable";
-import Breakdown from "../Breakdown";
+import Breakdown from "../Dashboard/Breakdown";
 import OverviewChart from "../../analytics/charts/OverviewChart";
+import AddEntryForm from "../Forms/AddEntryForm";
+import AddGoalForm from "../Forms/AddGoals";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import IconBox from "../IconBox";
+import IconBox from "../Dashboard/IconBox";
 
 const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { income, expenses, savings } = useContext(DataContext);
+  const [isFormVisible, setFormVisible] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentDataType, setCurrentDataType] = useState(null);
 
-  const columns = [
-    { field: "_id", headerName: "ID", flex: 1 },
-    { field: "userId", headerName: "User ID", flex: 1 },
-    { field: "createdAt", headerName: "CreatedAt", flex: 1 },
-    {
-      field: "products",
-      headerName: "# of Products",
-      flex: 0.5,
-      sortable: false,
-      renderCell: (params) => params.value.length,
-    },
-    {
-      field: "cost",
-      headerName: "Cost",
-      flex: 1,
-      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-    },
-  ];
+  const handleDialogOpen = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleFormSubmit = () => {
+    handleDialogClose();
+  };
+
+  const handleOpenForm = (dataType) => {
+    setCurrentDataType(dataType);
+    setFormVisible(true);
+  };
+
+  const handleCloseForm = () => {
+    setFormVisible(false);
+    setCurrentDataType(null);
+  };
 
   return (
     <Box
@@ -82,6 +94,7 @@ const Dashboard = () => {
           description="Add Income Entry"
           icon={
             <AddBoxIcon
+              onClick={() => handleOpenForm("Income")}
               sx={{ color: theme.palette.income.main, fontSize: "26px" }}
             />
           }
@@ -91,10 +104,12 @@ const Dashboard = () => {
           description="Add Savings Entry"
           icon={
             <AddBoxIcon
+              onClick={() => handleOpenForm("Savings")}
               sx={{ color: theme.palette.savings.main, fontSize: "26px" }}
             />
           }
         />
+
         <Box
           gridColumn="span 8"
           gridRow="span 2"
@@ -111,10 +126,11 @@ const Dashboard = () => {
           />
         </Box>
         <IconBox
-          title=""
-          description="Since last month"
+          title="Add New Goal"
+          description="Add a new goal you would like to achieve"
           icon={
             <AddBoxIcon
+              onClick={handleDialogOpen}
               sx={{ color: theme.palette.secondary.light, fontSize: "26px" }}
             />
           }
@@ -124,10 +140,48 @@ const Dashboard = () => {
           description="Add Expense Entry"
           icon={
             <AddBoxIcon
+              onClick={() => handleOpenForm("Expenses")}
               sx={{ color: theme.palette.expenses.main, fontSize: "26px" }}
             />
           }
         />
+
+        {/* FORM MODAL */}
+        <Modal
+          open={isFormVisible}
+          onClose={handleCloseForm}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: "10px",
+            }}
+          >
+            <AddEntryForm
+              onCancel={handleCloseForm}
+              dataType={currentDataType} // Pass the selected data type
+            />
+          </Box>
+        </Modal>
+
+        <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+          <DialogTitle>Add New Goal</DialogTitle>
+          <DialogContent>
+            <AddGoalForm
+              onFormSubmit={handleFormSubmit}
+              onCancel={handleDialogClose}
+            />
+          </DialogContent>
+        </Dialog>
 
         {/* ROW 2 */}
         <Box

@@ -1,32 +1,37 @@
 import React, { useContext } from "react";
 import { Grid, Typography, Box, useTheme } from "@mui/material";
-import { DataContext } from "../state/Datacontext";
-import NetworthChart from "../analytics/charts/NetworthChart";
+import { DataContext } from "../../state/Datacontext";
+import NetworthChart from "../../analytics/charts/NetworthChart";
 
 function Breakdown() {
   const theme = useTheme();
-  const { incomeTotalsbyMonth, expenseTotalsbyMonth, savingsTotalsbyMonth, netWorth } = useContext(DataContext);
+  const {
+    incomeTotalsbyMonth,
+    expenseTotalsbyMonth,
+    savingsTotalsbyMonth,
+    netWorth,
+  } = useContext(DataContext);
 
   // Define the colors to match the pie chart
   const colors = {
     income: theme.palette.income.main,
     savings: theme.palette.savings.main,
     expenses: theme.palette.expenses.main,
-    netWorth: theme.palette.income.main, // Add a color for net worth if needed
+    // No color for netWorth
   };
 
   return (
     <Box>
-      <Grid container spacing={2} alignItems="center">
+      <Grid container spacing={1} alignItems="center">
         <Grid item xs={6}>
-          <Grid container spacing={2}>
-            {/* Top-left cell */}
+          <Grid container spacing={1}>
+            {/* Income */}
             <Grid item xs={6}>
               <Box display="flex" alignItems="center">
                 <Box
                   sx={{
-                    width: 12,
-                    height: 12,
+                    width: 8, // Reduced size
+                    height: 8, // Reduced size
                     backgroundColor: colors.income,
                     borderRadius: "50%",
                     marginRight: 1,
@@ -37,13 +42,13 @@ function Breakdown() {
                 </Typography>
               </Box>
             </Grid>
-            {/* Top-right cell */}
+            {/* Savings */}
             <Grid item xs={6}>
               <Box display="flex" alignItems="center">
                 <Box
                   sx={{
-                    width: 12,
-                    height: 12,
+                    width: 8, // Reduced size
+                    height: 8, // Reduced size
                     backgroundColor: colors.savings,
                     borderRadius: "50%",
                     marginRight: 1,
@@ -54,13 +59,13 @@ function Breakdown() {
                 </Typography>
               </Box>
             </Grid>
-            {/* Bottom-left cell */}
+            {/* Expenses */}
             <Grid item xs={6}>
               <Box display="flex" alignItems="center">
                 <Box
                   sx={{
-                    width: 12,
-                    height: 12,
+                    width: 8, // Reduced size
+                    height: 8, // Reduced size
                     backgroundColor: colors.expenses,
                     borderRadius: "50%",
                     marginRight: 1,
@@ -71,22 +76,11 @@ function Breakdown() {
                 </Typography>
               </Box>
             </Grid>
-            {/* Bottom-right cell */}
+            {/* Net Worth (no color) */}
             <Grid item xs={6}>
-              <Box display="flex" alignItems="center">
-                <Box
-                  sx={{
-                    width: 12,
-                    height: 12,
-                    backgroundColor: colors.income, // Or use a different color for net worth
-                    borderRadius: "50%",
-                    marginRight: 1,
-                  }}
-                />
-                <Typography sx={{ color: theme.palette.text.main }}>
-                  Networth ${netWorth}
-                </Typography>
-              </Box>
+              <Typography sx={{ color: theme.palette.text.main }}>
+                Networth ${netWorth}
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -107,3 +101,4 @@ function Breakdown() {
 }
 
 export default Breakdown;
+

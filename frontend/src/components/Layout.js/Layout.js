@@ -9,12 +9,16 @@ function Layout() {
 const theme = useTheme()
   return (
     <Box display="flex" height="100vh" sx={{
-        backgroundColor: theme.palette.primary.main
+        backgroundColor: theme.palette.primary.main,
+ 
     }}>
       <Sidebar />
       <Box flex="1" ml={25} sx={{
         backgroundColor: theme.palette.primary.main,
-        overflow: 'auto'
+        overflow: 'auto',
+        borderColor: theme.palette.secondary.light,
+        borderStyle: 'solid',
+        borderWidth: '1px'
       }}> 
         <Navbar />
   

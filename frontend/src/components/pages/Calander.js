@@ -10,7 +10,7 @@ import GoalProgress from '../Dashboard/GoalProgress';
 import Legend from '../Legend/Legend';
 
 function Calander() {       
-  const { goals, searchTerm, setSearchTerm } = useContext(DataContext);
+  const { goals, searchTerm } = useContext(DataContext);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -22,8 +22,7 @@ function Calander() {
     setOpen(false);
   };
 
-  const handleAddGoal = (newGoal) => {
-    /* addGoal(newGoal); */
+  const handleFormSubmit = () => {
     handleClose();
   };
 
@@ -67,26 +66,24 @@ function Calander() {
           }}
           height="auto"
           eventTextColor={theme.palette.text.main}
-          dayHeaderContent={({ date }) => {
-            return (
-              <Box sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
-                {date.toLocaleDateString('en-US', { weekday: 'short' })}
-              </Box>
-            );
-          }}
+          dayHeaderContent={({ date }) => (
+            <Box sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
+              {date.toLocaleDateString('en-US', { weekday: 'short' })}
+            </Box>
+          )}
         />
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add New Goal</DialogTitle>
         <DialogContent>
-          <AddGoalForm onSave={handleAddGoal} onCancel={handleClose} />
+          <AddGoalForm onFormSubmit={handleFormSubmit} onCancel={handleClose} />
         </DialogContent>
       </Dialog>
 
       <Legend colorMapping={colorMapping} />
       <Box sx={{ mt: 5 }}>
-        <GoalProgress />
+        <GoalProgress onFormSubmit={handleFormSubmit} onCancel={handleClose} />
       </Box>
     </Box>
   );

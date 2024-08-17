@@ -1,22 +1,10 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../FlexBetween";
 
-const IconBox = ({ title,   icon, description, color }) => {
-
+const IconBox = ({ title, icon, description, color }) => {
   const theme = useTheme();
-  
-
-
-
-
-
-
-
-
-
-
 
   return (
     <Box
@@ -37,12 +25,13 @@ const IconBox = ({ title,   icon, description, color }) => {
         {icon}
       </FlexBetween>
 
- 
       <FlexBetween gap="1rem">
-       
-        <Typography  
+        <Typography
           fontStyle="italic"
-          sx={{ color: theme.palette.secondary.light }} >{description}</Typography>
+          sx={{ color: theme.palette.secondary.light }}
+        >
+          {description}
+        </Typography>
       </FlexBetween>
     </Box>
   );

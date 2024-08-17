@@ -8,7 +8,7 @@ import IncomePieChart from "../../analytics/charts/IncomePieChart";
 import RecentExpenses from "../Dashboard/RecentExpenses";
 import GoalProgress from "../Dashboard/GoalProgress";
 import { Paid } from "@mui/icons-material";
-
+import CashFlowChart from "../../analytics/charts/CashFlowChart";
 import ExpensesPieChart from "../../analytics/charts/ExpensesPieChart";
 import ExpenseTrends from "../../analytics/charts/ExpenseTrends";
 import SavingsTrends from "../../analytics/charts/SavingsLineGraph";
@@ -17,6 +17,7 @@ import IncomeTrends from "../../analytics/charts/IncomeLineGraph";
 
 function Analytics() {
   const theme = useTheme();
+
 
 
   const {
@@ -151,7 +152,7 @@ function Analytics() {
               backgroundColor: theme.palette.primary.main,
             }}
           >
-            <GoalProgress />
+           <CashFlowChart />
           </Box>
 
           {/* Income PieChart */}
