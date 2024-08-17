@@ -9,6 +9,7 @@ exports.up = function(knex) {
         tbl.integer('month').notNullable();
         tbl.integer('year').notNullable();
         tbl.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('CASCADE');
+        tbl.unique(['date', 'user_id']); 
       });
 };
 

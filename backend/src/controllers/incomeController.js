@@ -55,13 +55,14 @@ exports.addIncome = async (req,res) => {
 
 //Updates a income entry for specific user
 exports.updateIncome = async (req, res) => {
-    const { id, date, month, year, amount, source } = req.body;
+    const { id, date, month, year, amount, description, category_id } = req.body;
+
     const user_id = req.decoded.subject;
     if (!user_id) {
         return res.status(400).json({ message: 'User ID is missing in the token.' });
     }
     try {
-        await Income.updateIncome({ id, date, month, year, amount, source, user_id });
+        await Income.updateIncome({ id, date, month, year, amount, description, category_id, user_id });
         res.status(200).json({ message: 'Income entry updated successfully' });   
     } catch (error) {
         console.error('Error updating income entry:', error);

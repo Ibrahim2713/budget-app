@@ -25,47 +25,91 @@ const getIncomeById = async (userId) => {
 }
 
 // Create a new income entry 
-const addIncomeWithDate = async ({date, month, year, amount, category_id, user_id, description}) => {
-
+const addIncomeWithDate = async ({ date, month, year, amount, category_id, user_id, description }) => {
     return db.transaction(async (trx) => {
-         // Step 1: Insert the date into the date_details table
-        const [dateDetailId] = await trx('date_details').insert({
-            date, month, year,
-            user_id
-        })
-        .returning('id');
-        // Step 2: Insert the income entry using the dateDetailId
-       const [newIncome] = await trx('income').insert({
-            amount,
-            category_id,
-            user_id,
-            date_detail_id: dateDetailId.id,
-            description
-    })
-    .returning('*');
-
-    return newIncome;
-});
-}
-
-
-//Update a income entry
-const updateIncome = async ({id,date,month,year,amount,source,user_id}) => {
-    return db.transaction(async (trx) => {
-        await trx('date_details').where({ id }).update({
+      // Step 1: Check if the date already exists for the user
+      const existingDateDetail = await trx('date_details')
+        .where({ date, user_id })
+        .first();
+  
+      let dateDetailId;
+  
+      if (existingDateDetail) {
+        // If the date already exists, use the existing id
+        dateDetailId = existingDateDetail.id;
+      } else {
+        // If the date doesn't exist, insert it and get the new id
+        const [newDateDetail] = await trx('date_details')
+          .insert({
             date,
             month,
             year,
             user_id
+          })
+          .returning('id');
+        dateDetailId = newDateDetail;
+      }
+  
+      // Step 2: Insert the income entry using the dateDetailId
+      const [newIncome] = await trx('income')
+        .insert({
+          amount,
+          category_id,
+          user_id,
+          date_detail_id: dateDetailId,
+          description
+        })
+        .returning('*');
+  
+      return newIncome; // return the newly inserted income entry
+    });
+  };
+  
 
-        })
-        await trx('income').where({ id }).update({
+  const updateIncome = async ({ id, date, month, year, amount, description, user_id, category_id }) => {
+    return db.transaction(async (trx) => {
+      // Step 1: Check if the new date and user combination already exists
+      const existingDateDetail = await trx('date_details')
+        .where({ date, user_id })
+        .first();
+  
+      if (existingDateDetail && existingDateDetail.id !== id) {
+        // If the combination exists and it's not the same record, use the existing date_detail_id
+        await trx('income')
+          .where({ id })
+          .update({
             amount,
-            source,
+            description,
+            category_id,
+            user_id,
+            date_detail_id: existingDateDetail.id
+          });
+      } else {
+        // If the combination doesn't exist or it's the same record, update the date_details
+        await trx('date_details')
+          .where({ id })
+          .update({
+            date,
+            month,
+            year,
             user_id
-        })
-    })
-}
+          });
+  
+        // Update the income entry
+        await trx('income')
+          .where({ id })
+          .update({
+            amount,
+            description,
+            category_id,
+            user_id
+          });
+      }
+    });
+  };
+  
+  
+
 
 //Delete a income entry for specific user
 const deleteIncome = async (ids) => {

@@ -6,7 +6,7 @@ router.get('/', md.authenticated, expenseController.getAllExpensesByUser);
 router.get('/:id', md.authenticated, expenseController.getExpensesById)
 router.post('/', md.authenticated, expenseController.createExpense)
 router.put('/',md.authenticated, expenseController.updateExpense)
-router.delete('/:id', md.authenticated, expenseController.deleteExpense)
+router.delete('/', md.authenticated, expenseController.deleteExpense)
 
 
 

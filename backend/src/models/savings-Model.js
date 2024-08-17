@@ -17,49 +17,89 @@ const getAllSavingsByUser = async (userId) => {
 
 
 
-// Get savings by ID
-const getSavingsById = async ({date, month,year,amount, description, user_id}) => {
-    await db('savings').where({user_id: userId}).first();
-}
-
-// Create a new savings entry 
-const createSavings = async ({date,month,year,amount, description, user_id, category_id}) => {
+const createSavings = async ({ date, month, year, amount, description, user_id, category_id }) => {
     return db.transaction(async (trx) => {
-    const [dateDetailId] = await trx('date_details').insert({
-        date, month, year,
-        user_id
-    })
-    .returning('id');
-    const [newSavingsEntry] = await trx('savings').insert({
-        amount,
-        description,
-        user_id,
-        date_detail_id: dateDetailId.id,
-        category_id
-}) .returning('*');
-
-return newSavingsEntry
-})
-}
-
-//Update a savings entry
-const updateSavings = async ({id, date, month, year, amount, description, user_id, category_id}) => {
-    return db.transaction(async (trx) => {
-        await trx('date_details').where({id}).update({
+      // Step 1: Check if the date already exists for the user
+      const existingDateDetail = await trx('date_details')
+        .where({ date, user_id })
+        .first();
+  
+      let dateDetailId;
+  
+      if (existingDateDetail) {
+        // If the date already exists, use the existing id
+        dateDetailId = existingDateDetail.id;
+      } else {
+        // If the date doesn't exist, insert it and get the new id
+        const [newDateDetail] = await trx('date_details')
+          .insert({
             date,
             month,
             year,
             user_id
-        })
-        await trx('savings').where({ id }).update({
-            amount,
-            description,
-            user_id,
-            category_id
-        })
-    })
+          })
+          .returning('id');
+        dateDetailId = newDateDetail.id;
+      }
+  
+      // Step 2: Insert the new savings entry
+      const [newSavingsEntry] = await trx('savings').insert({
+        amount,
+        description,
+        user_id,
+        date_detail_id: dateDetailId,
+        category_id
+      }).returning('*');
+  
+      return newSavingsEntry;
+    });
+  };
+  
 
-}
+  const updateSavings = async ({ id, date, month, year, amount, description, user_id, category_id }) => {
+    return db.transaction(async (trx) => {
+      // Step 1: Check if the date details exist for the given ID
+      const existingDateDetail = await trx('date_details')
+        .where({ date, user_id})
+        .first();
+  
+        if (existingDateDetail && existingDateDetail.id !== id) {
+     // If the combination exists and it's not the same record, use the existing date_detail_id
+     await trx('savings')
+     .where({ id })
+     .update({
+       amount,
+       description,
+       category_id,
+       user_id,
+       date_detail_id: existingDateDetail.id
+     });
+      } else {
+        await trx('date_details')
+        .where({ id })
+        .update({
+          date,
+          month,
+          year,
+          user_id
+        });
+        await trx('savings')
+        .where({ id })
+        .update({
+          amount,
+          description,
+          category_id,
+          user_id
+        });
+
+
+      }
+  
+      // Step 2: Update the savings entry
+      
+    });
+  };
+  
 
 //Delete a savings entry for specific user
 const deleteSavings = async (ids) => {
@@ -75,7 +115,6 @@ const idsArray = Array.isArray(ids) ? ids : [ids];
 
 module.exports = {
     createSavings,
-    getSavingsById,
     getAllSavingsByUser,
     deleteSavings,
     updateSavings

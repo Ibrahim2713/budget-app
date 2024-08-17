@@ -7,7 +7,7 @@ router.get('/', md.authenticated, savingsController.getAllSavingsByUser);
 router.get('/:id', md.authenticated, savingsController.getSavingsById)
 router.post('/', md.authenticated, savingsController.createSavings)
 router.put('/',md.authenticated, savingsController.updateSavings)
-router.delete('/:id', md.authenticated, savingsController.deleteSavings)
+router.delete('/', md.authenticated, savingsController.deleteSavings)
 
 
 

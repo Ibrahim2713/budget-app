@@ -6,7 +6,7 @@ router.get('/', md.authenticated, incomeController.getAllIncomeByUser);
 router.get('/:id', md.authenticated, incomeController.getIncomeById)
 router.post('/', md.authenticated, incomeController.addIncome)
 router.put('/',md.authenticated, incomeController.updateIncome)
-router.delete('/:id', md.authenticated, incomeController.deleteIncome)
+router.delete('/', md.authenticated, incomeController.deleteIncome)
 
 
 

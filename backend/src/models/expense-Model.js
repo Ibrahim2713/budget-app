@@ -25,46 +25,84 @@ const getExpensesById = async (userId) => {
     return await db('expenses').where({user_id: userId}).first();
 }
 
-// Create a new expenses entry 
 const addExpense = async ({ amount, description, date, month, year, user_id, category_id }) => {
-
     return db.transaction(async (trx) => {
-         const [dateDetailId] = await trx('date_details').insert({
+      // Step 1: Check if the date already exists for the user
+      const existingDateDetail = await trx('date_details')
+        .where({ date, user_id })
+        .first();
+  
+      let dateDetailId;
+  
+      if (existingDateDetail) {
+        // If the date already exists, use the existing id
+        dateDetailId = existingDateDetail.id;
+      } else {
+        // If the date doesn't exist, insert it and get the new id
+        const [newDateDetail] = await trx('date_details')
+          .insert({
             date,
             month,
             year,
-            user_id 
-        }).returning('id');
-       const [newExpense] = await trx('expenses').insert({
-            amount,
-            description,
-            user_id,
-            category_id,
-            date_detail_id: dateDetailId.id
-        })
-        .returning('*');
-
-        return newExpense
-    })
-}
-
-//Update a expense entry
-const updateExpense = async ({id, amount, description, date, month, year, user_id, category_id}) => {
-  return db.transaction(async (trx) => {
-    await trx('date_details').where({ id }).update({
-        date,
-        month,
-        year,
-        user_id
-    })
-    await trx('expenses').where({ id }).update({
+            user_id
+          })
+          .returning('id');
+        dateDetailId = newDateDetail.id;
+      }
+  
+      // Step 2: Insert the new expense entry
+      const [newExpense] = await trx('expenses').insert({
         amount,
         description,
+        user_id,
         category_id,
-        user_id
-    })
-  })
-}
+        date_detail_id: dateDetailId
+      }).returning('*');
+  
+      return newExpense;
+    });
+  };
+  
+
+  const updateExpense = async ({ id, amount, description, date, month, year, user_id, category_id }) => {
+    return db.transaction(async (trx) => {
+      // Step 1: Check if the date details exist for the given ID
+      const existingDateDetail = await trx('date_details')
+        .where({ date, user_id })
+        .first();
+  
+      if (existingDateDetail && existingDateDetail.id !== id) {
+        // If the date details exist, update them
+        await trx('expenses')
+          .where({ id })
+          .update({
+            amount,
+            description,
+            category_id,
+            user_id,
+            date_detail_id: existingDateDetail.id
+          });
+      } else {
+        await trx('date_details')
+        .where({ id })
+        .update({
+          date,
+          month,
+          year,
+          user_id
+        });
+        await trx('expenses')
+        .where({ id })
+        .update({
+          amount,
+          description,
+          category_id,
+          user_id
+        });
+      }  
+    });
+  };
+  
 
 //Delete a expense entry for specific user
 const deleteExpense = async (id) => {
