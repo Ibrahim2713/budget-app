@@ -1,12 +1,12 @@
-import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories, postIncome, postSavings, postExpense, postIncomeCategory,postExpenseCategory, postSavingsCategory, postGoals, deleteEntries, editEntries} from './apiService';
-
+import React, { createContext, useState, useEffect} from 'react';
+import { fetchUser,fetchIncome, fetchExpenses, fetchSavings, fetchGoals, fetchIncomeCategories, fetchSavingsCategories, fetchExpenseCategories, postIncome, postSavings, postExpense, postIncomeCategory,postExpenseCategory, postSavingsCategory, postGoals, deleteEntries, editEntries} from './apiService';
 import {useFinancialCalculations} from '/Users/ibrahim/Desktop/Ibrahim/budget-app/frontend/src/components/hooks/useFinancialCalculations.js';
 import { useSnackbar } from 'notistack'; 
 
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
+  const [user, setUser] = useState([]);
   const [income, setIncome] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [savings, setSavings] = useState([]);
@@ -25,7 +25,8 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [incomeData, expensesData, savingsData, goalsData, incomeCategory, expensesCategory, savingsCategory] = await Promise.all([
+        const [userData,incomeData, expensesData, savingsData, goalsData, incomeCategory, expensesCategory, savingsCategory] = await Promise.all([
+          fetchUser(token),
           fetchIncome(token),
           fetchExpenses(token),
           fetchSavings(token),
@@ -35,7 +36,7 @@ export const DataProvider = ({ children }) => {
           fetchSavingsCategories(token)
 
         ]);
-
+        setUser(userData[0]);
         setIncome(incomeData);
         setExpenses(expensesData);
         setSavings(savingsData);
@@ -180,6 +181,8 @@ export const DataProvider = ({ children }) => {
   return (
     <DataContext.Provider
       value={{
+        user,
+        setUser,
         income,
         expenses,
         savings,
@@ -216,7 +219,8 @@ export const DataProvider = ({ children }) => {
         setDataView,
         token,
         handleDeleteEntries,
-        handleEditEntries
+        handleEditEntries,
+        
       }}
     >
       {children}

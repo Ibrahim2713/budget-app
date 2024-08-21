@@ -4,7 +4,6 @@ import { DataContext } from '../../state/Datacontext';
 import { Box, IconButton, useTheme, InputBase, Button } from '@mui/material';
 import {
   SearchOutlined,
-  SettingsOutlined,
   AccountCircle,
   DashboardOutlined
 } from "@mui/icons-material";
@@ -70,9 +69,6 @@ const navigate = useNavigate()
       </Box>
 
       <Box display="flex">
-        <IconButton>
-          <SettingsOutlined sx={{ color: theme.palette.secondary.light }} />
-        </IconButton>
         <IconButton>
           <AccountCircle sx={{ color: theme.palette.secondary.light }} />
         </IconButton>

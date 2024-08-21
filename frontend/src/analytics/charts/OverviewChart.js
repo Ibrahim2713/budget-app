@@ -78,7 +78,7 @@ const OverviewChart = ({
           color: theme.palette.primary.main
         }}
       >
-        Data View
+        Data View:{dataView}
       </Button>
       <Menu
         id="basic-menu"

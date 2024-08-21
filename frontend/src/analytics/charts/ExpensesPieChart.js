@@ -27,7 +27,7 @@ export default function ExpensesPieChart({ filteredExpenses }) {
           cy="50%"
           outerRadius="40%"
           fill={theme.palette.primary.main}
-          label={({ name, value }) => `$${value}`}
+          label={({ name, value }) => `$${value.toFixed(2)}`}
         >
           {filteredExpenses.map((entry, index) => (
             <Cell
@@ -38,7 +38,7 @@ export default function ExpensesPieChart({ filteredExpenses }) {
         </Pie>
         <Tooltip
           formatter={(value, name) => [
-            `Amount: $${value}`,
+            `Amount: $${value.toFixed(2)}`,
             `Category: ${name}`,
           ]}
         />

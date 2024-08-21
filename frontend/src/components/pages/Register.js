@@ -95,7 +95,7 @@ function Register() {
                   fullWidth
                   label="Last name"
                   variant="standard"
-                  value={firstName}
+                  value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   sx={{ backgroundColor: "white" }}
                 />

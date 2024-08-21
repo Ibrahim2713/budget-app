@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTheme} from "@emotion/react";
@@ -13,6 +14,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+
   const handleLogin = (e) => {
     e.preventDefault();
     const data = { email: email, password: password };
@@ -20,7 +22,10 @@ function Login() {
       .then((res) => {
         const token = res.data.token;
         localStorage.setItem('token', token);
+    
+       
         navigate('/dashboard');
+
       })
       .catch(() => {
         console.log('error logging in');

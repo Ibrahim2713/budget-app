@@ -25,7 +25,7 @@ import IconBox from "../Dashboard/IconBox";
 const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const { income, expenses, savings } = useContext(DataContext);
+  const { income, expenses, savings, user} = useContext(DataContext);
   const [isFormVisible, setFormVisible] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentDataType, setCurrentDataType] = useState(null);
@@ -60,7 +60,7 @@ const Dashboard = () => {
       }}
     >
       <FlexBetween>
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+        <Header title="DASHBOARD" subtitle={`Welcome to your dashboard ${user.first_name}!` }/>
 
         <Box>
           <Button

@@ -11,6 +11,7 @@ function Breakdown() {
     savingsTotalsbyMonth,
     netWorth,
   } = useContext(DataContext);
+  console.log(netWorth)
 
   // Define the colors to match the pie chart
   const colors = {
@@ -38,7 +39,7 @@ function Breakdown() {
                   }}
                 />
                 <Typography sx={{ color: theme.palette.text.main }}>
-                  Income ${incomeTotalsbyMonth}
+                  Income ${incomeTotalsbyMonth.toFixed(2)}
                 </Typography>
               </Box>
             </Grid>
@@ -55,7 +56,7 @@ function Breakdown() {
                   }}
                 />
                 <Typography sx={{ color: theme.palette.text.main }}>
-                  Savings ${savingsTotalsbyMonth}
+                  Savings ${savingsTotalsbyMonth.toFixed(2)}
                 </Typography>
               </Box>
             </Grid>
@@ -72,14 +73,14 @@ function Breakdown() {
                   }}
                 />
                 <Typography sx={{ color: theme.palette.text.main }}>
-                  Expenses ${expenseTotalsbyMonth}
+                  Expenses ${expenseTotalsbyMonth.toFixed(2)}
                 </Typography>
               </Box>
             </Grid>
             {/* Net Worth (no color) */}
             <Grid item xs={6}>
               <Typography sx={{ color: theme.palette.text.main }}>
-                Networth ${netWorth}
+                Networth ${netWorth.toFixed(2)}
               </Typography>
             </Grid>
           </Grid>
