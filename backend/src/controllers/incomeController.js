@@ -4,7 +4,7 @@ const Income = require('../models/income-Model')
 // Get All income entries for a specific user
 exports.getAllIncomeByUser = async (req,res) => {
     try {
-     
+    
         const userId = req.decoded.subject;
         const incomes = await Income.getAllIncomeByUser(userId);
         res.status(200).json(incomes)

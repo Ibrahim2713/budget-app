@@ -1,11 +1,15 @@
 const db = require('../../database/db-config')
 
 module.exports = {
+  getUserById,
     addUser,
     findBy,
     getUserData
 }
 
+async function getUserById(userId) {
+  return await db('users').where({'users.id': userId}).select('*');
+}
 
  async function addUser(user) {
     const [id] = await db('users').insert(user)

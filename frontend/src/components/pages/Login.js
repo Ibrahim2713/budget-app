@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState,useContext } from "react";
+import { DataContext } from "../../state/Datacontext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTheme} from "@emotion/react";
@@ -13,24 +13,36 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const {
+    setAccessToken,
+    setRefreshToken
+  } = useContext(DataContext);
 
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const data = { email: email, password: password };
-    axios.post('http://localhost:8000/api/auth/login', data)
-      .then((res) => {
-        const token = res.data.token;
-        localStorage.setItem('token', token);
-    
-       
-        navigate('/dashboard');
-
+  
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      const data = { email, password };
+  
+      try {
+        const res = await axios.post('http://localhost:8000/api/auth/login', data, {
+          withCredentials: true 
+        });
+        const { accessToken, refreshToken } = res.data;
+        console.log({"this is the  access token": accessToken,
+        "this is the refresh token": refreshToken
       })
-      .catch(() => {
-        console.log('error logging in');
-      });
-  };
+  
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+  
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+  
+        navigate('/dashboard');
+      } catch (error) {
+        console.log('Error logging in', error);
+      }
+    }
 
   return (
     <>

@@ -6,7 +6,6 @@ import CalendarPicker from "../Dashboard/CalanderPicker";
 import StatBox from "../Dashboard/StatBox";
 import IncomePieChart from "../../analytics/charts/IncomePieChart";
 import RecentExpenses from "../Dashboard/RecentExpenses";
-import GoalProgress from "../Dashboard/GoalProgress";
 import { Paid } from "@mui/icons-material";
 import CashFlowChart from "../../analytics/charts/CashFlowChart";
 import ExpensesPieChart from "../../analytics/charts/ExpensesPieChart";
@@ -26,8 +25,6 @@ function Analytics() {
     savings,
     selectedDate,
     setSelectedDate,
-    searchTerm,
-    setSearchTerm,
     incomeTotalsbyMonth,
     expenseTotalsbyMonth,
     savingsTotalsbyMonth,

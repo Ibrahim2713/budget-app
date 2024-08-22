@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Box, IconButton, Typography, Drawer, List, ListItemButton, ListItem, ListItemText, Divider, ListItemIcon} from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { DataContext } from '../../state/Datacontext';
+import { Box, IconButton, Drawer, List, ListItemButton, ListItem, ListItemText, Divider, ListItemIcon} from '@mui/material';
 import { useTheme } from '@emotion/react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
-import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
@@ -15,6 +15,7 @@ function Sidebar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   const theme = useTheme()
+  const { setAccessToken, setRefreshToken } = useContext(DataContext);
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard' },
@@ -32,12 +33,21 @@ const handleDrawerOpen = () => {
 const handleDrawerClose = () => {
   setOpen(false);
 };
+const logout = () => {
 
 
-  const logout = () => {
-    localStorage.removeItem('token')
-    navigate('/login')
-  }
+
+
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+
+
+  setAccessToken(null);
+  setRefreshToken(null);
+
+
+  navigate('/login');
+};
 
 
   return (

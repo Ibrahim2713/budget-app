@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors')
 
 const AuthRouter = require('./routes/authRoutes');
@@ -12,14 +14,20 @@ const savingsCategory = require('./routes/savingsCategory')
 const GoalsRouter = require('./routes/goalRoutes');
 const server = express();
 
+// CORS configuration
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow only this origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed methods
+  credentials: true, // Allow cookies to be sent
+};
 
 
 
-
-
+server.use(cookieParser());
 server.use(express.json());
  server.use(express.urlencoded({extended: true}));
-server.use(cors()); 
+ server.use(cors(corsOptions));
+ 
 server.use('/api/auth', AuthRouter);
 server.use('/api/income', IncomeRouter);
 server.use('/api/savings', SavingsRouter);

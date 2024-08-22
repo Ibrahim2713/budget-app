@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useTheme, Global, css } from "@emotion/react";
+import { useTheme} from "@emotion/react";
 import loginBackground from '../../assets/images/flatlay-of-coffee-and-computer-on-wooden-surface.jpg';
 import { Container, TextField, Button, Typography, Box, Link } from '@mui/material';
 
@@ -14,6 +14,8 @@ function Register() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const navigate = useNavigate();
+
+  
 
   const handleLogin = (e) => {
     e.preventDefault();

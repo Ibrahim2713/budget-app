@@ -1,9 +1,9 @@
-import React from 'react';
-import { Outlet, Navigate, } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import { DataContext } from '../../state/Datacontext';
 
- export const PrivateRoute = () => {
-    const token = localStorage.getItem('token')
-    
+export const PrivateRoute = () => {
+  const { accessToken } = useContext(DataContext);  
 
-  return token ? <Outlet /> : <Navigate to="/login" />
-  };
+  return accessToken ? <Outlet /> : <Navigate to="/login" />;
+};
